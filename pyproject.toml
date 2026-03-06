@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "z-code-analyzer"
+version = "0.1.0"
+description = "Multi-backend static analysis engine for C/C++ call graph extraction and vulnerability reachability analysis"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "neo4j>=5.0",
+    "pydantic>=2.0",
+    "click>=8.0",
+    "sqlalchemy>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-timeout>=2.0",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+z-analyze = "z_code_analyzer.cli:main"
+z-query = "z_code_analyzer.cli:query_main"
+z-snapshots = "z_code_analyzer.cli:snapshots_main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["z_code_analyzer"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/test_bitcode.py" = ["E501"]
+"tests/test_svf_backend.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
