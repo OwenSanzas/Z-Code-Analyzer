@@ -371,9 +371,9 @@ class BitcodeGenerator:
 
         return str(tooling_dir)
 
-    # Maximum .ll file size to read into memory (500 MB).
-    # Larger files (e.g., full Chromium) need a streaming parser.
-    _MAX_LL_SIZE = 500 * 1024 * 1024
+    # Maximum .ll file size to read into memory (200 MB).
+    # Larger files consume too much RAM with regex parsing.
+    _MAX_LL_SIZE = 200 * 1024 * 1024
 
     @staticmethod
     def _parse_ll_debug_info(

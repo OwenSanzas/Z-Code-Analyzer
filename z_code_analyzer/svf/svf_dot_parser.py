@@ -13,10 +13,11 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from pathlib import Path
 
 
 def parse_svf_dot(content: str) -> tuple[dict[str, str], dict[str, set[str]]]:
-    """Parse SVF's callgraph DOT file.
+    """Parse SVF's callgraph DOT file from string content.
 
     Args:
         content: Raw content of a callgraph DOT file.
@@ -27,22 +28,50 @@ def parse_svf_dot(content: str) -> tuple[dict[str, str], dict[str, set[str]]]:
     """
     nodes: dict[str, str] = {}
 
-    # SVF node format:
-    # Node0x5632abc [shape=record,shape=Mrecord,
-    #   label="{CallGraphNode ID: 42 \{fun: function_name\}|{<s0>...}}"];
     for m in re.finditer(r"(Node0x[0-9a-fA-F]+)\s*\[[^;]*?fun:\s*(\S+?)\\", content):
         nodes[m.group(1)] = m.group(2)
 
-    # SVF edge format:
-    # Node0x5632abc:s0 -> Node0x5632def
     adj: dict[str, set[str]] = defaultdict(set)
     for m in re.finditer(r"(Node0x[0-9a-fA-F]+)(?::s\d+)?\s*->\s*(Node0x[0-9a-fA-F]+)", content):
         src_id = m.group(1)
         dst_id = m.group(2)
         src = nodes.get(src_id)
         dst = nodes.get(dst_id)
-        if src and dst and src != dst:  # filter self-loops and unknown nodes
+        if src and dst and src != dst:
             adj[src].add(dst)
+
+    return nodes, adj
+
+
+def parse_svf_dot_file(path: Path) -> tuple[dict[str, str], dict[str, set[str]]]:
+    """Parse SVF's callgraph DOT file streaming line-by-line to save memory.
+
+    Args:
+        path: Path to callgraph DOT file.
+
+    Returns:
+        nodes: {node_id: function_name}
+        adj: {caller_name: {callee_name, ...}}
+    """
+    nodes: dict[str, str] = {}
+    adj: dict[str, set[str]] = defaultdict(set)
+
+    node_re = re.compile(r"(Node0x[0-9a-fA-F]+)\s*\[[^;]*?fun:\s*(\S+?)\\")
+    edge_re = re.compile(r"(Node0x[0-9a-fA-F]+)(?::s\d+)?\s*->\s*(Node0x[0-9a-fA-F]+)")
+
+    with open(path, "r") as f:
+        for line in f:
+            m = node_re.search(line)
+            if m:
+                nodes[m.group(1)] = m.group(2)
+            m = edge_re.search(line)
+            if m:
+                src_id = m.group(1)
+                dst_id = m.group(2)
+                src = nodes.get(src_id)
+                dst = nodes.get(dst_id)
+                if src and dst and src != dst:
+                    adj[src].add(dst)
 
     return nodes, adj
 

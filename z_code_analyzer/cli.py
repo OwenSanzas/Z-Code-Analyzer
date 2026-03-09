@@ -465,5 +465,193 @@ def _resolve_auth(neo4j_auth: str | None) -> tuple[str, str] | None:
     return _parse_neo4j_auth()
 
 
+# ── z-analyze auto ──
+
+
+@main.command("auto")
+@click.argument("target")
+@click.option("--version", default="HEAD", help="Version/tag/commit to analyze")
+@click.option("--branch", default="", help="Git branch")
+@click.option("--language", default="", help="Override language detection")
+@click.option("--fuzzer", "fuzzer_names", multiple=True, help="Fuzzer name(s)")
+@click.option(
+    "--ossfuzz-repo",
+    default="/data2/ze/poc-workspace/oss-fuzz",
+    help="Path to oss-fuzz repo",
+)
+@click.option("--neo4j-uri", default=_DEFAULT_NEO4J_URI, help="Neo4j URI")
+@click.option("--neo4j-auth", default=None, help="Neo4j auth")
+@click.option(
+    "--pg-url",
+    default="postgresql://zca:zca_pass@127.0.0.1:5433/z_code_analyzer",
+    help="PostgreSQL URL",
+)
+@click.option("--docker-image", default="", help="Explicit Docker image")
+def auto_analyze(
+    target: str,
+    version: str,
+    branch: str,
+    language: str,
+    fuzzer_names: tuple[str, ...],
+    ossfuzz_repo: str,
+    neo4j_uri: str,
+    neo4j_auth: str | None,
+    pg_url: str,
+    docker_image: str,
+) -> None:
+    """Fully automated analysis of a repo or oss-fuzz project.
+
+    TARGET can be:
+    - An oss-fuzz project name (e.g., "libpng")
+    - A GitHub repo URL (e.g., "https://github.com/pnggroup/libpng")
+    """
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+
+    from z_code_analyzer.auto_pipeline import AutoAnalysisRequest, AutoPipeline
+    from z_code_analyzer.graph_store import GraphStore
+    from z_code_analyzer.models.snapshot import ZCABase
+    from z_code_analyzer.snapshot_manager import SnapshotManager
+
+    auth = _resolve_auth(neo4j_auth)
+    gs = GraphStore(neo4j_uri, auth)
+    engine = create_engine(pg_url)
+    ZCABase.metadata.create_all(engine)
+    sm = SnapshotManager(session_factory=sessionmaker(bind=engine), graph_store=gs)
+
+    pipeline = AutoPipeline(
+        snapshot_manager=sm,
+        graph_store=gs,
+        ossfuzz_repo_path=ossfuzz_repo,
+        neo4j_uri=neo4j_uri,
+    )
+
+    # Determine if target is a URL or oss-fuzz project name
+    is_url = target.startswith("http://") or target.startswith("https://")
+    request = AutoAnalysisRequest(
+        repo_url=target if is_url else "",
+        ossfuzz_project="" if is_url else target,
+        version=version,
+        branch=branch,
+        language=language,
+        fuzzer_names=list(fuzzer_names),
+        ossfuzz_repo_path=ossfuzz_repo,
+        docker_image=docker_image,
+    )
+
+    try:
+        result = pipeline.run(request)
+        click.echo(result.summary())
+        if not result.success:
+            raise SystemExit(1)
+    finally:
+        gs.close()
+        sm.close()
+
+
+@main.command("batch")
+@click.option("--limit", default=100, help="Max number of projects")
+@click.option("--parallel", default=1, help="Max concurrent builds")
+@click.option("--retry", default=1, help="Retry count per project")
+@click.option(
+    "--ossfuzz-repo",
+    default="/data2/ze/poc-workspace/oss-fuzz",
+    help="Path to oss-fuzz repo",
+)
+@click.option("--neo4j-uri", default=_DEFAULT_NEO4J_URI, help="Neo4j URI")
+@click.option("--neo4j-auth", default=None, help="Neo4j auth")
+@click.option(
+    "--pg-url",
+    default="postgresql://zca:zca_pass@127.0.0.1:5433/z_code_analyzer",
+    help="PostgreSQL URL",
+)
+@click.option(
+    "--results-file",
+    default="batch_results.json",
+    help="Path for JSON results file",
+)
+@click.option("--pull/--no-pull", default=True, help="Pull missing Docker images")
+@click.option("--projects", default="", help="Comma-separated project names")
+def batch_analyze(
+    limit: int,
+    parallel: int,
+    retry: int,
+    ossfuzz_repo: str,
+    neo4j_uri: str,
+    neo4j_auth: str | None,
+    pg_url: str,
+    results_file: str,
+    pull: bool,
+    projects: str,
+) -> None:
+    """Batch analyze oss-fuzz C/C++ projects."""
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+
+    from z_code_analyzer.graph_store import GraphStore
+    from z_code_analyzer.models.snapshot import ZCABase
+    from z_code_analyzer.ossfuzz.batch_runner import BatchRunner
+    from z_code_analyzer.snapshot_manager import SnapshotManager
+
+    auth = _resolve_auth(neo4j_auth)
+    gs = GraphStore(neo4j_uri, auth)
+    engine = create_engine(pg_url)
+    ZCABase.metadata.create_all(engine)
+    sm = SnapshotManager(session_factory=sessionmaker(bind=engine), graph_store=gs)
+
+    runner = BatchRunner(
+        snapshot_manager=sm,
+        graph_store=gs,
+        ossfuzz_repo_path=ossfuzz_repo,
+        neo4j_uri=neo4j_uri,
+    )
+
+    project_names = [p.strip() for p in projects.split(",") if p.strip()] or None
+
+    try:
+        result = runner.run(
+            limit=limit,
+            max_parallel=parallel,
+            retry_count=retry,
+            project_names=project_names,
+            pull_images=pull,
+            results_file=results_file,
+        )
+        click.echo(result.summary())
+        if result.failed > 0:
+            click.echo(
+                f"\n{result.failed} projects failed. "
+                f"See {results_file} for details.",
+                err=True,
+            )
+    finally:
+        gs.close()
+        sm.close()
+
+
+@main.command("ossfuzz-list")
+@click.option(
+    "--ossfuzz-repo",
+    default="/data2/ze/poc-workspace/oss-fuzz",
+    help="Path to oss-fuzz repo",
+)
+@click.option("--limit", default=200, help="Max number of projects to list")
+def ossfuzz_list(ossfuzz_repo: str, limit: int) -> None:
+    """List available C/C++ projects from oss-fuzz."""
+    from z_code_analyzer.ossfuzz.crawler import OSSFuzzCrawler
+
+    crawler = OSSFuzzCrawler(ossfuzz_repo)
+    projects = crawler.crawl(limit=limit, require_docker_image=False)
+    click.echo(f"{'Name':25s} {'Lang':5s} {'Docker':8s} {'Fuzzers':8s} {'Repo'}")
+    click.echo("-" * 100)
+    for p in projects:
+        fcount = len(p.fuzzer_targets)
+        img_status = "YES" if p.docker_image_available else "no"
+        click.echo(
+            f"{p.name:25s} {p.language:5s} {img_status:8s} {fcount:8d} {p.main_repo}"
+        )
+    click.echo(f"\nTotal: {len(projects)} C/C++ projects")
+
+
 if __name__ == "__main__":
     main()
