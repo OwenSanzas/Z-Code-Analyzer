@@ -135,21 +135,39 @@ def main():
         workspace_dir="/data2/ze/Z-Code-Analyzer/workspace",
     )
 
-    # Get project lists
-    available = get_available_projects()
-    completed = get_completed_projects()
     results = load_results()
+    completed = get_completed_projects()
 
     # Also mark previously recorded successes as completed
     for name, data in results.get("projects", {}).items():
         if data.get("success"):
             completed.add(name)
 
-    todo = [p for p in available if p not in completed]
-    logger.info(
-        "Available: %d, Already completed: %d, To do: %d",
-        len(available), len(completed), len(todo),
-    )
+    # Accept project list from command line args or file
+    if len(sys.argv) > 1:
+        arg = sys.argv[1]
+        if Path(arg).is_file():
+            # Read project names from file (one per line)
+            with open(arg) as f:
+                explicit_projects = [l.strip() for l in f if l.strip() and not l.startswith("#")]
+        else:
+            # Comma-separated project names
+            explicit_projects = [p.strip() for p in arg.split(",") if p.strip()]
+        # Skip already completed unless --force
+        force = "--force" in sys.argv
+        if force:
+            todo = explicit_projects
+        else:
+            todo = [p for p in explicit_projects if p not in completed]
+        logger.info("Explicit project list: %d total, %d to do", len(explicit_projects), len(todo))
+    else:
+        # Auto-discover from oss-fuzz
+        available = get_available_projects()
+        todo = [p for p in available if p not in completed]
+        logger.info(
+            "Available: %d, Already completed: %d, To do: %d",
+            len(available), len(completed), len(todo),
+        )
 
     if not todo:
         logger.info("All available projects already completed!")
@@ -182,6 +200,8 @@ def main():
             "fuzzer_reach_count": result.fuzzer_reach_count,
             "build_duration_sec": result.build_duration_sec,
             "svf_duration_sec": result.svf_duration_sec,
+            "fuzzer_parse_duration_sec": result.fuzzer_parse_duration_sec,
+            "import_duration_sec": result.import_duration_sec,
             "total_duration_sec": result.total_duration_sec,
             "error": result.error,
             "error_phase": result.error_phase,

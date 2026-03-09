@@ -57,6 +57,43 @@ _MAX_REACH_DEPTH = 20  # Reduced from 50 to prevent Neo4j OOM on large graphs
 _DOCKER_BUILD_MEMORY = "8g"   # oss-fuzz build container
 _SVF_MEMORY = "16g"           # SVF pointer analysis (Andersen can be hungry)
 
+# Known fuzzing framework files to exclude from project fuzzer list.
+# These are infrastructure, not project-specific fuzzers.
+_FUZZER_FRAMEWORK_BLACKLIST = frozenset({
+    # libFuzzer internals
+    "DataFlow", "FuzzerCrossOver", "FuzzerDataFlowTrace", "FuzzerDriver",
+    "FuzzerExtFunctionsDlsym", "FuzzerExtFunctionsWeak",
+    "FuzzerExtFunctionsWindows", "FuzzerExtraCounters",
+    "FuzzerExtraCountersDarwin", "FuzzerFork", "FuzzerIO", "FuzzerIOPosix",
+    "FuzzerIOWindows", "FuzzerLoop", "FuzzerMain", "FuzzerMerge",
+    "FuzzerMutate", "FuzzerSHA1", "FuzzerTracePC", "FuzzerUnittest",
+    "FuzzerUtil", "FuzzerUtilDarwin", "FuzzerUtilFuchsia", "FuzzerUtilLinux",
+    "FuzzerUtilPosix", "FuzzerUtilWindows", "StandaloneFuzzTargetMain",
+    # AFL / honggfuzz / centipede infrastructure
+    "afl_driver", "honggfuzz", "hfuzz-cc",
+    "arch", "bfd", "client", "cmdline", "display", "files", "input",
+    "instrument", "linux", "log", "main", "mangle", "memorycmp",
+    "netdriver", "ns", "perf", "persistent", "persistent-jpeg",
+    "persistent-png", "persistent-xml2", "privkey", "pt", "report",
+    "sanitizers", "server", "socketfuzzer", "subproc", "terminal-test",
+    "trace", "unwind", "util", "vulnserver_cov", "x509",
+    # Centipede
+    "analyze_corpora_test", "environment_test", "centipede_default_callbacks",
+    "centipede_interface", "call_graph", "runner_interceptors",
+    "runner_sancov", "fuzztest", "performance", "execution_result",
+    "shared_memory_blob_sequence_test", "blob_file_test", "rusage_stats",
+    "reverse_pc_table_test", "knobs_test", "backend", "knobs", "power",
+    "arbitrary_domains_test", "feature_set_test", "feature_test",
+    "test_util", "misc_domains_test", "runner_utils",
+    "numeric_domains_test", "minimize_crash", "specific_value_domains_test",
+    "rusage_profiler_test", "byte_array_mutator_test", "feature",
+    "benchmark_test", "code_generation", "pointer_domains_test",
+    "recursive_domains_test", "stats", "shard_reader", "dict",
+    "rusage_stats_test", "logging", "runner_dl_info", "byte_array_mutator",
+    "container_combinators_test", "map_filter_combinator_test", "runner",
+    "code_generation_test", "functional_test", "corpus",
+})
+
 
 @dataclass
 class AutoAnalysisRequest:
@@ -100,6 +137,8 @@ class AutoAnalysisResult:
     # Timing
     build_duration_sec: float = 0.0
     svf_duration_sec: float = 0.0
+    fuzzer_parse_duration_sec: float = 0.0
+    import_duration_sec: float = 0.0
     total_duration_sec: float = 0.0
 
     # Error info
@@ -126,6 +165,7 @@ class AutoAnalysisResult:
             f"  Fuzzers: {self.fuzzer_names}\n"
             f"  Reaches: {self.fuzzer_reach_count}\n"
             f"  Build: {self.build_duration_sec:.1f}s, SVF: {self.svf_duration_sec:.1f}s, "
+            f"Fuzzer: {self.fuzzer_parse_duration_sec:.1f}s, Import: {self.import_duration_sec:.1f}s, "
             f"Total: {self.total_duration_sec:.1f}s\n"
             f"  Neo4j: {self.neo4j_uri} (snapshot={self.neo4j_snapshot_id})"
         )
@@ -252,15 +292,18 @@ class AutoPipeline:
 
             # Phase 5: Parse fuzzer sources
             logger.info("[%s] Phase 5: Parsing fuzzer sources...", project_name)
+            fuzzer_t0 = time.monotonic()
             fuzzer_sources, fuzzer_calls = self._parse_fuzzers(
                 project_name=project_name,
                 output_dir=output_dir,
                 library_functions={f.name for f in analysis_result.functions},
                 request=request,
             )
+            result.fuzzer_parse_duration_sec = round(time.monotonic() - fuzzer_t0, 2)
 
             # Phase 6: Import to Neo4j + create snapshot
             logger.info("[%s] Phase 6: Importing to Neo4j...", project_name)
+            import_t0 = time.monotonic()
             snapshot_id = self._import_to_neo4j(
                 project_name=project_name,
                 repo_url=repo_url,
@@ -270,6 +313,8 @@ class AutoPipeline:
                 fuzzer_calls=fuzzer_calls,
                 language=language,
             )
+
+            result.import_duration_sec = round(time.monotonic() - import_t0, 2)
 
             result.success = True
             result.snapshot_id = snapshot_id
@@ -811,11 +856,25 @@ class AutoPipeline:
         if request.fuzzer_names:
             fuzzer_binary_names = request.fuzzer_names
 
-        # Find fuzzer source files
+        # Filter out known fuzzing framework files (libFuzzer, AFL, honggfuzz, centipede)
+        before_count = len(fuzzer_binary_names)
+        fuzzer_binary_names = [
+            n for n in fuzzer_binary_names if n not in _FUZZER_FRAMEWORK_BLACKLIST
+        ]
+        if before_count != len(fuzzer_binary_names):
+            logger.info(
+                "[%s] Filtered %d framework fuzzers, %d project fuzzers remain",
+                project_name,
+                before_count - len(fuzzer_binary_names),
+                len(fuzzer_binary_names),
+            )
+
+        # Find fuzzer source files (exclude framework files)
         if fuzzer_out.is_dir():
             fuzzer_src_files = [
                 f for f in fuzzer_out.iterdir()
                 if f.suffix in (".c", ".cc", ".cpp", ".cxx")
+                and f.stem not in _FUZZER_FRAMEWORK_BLACKLIST
             ]
         else:
             fuzzer_src_files = []
