@@ -469,7 +469,9 @@ def _resolve_auth(neo4j_auth: str | None) -> tuple[str, str] | None:
 
 
 @main.command("auto")
-@click.argument("target")
+@click.argument("target", required=False, default=None)
+@click.option("--project", default=None, help="OSS-Fuzz project name (e.g., libpng)")
+@click.option("--repo-url", default=None, help="GitHub repo URL")
 @click.option("--version", default="HEAD", help="Version/tag/commit to analyze")
 @click.option("--branch", default="", help="Git branch")
 @click.option("--language", default="", help="Override language detection")
@@ -487,8 +489,11 @@ def _resolve_auth(neo4j_auth: str | None) -> tuple[str, str] | None:
     help="PostgreSQL URL",
 )
 @click.option("--docker-image", default="", help="Explicit Docker image")
+@click.option("--force", is_flag=True, help="Force re-analysis even if snapshot exists")
 def auto_analyze(
-    target: str,
+    target: str | None,
+    project: str | None,
+    repo_url: str | None,
     version: str,
     branch: str,
     language: str,
@@ -498,13 +503,23 @@ def auto_analyze(
     neo4j_auth: str | None,
     pg_url: str,
     docker_image: str,
+    force: bool,
 ) -> None:
     """Fully automated analysis of a repo or oss-fuzz project.
 
-    TARGET can be:
-    - An oss-fuzz project name (e.g., "libpng")
-    - A GitHub repo URL (e.g., "https://github.com/pnggroup/libpng")
+    Accepts target as positional arg or via --project / --repo-url:
+
+    \b
+      z-analyze auto libpng
+      z-analyze auto --project libpng
+      z-analyze auto --repo-url https://github.com/pnggroup/libpng
     """
+    # Resolve target from positional arg, --project, or --repo-url
+    if target is None and project is None and repo_url is None:
+        click.echo("Error: provide a TARGET argument, --project, or --repo-url", err=True)
+        raise SystemExit(1)
+    if target is None:
+        target = repo_url if repo_url else project
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
 
@@ -537,6 +552,103 @@ def auto_analyze(
         fuzzer_names=list(fuzzer_names),
         ossfuzz_repo_path=ossfuzz_repo,
         docker_image=docker_image,
+        force=force,
+    )
+
+    try:
+        result = pipeline.run(request)
+        click.echo(result.summary())
+        if not result.success:
+            raise SystemExit(1)
+    finally:
+        gs.close()
+        sm.close()
+
+
+@main.command("source")
+@click.argument("target", required=False, default=None)
+@click.option("--repo-url", default=None, help="Git repo URL to analyze")
+@click.option("--path", "project_path", default=None, help="Local source directory")
+@click.option("--project", default=None, help="Project name (auto-detected if omitted)")
+@click.option("--version", default="HEAD", help="Tag, branch, commit hash, or PR (e.g. v1.6.44, abc1234, PR:42)")
+@click.option("--branch", default="", help="Git branch (alias for --version)")
+@click.option("--language", default="", help="Override language detection")
+@click.option("--neo4j-uri", default=_DEFAULT_NEO4J_URI, help="Neo4j URI")
+@click.option("--neo4j-auth", default=None, help="Neo4j auth")
+@click.option(
+    "--pg-url",
+    default="postgresql://zca:zca_pass@127.0.0.1:5433/z_code_analyzer",
+    help="PostgreSQL URL",
+)
+@click.option("--force", is_flag=True, help="Force re-analysis even if snapshot exists")
+def source_analyze(
+    target: str | None,
+    repo_url: str | None,
+    project_path: str | None,
+    project: str | None,
+    version: str,
+    branch: str,
+    language: str,
+    neo4j_uri: str,
+    neo4j_auth: str | None,
+    pg_url: str,
+    force: bool,
+) -> None:
+    """Full source-code analysis (compiles ALL source files, not just fuzzer targets).
+
+    Accepts a git URL, local path, or both:
+
+    \b
+      z-analyze source https://github.com/pnggroup/libpng
+      z-analyze source --path /path/to/libpng
+      z-analyze source --repo-url https://github.com/pnggroup/libpng
+    """
+    # Resolve target
+    if target is None and repo_url is None and project_path is None:
+        click.echo("Error: provide a TARGET URL, --repo-url, or --path", err=True)
+        raise SystemExit(1)
+
+    if target is not None:
+        if target.startswith("http://") or target.startswith("https://") or target.startswith("git://"):
+            repo_url = repo_url or target
+        elif Path(target).is_dir():
+            project_path = project_path or target
+        else:
+            # Assume it's a URL
+            repo_url = repo_url or target
+
+    if not repo_url and not project_path:
+        click.echo("Error: need --repo-url or --path to a local source directory", err=True)
+        raise SystemExit(1)
+
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+
+    from z_code_analyzer.graph_store import GraphStore
+    from z_code_analyzer.models.snapshot import ZCABase
+    from z_code_analyzer.snapshot_manager import SnapshotManager
+    from z_code_analyzer.source_pipeline import SourceAnalysisRequest, SourcePipeline
+
+    auth = _resolve_auth(neo4j_auth)
+    gs = GraphStore(neo4j_uri, auth)
+    engine = create_engine(pg_url)
+    ZCABase.metadata.create_all(engine)
+    sm = SnapshotManager(session_factory=sessionmaker(bind=engine), graph_store=gs)
+
+    pipeline = SourcePipeline(
+        snapshot_manager=sm,
+        graph_store=gs,
+        neo4j_uri=neo4j_uri,
+    )
+
+    request = SourceAnalysisRequest(
+        repo_url=repo_url or "",
+        project_path=project_path or "",
+        project_name=project or "",
+        version=version,
+        branch=branch,
+        language=language,
+        force=force,
     )
 
     try:

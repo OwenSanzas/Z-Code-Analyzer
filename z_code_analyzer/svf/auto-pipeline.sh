@@ -658,34 +658,46 @@ log "=== [7/7] Collecting fuzzer sources ==="
 FUZZER_OUT="$OUTPUT_DIR/fuzzer_sources"
 mkdir -p "$FUZZER_OUT"
 
-# Collect from $OUT (compiled fuzzers)
-FUZZER_BINARIES=$(find "$OUT" -maxdepth 1 -type f -executable 2>/dev/null || true)
+# Collect from $OUT (compiled fuzzers) — filter out shared libs and non-fuzzer files
+FUZZER_BINARIES=$(find "$OUT" -maxdepth 1 -type f -executable \
+    ! -name "*.so" ! -name "*.so.*" ! -name "*.a" ! -name "*.o" \
+    ! -name "*.py" ! -name "*.sh" ! -name "*.dict" ! -name "*.zip" \
+    ! -name "*.options" ! -name "*.cfg" ! -name "*.txt" \
+    2>/dev/null || true)
 FUZZER_COUNT=0
 for f in $FUZZER_BINARIES; do
-    fname=$(basename "$f")
-    # Skip obviously non-fuzzer files
-    case "$fname" in
-        *.dict|*.zip|*.options|*.cfg|*.txt|*.sh) continue ;;
-    esac
     FUZZER_COUNT=$((FUZZER_COUNT + 1))
 done
 log "  Fuzzer binaries in \$OUT: $FUZZER_COUNT"
 
-# Find fuzzer source files (C/C++ files containing LLVMFuzzerTestOneInput)
-FUZZER_SOURCES=$(grep -rl "LLVMFuzzerTestOneInput" "$SRC" \
-    --include="*.c" --include="*.cc" --include="*.cpp" --include="*.cxx" \
-    2>/dev/null | head -50 || true)
+# Find fuzzer source files — search $SRC subdirectories but SKIP known
+# fuzzing framework directories (centipede, aflplusplus, fuzztest, honggfuzz,
+# libfuzzer, fuzzing-headers, etc.) that also define LLVMFuzzerTestOneInput.
+FUZZER_SOURCES=""
+_framework_re="^(aflplusplus|honggfuzz|fuzztest|centipede|libfuzzer|fuzzing-headers|libprotobuf-mutator|FuzzedDataProvider)$"
 
-for src in $FUZZER_SOURCES; do
-    cp "$src" "$FUZZER_OUT/" 2>/dev/null || true
+# 1. Search each $SRC subdirectory, skipping framework dirs
+for _d in "$SRC"/*/; do
+    [ -d "$_d" ] || continue
+    _dirname=$(basename "$_d")
+    echo "$_dirname" | grep -qiE "$_framework_re" && continue
+    _found=$(grep -rl "LLVMFuzzerTestOneInput" "$_d" \
+        --include="*.c" --include="*.cc" --include="*.cpp" --include="*.cxx" \
+        2>/dev/null | head -50 || true)
+    [ -n "$_found" ] && FUZZER_SOURCES=$(printf '%s\n%s' "$FUZZER_SOURCES" "$_found")
 done
 
-# Also copy from common locations
-for fuzz_dir in "$SRC"/*fuzz* "$SRC"/$PROJECT_NAME/*fuzz* "$SRC"/$PROJECT_NAME/test*; do
-    if [ -d "$fuzz_dir" ]; then
-        find "$fuzz_dir" -maxdepth 2 \( -name "*.c" -o -name "*.cc" -o -name "*.cpp" \) \
-            -exec cp {} "$FUZZER_OUT/" \; 2>/dev/null || true
-    fi
+# 2. Check top-level $SRC files (many build.sh scripts put fuzzers directly in $SRC/)
+for _ext in c cc cpp cxx; do
+    for _f in "$SRC"/*."$_ext"; do
+        [ -f "$_f" ] || continue
+        grep -q "LLVMFuzzerTestOneInput" "$_f" 2>/dev/null && \
+            FUZZER_SOURCES=$(printf '%s\n%s' "$FUZZER_SOURCES" "$_f")
+    done
+done
+
+for src in $FUZZER_SOURCES; do
+    [ -f "$src" ] && cp "$src" "$FUZZER_OUT/" 2>/dev/null || true
 done
 
 FUZZER_SRC_COUNT=$(ls "$FUZZER_OUT" 2>/dev/null | wc -l)
@@ -696,13 +708,10 @@ log "  Fuzzer source files collected: $FUZZER_SRC_COUNT"
 PIPELINE_END=$(date +%s)
 PIPELINE_DURATION=$((PIPELINE_END - PIPELINE_START))
 
-# Write list of fuzzer binary names
+# Write list of fuzzer binary names (already filtered by find above)
 echo "" > "$OUTPUT_DIR/fuzzer_names.txt"
 for f in $FUZZER_BINARIES; do
     fname=$(basename "$f")
-    case "$fname" in
-        *.dict|*.zip|*.options|*.cfg|*.txt|*.sh) continue ;;
-    esac
     echo "$fname" >> "$OUTPUT_DIR/fuzzer_names.txt"
 done
 

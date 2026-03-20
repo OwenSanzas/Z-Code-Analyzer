@@ -110,12 +110,13 @@ def save_results(results: dict) -> None:
     Path(RESULTS_FILE).write_text(json.dumps(results, indent=2))
 
 
-def run_single(pipeline: AutoPipeline, project_name: str) -> AutoAnalysisResult:
+def run_single(pipeline: AutoPipeline, project_name: str, force: bool = False) -> AutoAnalysisResult:
     """Run analysis for a single project."""
     request = AutoAnalysisRequest(
         ossfuzz_project=project_name,
         language="c",
         ossfuzz_repo_path=OSSFUZZ_PATH,
+        force=force,
     )
     return pipeline.run(request)
 
@@ -143,23 +144,28 @@ def main():
         if data.get("success"):
             completed.add(name)
 
+    force = "--force" in sys.argv
+
     # Accept project list from command line args or file
     if len(sys.argv) > 1:
         arg = sys.argv[1]
-        if Path(arg).is_file():
+        if arg == "--force":
+            arg = sys.argv[2] if len(sys.argv) > 2 else ""
+        if arg and Path(arg).is_file():
             # Read project names from file (one per line)
             with open(arg) as f:
                 explicit_projects = [l.strip() for l in f if l.strip() and not l.startswith("#")]
-        else:
+        elif arg:
             # Comma-separated project names
             explicit_projects = [p.strip() for p in arg.split(",") if p.strip()]
+        else:
+            explicit_projects = []
         # Skip already completed unless --force
-        force = "--force" in sys.argv
         if force:
             todo = explicit_projects
         else:
             todo = [p for p in explicit_projects if p not in completed]
-        logger.info("Explicit project list: %d total, %d to do", len(explicit_projects), len(todo))
+        logger.info("Explicit project list: %d total, %d to do (force=%s)", len(explicit_projects), len(todo), force)
     else:
         # Auto-discover from oss-fuzz
         available = get_available_projects()
@@ -182,7 +188,7 @@ def main():
         )
 
         try:
-            result = run_single(pipeline, project_name)
+            result = run_single(pipeline, project_name, force=force)
         except Exception as e:
             result = AutoAnalysisResult(
                 success=False,

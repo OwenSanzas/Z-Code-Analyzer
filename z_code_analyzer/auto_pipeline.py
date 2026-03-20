@@ -59,40 +59,43 @@ _SVF_MEMORY = "16g"           # SVF pointer analysis (Andersen can be hungry)
 
 # Known fuzzing framework files to exclude from project fuzzer list.
 # These are infrastructure, not project-specific fuzzers.
-_FUZZER_FRAMEWORK_BLACKLIST = frozenset({
-    # libFuzzer internals
-    "DataFlow", "FuzzerCrossOver", "FuzzerDataFlowTrace", "FuzzerDriver",
-    "FuzzerExtFunctionsDlsym", "FuzzerExtFunctionsWeak",
-    "FuzzerExtFunctionsWindows", "FuzzerExtraCounters",
-    "FuzzerExtraCountersDarwin", "FuzzerFork", "FuzzerIO", "FuzzerIOPosix",
-    "FuzzerIOWindows", "FuzzerLoop", "FuzzerMain", "FuzzerMerge",
-    "FuzzerMutate", "FuzzerSHA1", "FuzzerTracePC", "FuzzerUnittest",
-    "FuzzerUtil", "FuzzerUtilDarwin", "FuzzerUtilFuchsia", "FuzzerUtilLinux",
-    "FuzzerUtilPosix", "FuzzerUtilWindows", "StandaloneFuzzTargetMain",
-    # AFL / honggfuzz / centipede infrastructure
-    "afl_driver", "honggfuzz", "hfuzz-cc",
-    "arch", "bfd", "client", "cmdline", "display", "files", "input",
-    "instrument", "linux", "log", "main", "mangle", "memorycmp",
-    "netdriver", "ns", "perf", "persistent", "persistent-jpeg",
-    "persistent-png", "persistent-xml2", "privkey", "pt", "report",
-    "sanitizers", "server", "socketfuzzer", "subproc", "terminal-test",
-    "trace", "unwind", "util", "vulnserver_cov", "x509",
-    # Centipede
-    "analyze_corpora_test", "environment_test", "centipede_default_callbacks",
-    "centipede_interface", "call_graph", "runner_interceptors",
-    "runner_sancov", "fuzztest", "performance", "execution_result",
-    "shared_memory_blob_sequence_test", "blob_file_test", "rusage_stats",
-    "reverse_pc_table_test", "knobs_test", "backend", "knobs", "power",
-    "arbitrary_domains_test", "feature_set_test", "feature_test",
-    "test_util", "misc_domains_test", "runner_utils",
-    "numeric_domains_test", "minimize_crash", "specific_value_domains_test",
-    "rusage_profiler_test", "byte_array_mutator_test", "feature",
-    "benchmark_test", "code_generation", "pointer_domains_test",
-    "recursive_domains_test", "stats", "shard_reader", "dict",
-    "rusage_stats_test", "logging", "runner_dl_info", "byte_array_mutator",
-    "container_combinators_test", "map_filter_combinator_test", "runner",
-    "code_generation_test", "functional_test", "corpus",
-})
+# Pattern-based detection of fuzzing framework binaries.
+# These are executables from libFuzzer, AFL++, centipede, honggfuzz etc. that
+# end up in $OUT alongside the real project fuzzers.
+_FRAMEWORK_BINARY_PATTERNS = [
+    re.compile(r"^Fuzzer[A-Z]"),                    # libFuzzer: FuzzerDriver, FuzzerLoop, etc.
+    re.compile(r"^FuzzedDataProvider"),              # FDP tests
+    re.compile(r"^DataFlow"),                        # libFuzzer DataFlow
+    re.compile(r"^Standalone"),                      # StandaloneFuzzTargetMain
+    re.compile(r"^aflpp_|^afl_|^afl-"),             # AFL++/AFL
+    re.compile(r"^centipede"),                       # Centipede (centipede, centipede_main, ...)
+    re.compile(r"^runner_(fork|main|interceptors|sancov|dl_info|utils|cmp_trace)"),
+    re.compile(r"^honggfuzz|^hfuzz"),               # Honggfuzz
+    re.compile(r"^weak_sancov"),                     # Sanitizer stubs
+    re.compile(r"\.so(\.\d+)*$"),                    # Shared libraries
+]
+
+
+def _is_framework_binary(name: str) -> bool:
+    """Check if a binary name is a fuzzing framework component, not a project fuzzer."""
+    return any(p.search(name) for p in _FRAMEWORK_BINARY_PATTERNS)
+
+
+def _fuzzer_name_matches(binary_name: str, source_stem: str) -> bool:
+    """Check if a fuzzer binary name plausibly matches a source file stem.
+
+    Uses strict prefix matching (must be separated by _ or -) to avoid
+    false matches like 'fuzztest_gtest_main' matching 'fuzz.c'.
+    """
+    if binary_name == source_stem:
+        return True
+    # Binary name is an extension of source name: fuzz_uri matches fuzz
+    for sep in ("_", "-"):
+        if binary_name.startswith(source_stem + sep):
+            return True
+        if source_stem.startswith(binary_name + sep):
+            return True
+    return False
 
 
 @dataclass
@@ -117,6 +120,7 @@ class AutoAnalysisRequest:
     project_path: str = ""  # local source path (skip clone)
     skip_svf: bool = False  # only produce bitcode
     workspace_dir: str = ""  # working directory
+    force: bool = False  # force re-analysis even if snapshot exists
 
 
 @dataclass
@@ -312,6 +316,7 @@ class AutoPipeline:
                 fuzzer_sources=fuzzer_sources,
                 fuzzer_calls=fuzzer_calls,
                 language=language,
+                force=request.force,
             )
 
             result.import_duration_sec = round(time.monotonic() - import_t0, 2)
@@ -493,7 +498,14 @@ class AutoPipeline:
         shutil.copy2(pipeline_script, staged_script)
 
         # Also stage the output dir if it's on /data2
+        # Clean staging from previous runs to avoid stale data.
+        # Docker creates files as root, so shutil.rmtree may fail — use sudo.
         output_staging = staging_dir / f"output-{project_name}"
+        if output_staging.exists():
+            subprocess.run(
+                ["sudo", "rm", "-rf", str(output_staging)],
+                capture_output=True, timeout=30,
+            )
         output_staging.mkdir(parents=True, exist_ok=True)
 
         container_name = f"zca-{project_name}-{uuid.uuid4().hex[:8]}"
@@ -839,6 +851,13 @@ class AutoPipeline:
         """Discover and parse fuzzer sources.
 
         Returns (fuzzer_sources, fuzzer_calls).
+
+        Strategy:
+        1. Read binary names from fuzzer_names.txt (populated by auto-pipeline.sh)
+        2. Read source files from fuzzer_sources/ directory
+        3. Filter obvious framework binaries (pattern-based)
+        4. Match binaries to sources using strict prefix matching
+        5. Keep only matched fuzzers; if NOTHING matched, fall back to source stems
         """
         fuzzer_sources: dict[str, list[str]] = {}
         fuzzer_out = Path(output_dir) / "fuzzer_sources"
@@ -856,44 +875,66 @@ class AutoPipeline:
         if request.fuzzer_names:
             fuzzer_binary_names = request.fuzzer_names
 
-        # Filter out known fuzzing framework files (libFuzzer, AFL, honggfuzz, centipede)
+        # Filter shared libraries and obvious framework binaries
         before_count = len(fuzzer_binary_names)
         fuzzer_binary_names = [
-            n for n in fuzzer_binary_names if n not in _FUZZER_FRAMEWORK_BLACKLIST
+            n for n in fuzzer_binary_names
+            if not n.endswith(".so") and ".so." not in n
+            and not _is_framework_binary(n)
         ]
         if before_count != len(fuzzer_binary_names):
             logger.info(
-                "[%s] Filtered %d framework fuzzers, %d project fuzzers remain",
+                "[%s] Filtered %d framework/non-fuzzer binaries, %d remain",
                 project_name,
                 before_count - len(fuzzer_binary_names),
                 len(fuzzer_binary_names),
             )
 
-        # Find fuzzer source files (exclude framework files)
+        # Find fuzzer source files
         if fuzzer_out.is_dir():
             fuzzer_src_files = [
                 f for f in fuzzer_out.iterdir()
                 if f.suffix in (".c", ".cc", ".cpp", ".cxx")
-                and f.stem not in _FUZZER_FRAMEWORK_BLACKLIST
             ]
         else:
             fuzzer_src_files = []
 
         if fuzzer_binary_names and fuzzer_src_files:
-            # Map fuzzer names to source files
+            # Match binaries to source files using strict prefix matching
+            matched: dict[str, list[str]] = {}
+            unmatched: list[str] = []
+
             for fname in fuzzer_binary_names:
-                # Try to find matching source file
                 matched_sources: list[str] = []
                 for sf in fuzzer_src_files:
-                    stem = sf.stem
-                    if stem == fname or fname.startswith(stem) or stem.startswith(fname):
+                    if _fuzzer_name_matches(fname, sf.stem):
                         matched_sources.append(str(sf))
-                if not matched_sources:
-                    # Use all fuzzer sources (can't determine which belongs to which)
-                    matched_sources = [str(sf) for sf in fuzzer_src_files]
-                fuzzer_sources[fname] = matched_sources
+                if matched_sources:
+                    matched[fname] = matched_sources
+                else:
+                    unmatched.append(fname)
+
+            if matched:
+                # Some binaries matched — use those, skip unmatched
+                fuzzer_sources = matched
+                if unmatched:
+                    logger.info(
+                        "[%s] Matched %d fuzzers to sources, "
+                        "skipped %d unmatched binaries",
+                        project_name, len(matched), len(unmatched),
+                    )
+            else:
+                # NOTHING matched — naming convention mismatch.
+                # Use source file stems as fuzzer names instead of binary names.
+                logger.warning(
+                    "[%s] No fuzzer binaries matched source files — "
+                    "using %d source files as fuzzer entries",
+                    project_name, len(fuzzer_src_files),
+                )
+                for sf in fuzzer_src_files:
+                    fuzzer_sources[sf.stem] = [str(sf)]
         elif fuzzer_src_files:
-            # No fuzzer names known — create entries based on source files
+            # No fuzzer binary names — create entries from source files
             for sf in fuzzer_src_files:
                 fuzzer_sources[sf.stem] = [str(sf)]
         elif fuzzer_binary_names:
@@ -905,17 +946,70 @@ class AutoPipeline:
         fuzzer_calls: dict[str, list[str]] = {}
         if fuzzer_sources:
             parser = FuzzerEntryParser()
+
+            # Build expanded library function set to handle prefixed names.
+            # e.g., OSS_FUZZ_png_create_read_struct → also match png_create_read_struct
+            # Strips leading UPPERCASE_ segments (common build-time symbol prefixes).
+            alias_to_canonical: dict[str, str] = {}
+            for func_name in library_functions:
+                alias_to_canonical[func_name] = func_name
+                remaining = func_name
+                while True:
+                    idx = remaining.find("_")
+                    if idx == -1:
+                        break
+                    prefix_part = remaining[:idx]
+                    if prefix_part.isupper() and len(prefix_part) >= 2:
+                        remaining = remaining[idx + 1:]
+                        if remaining and remaining not in alias_to_canonical:
+                            alias_to_canonical[remaining] = func_name
+                    else:
+                        break
+            expanded_library = set(alias_to_canonical.keys())
+
+            if len(expanded_library) > len(library_functions):
+                logger.info(
+                    "[%s] Expanded library functions: %d → %d (prefix aliases)",
+                    project_name,
+                    len(library_functions),
+                    len(expanded_library),
+                )
+
+            logger.info(
+                "[%s] Library functions available: %d (sample: %s)",
+                project_name,
+                len(library_functions),
+                sorted(library_functions)[:5],
+            )
             for fuzzer_name, source_files in fuzzer_sources.items():
                 if not source_files:
                     fuzzer_calls[fuzzer_name] = []
                     continue
+                # Check source files exist
+                for sf in source_files:
+                    if not Path(sf).exists():
+                        logger.warning(
+                            "[%s] Fuzzer source file NOT found: %s",
+                            project_name, sf,
+                        )
                 single_map = {fuzzer_name: source_files}
                 calls = parser.parse(
                     single_map,
-                    library_functions,
+                    expanded_library,
                     str(fuzzer_out) if fuzzer_out.is_dir() else output_dir,
                 )
-                fuzzer_calls[fuzzer_name] = calls.get(fuzzer_name, [])
+                # Map matched aliases back to canonical SVF names
+                raw_calls = calls.get(fuzzer_name, [])
+                canonical_calls = sorted(set(
+                    alias_to_canonical.get(c, c) for c in raw_calls
+                ))
+                fuzzer_calls[fuzzer_name] = canonical_calls
+                if not fuzzer_calls[fuzzer_name]:
+                    logger.warning(
+                        "[%s] Fuzzer '%s' has 0 matching library calls (sources: %s)",
+                        project_name, fuzzer_name,
+                        [Path(sf).name for sf in source_files],
+                    )
 
         logger.info(
             "[%s] Fuzzers: %d found, %d with source, %d lib calls total",
@@ -938,6 +1032,7 @@ class AutoPipeline:
         fuzzer_sources: dict[str, list[str]],
         fuzzer_calls: dict[str, list[str]],
         language: str,
+        force: bool = False,
     ) -> str:
         """Import analysis results into Neo4j and create PostgreSQL snapshot."""
         # Create snapshot record
@@ -961,9 +1056,18 @@ class AutoPipeline:
                 self._sm.acquire_or_wait(repo_url, version, "svf")
             )
 
-        if snapshot_doc and snapshot_doc.status == "completed":
-            logger.info("[%s] Snapshot already exists: %s", project_name, snapshot_doc.id)
-            return str(snapshot_doc.id)
+        if snapshot_doc and snapshot_doc.status == "completed" and not force:
+            # Check if Neo4j actually has data for this snapshot
+            neo4j_has_data = self._neo4j_has_snapshot(str(snapshot_doc.id))
+            if neo4j_has_data:
+                logger.info("[%s] Snapshot already exists with data: %s", project_name, snapshot_doc.id)
+                return str(snapshot_doc.id)
+            logger.warning(
+                "[%s] Snapshot %s marked completed in PG but missing from Neo4j — re-importing",
+                project_name, snapshot_doc.id,
+            )
+        elif snapshot_doc and snapshot_doc.status == "completed" and force:
+            logger.info("[%s] Force re-import for snapshot %s", project_name, snapshot_doc.id)
 
         if not snapshot_doc:
             raise RuntimeError(
@@ -1037,6 +1141,19 @@ class AutoPipeline:
             self._sm.acquire_or_wait(repo_url, version, "svf")
         )
 
+    def _neo4j_has_snapshot(self, snapshot_id: str) -> bool:
+        """Check if Neo4j actually has data for this snapshot."""
+        try:
+            with self._gs._session() as session:
+                result = session.run(
+                    "MATCH (f:Function {snapshot_id: $sid}) RETURN count(f) AS cnt LIMIT 1",
+                    sid=snapshot_id,
+                )
+                record = result.single()
+                return record is not None and record["cnt"] > 0
+        except Exception:
+            return False
+
     @staticmethod
     def _build_fuzzer_infos(
         fuzzer_sources: dict[str, list[str]],
@@ -1058,16 +1175,19 @@ class AutoPipeline:
         snapshot_id: str,
         fuzzer_infos: list[FuzzerInfo],
     ) -> list[dict]:
-        """BFS reachability from each fuzzer entry."""
+        """BFS reachability from each fuzzer entry.
+
+        Uses the Fuzzer-[:ENTRY]->Function relationship to find entry points,
+        then traverses CALLS edges to find all reachable functions.
+        """
         reaches: list[dict] = []
         for fuzzer in fuzzer_infos:
-            main_file = fuzzer.files[0]["path"] if fuzzer.files else ""
             try:
                 with self._gs._session() as session:
                     result = session.run(
                         f"""
-                        MATCH (entry:Function {{snapshot_id: $sid,
-                            name: "LLVMFuzzerTestOneInput", file_path: $fpath}})
+                        MATCH (fz:Fuzzer {{snapshot_id: $sid, name: $fuzzer_name}})
+                              -[:ENTRY]->(entry:Function)
                         MATCH (f:Function {{snapshot_id: $sid}})
                         WHERE f <> entry
                         MATCH p = shortestPath(
@@ -1078,7 +1198,7 @@ class AutoPipeline:
                         LIMIT 10000
                         """,
                         sid=snapshot_id,
-                        fpath=main_file,
+                        fuzzer_name=fuzzer.name,
                     )
                     for row in result:
                         reaches.append({

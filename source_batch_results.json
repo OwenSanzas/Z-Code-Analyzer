@@ -1,0 +1,3720 @@
+{
+  "abseil-cpp": {
+    "status": "success",
+    "functions": 11194,
+    "internal": 10896,
+    "external": 298,
+    "edges": 10923,
+    "duration": 274.1,
+    "repo": "https://github.com/abseil/abseil-cpp.git"
+  },
+  "ada-url": {
+    "status": "success",
+    "functions": 1771,
+    "internal": 1718,
+    "external": 53,
+    "edges": 2308,
+    "duration": 121.5,
+    "repo": "https://github.com/ada-url/ada"
+  },
+  "alembic": {
+    "status": "failed",
+    "error": "Source Analysis: alembic \u2014 FAILED",
+    "duration": 194.7,
+    "repo": "https://github.com/alembic/alembic"
+  },
+  "ampproject": {
+    "status": "failed",
+    "error": "Source Analysis: ampproject \u2014 FAILED",
+    "duration": 21.9,
+    "repo": "https://github.com/ampproject/amphtml"
+  },
+  "apache-doris": {
+    "status": "skipped",
+    "error": "repo too large",
+    "repo": "https://github.com/apache/doris"
+  },
+  "apache-httpd": {
+    "status": "failed",
+    "error": "Source Analysis: apache-httpd \u2014 FAILED",
+    "duration": 31.6,
+    "repo": "https://github.com/apache/httpd"
+  },
+  "apache-logging-log4cxx": {
+    "status": "success",
+    "functions": 17160,
+    "internal": 16359,
+    "external": 801,
+    "edges": 29630,
+    "duration": 747.1,
+    "repo": "https://github.com/apache/logging-log4cxx"
+  },
+  "arduinojson": {
+    "status": "success",
+    "functions": 447,
+    "internal": 439,
+    "external": 8,
+    "edges": 257,
+    "duration": 9.7,
+    "repo": "https://github.com/bblanchon/ArduinoJson.git"
+  },
+  "args": {
+    "status": "success",
+    "functions": 13697,
+    "internal": 13407,
+    "external": 290,
+    "edges": 13876,
+    "duration": 267.2,
+    "repo": "https://github.com/Taywee/args"
+  },
+  "arrow": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 18.8,
+    "repo": "https://github.com/apache/arrow.git"
+  },
+  "aspell": {
+    "status": "success",
+    "functions": 4074,
+    "internal": 3787,
+    "external": 287,
+    "edges": 4491,
+    "duration": 59.3,
+    "repo": "https://github.com/gnuaspell/aspell.git"
+  },
+  "assimp": {
+    "status": "success",
+    "functions": 80838,
+    "internal": 0,
+    "external": 80838,
+    "edges": 69437,
+    "duration": 525.2,
+    "repo": "https://github.com/assimp/assimp"
+  },
+  "astc-encoder": {
+    "status": "failed",
+    "error": "Source Analysis: astc-encoder \u2014 FAILED",
+    "duration": 7.1,
+    "repo": "https://github.com/ARM-software/astc-encoder"
+  },
+  "augeas": {
+    "status": "success",
+    "functions": 555,
+    "internal": 517,
+    "external": 38,
+    "edges": 445,
+    "duration": 179.2,
+    "repo": "https://github.com/hercules-team/augeas"
+  },
+  "avahi": {
+    "status": "success",
+    "functions": 906,
+    "internal": 755,
+    "external": 151,
+    "edges": 1614,
+    "duration": 42.5,
+    "repo": "https://github.com/avahi/avahi"
+  },
+  "bad_example": {
+    "status": "success",
+    "functions": 180,
+    "internal": 159,
+    "external": 21,
+    "edges": 127,
+    "duration": 10.7,
+    "repo": "https://github.com/madler/zlib"
+  },
+  "bazel-rules-fuzzing-test": {
+    "status": "failed",
+    "error": "Source Analysis: bazel-rules-fuzzing-test \u2014 FAILED",
+    "duration": 2.3,
+    "repo": "https://github.com/bazelbuild/rules_fuzzing"
+  },
+  "bc-gh": {
+    "status": "success",
+    "functions": 346,
+    "internal": 289,
+    "external": 57,
+    "edges": 423,
+    "duration": 19.6,
+    "repo": "https://github.com/gavinhoward/bc"
+  },
+  "behaviortreecpp": {
+    "status": "success",
+    "functions": 14543,
+    "internal": 14195,
+    "external": 348,
+    "edges": 13814,
+    "duration": 492.6,
+    "repo": "https://github.com/BehaviorTree/BehaviorTree.CPP"
+  },
+  "bignum-fuzzer": {
+    "status": "failed",
+    "error": "Source Analysis: bignum-fuzzer \u2014 FAILED",
+    "duration": 1.8,
+    "repo": "https://github.com/guidovranken/bignum-fuzzer"
+  },
+  "binutils": {
+    "status": "failed",
+    "error": "Source Analysis: binutils \u2014 FAILED",
+    "duration": 1.9,
+    "repo": "https://github.com/bminor/binutils-gdb"
+  },
+  "bios-bmc-smm-error-logger": {
+    "status": "success",
+    "functions": 153,
+    "internal": 148,
+    "external": 5,
+    "edges": 1,
+    "duration": 31.2,
+    "repo": "https://github.com/javanlacerda/bios-bmc-smm-error-logger"
+  },
+  "bitcoin-core": {
+    "status": "success",
+    "functions": 23,
+    "internal": 12,
+    "external": 11,
+    "edges": 3,
+    "duration": 239.1,
+    "repo": "https://github.com/bitcoin/bitcoin.git"
+  },
+  "bloaty": {
+    "status": "success",
+    "functions": 804,
+    "internal": 770,
+    "external": 34,
+    "edges": 463,
+    "duration": 143.0,
+    "repo": "https://github.com/google/bloaty.git"
+  },
+  "bls-signatures": {
+    "status": "success",
+    "functions": 524,
+    "internal": 459,
+    "external": 65,
+    "edges": 900,
+    "duration": 8.7,
+    "repo": "https://github.com/supranational/blst"
+  },
+  "bluez": {
+    "status": "success",
+    "functions": 5548,
+    "internal": 4908,
+    "external": 640,
+    "edges": 15516,
+    "duration": 265.0,
+    "repo": "https://github.com/bluez/bluez"
+  },
+  "bmcweb": {
+    "status": "failed",
+    "error": "Source Analysis: bmcweb \u2014 FAILED",
+    "duration": 17.4,
+    "repo": "https://github.com/openbmc/bmcweb.git"
+  },
+  "boost-beast": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 4.1,
+    "repo": "https://github.com/boostorg/beast.git"
+  },
+  "boost-json": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 5.0,
+    "repo": "https://github.com/boostorg/json.git"
+  },
+  "boost": {
+    "status": "success",
+    "functions": 0,
+    "internal": 0,
+    "external": 0,
+    "edges": 0,
+    "duration": 515.9,
+    "repo": "https://github.com/boostorg/boost.git"
+  },
+  "botan": {
+    "status": "success",
+    "functions": 79800,
+    "internal": 0,
+    "external": 79800,
+    "edges": 87092,
+    "duration": 1057.2,
+    "repo": "https://github.com/randombit/botan.git"
+  },
+  "brotli": {
+    "status": "success",
+    "functions": 500,
+    "internal": 430,
+    "external": 70,
+    "edges": 269,
+    "duration": 39.0,
+    "repo": "https://github.com/google/brotli.git"
+  },
+  "brpc": {
+    "status": "failed",
+    "error": "Source Analysis: brpc \u2014 FAILED",
+    "duration": 195.9,
+    "repo": "https://github.com/apache/incubator-brpc"
+  },
+  "brunsli": {
+    "status": "success",
+    "functions": 6536,
+    "internal": 6287,
+    "external": 249,
+    "edges": 4934,
+    "duration": 181.8,
+    "repo": "https://github.com/google/brunsli.git"
+  },
+  "c-ares": {
+    "status": "success",
+    "functions": 1057,
+    "internal": 947,
+    "external": 110,
+    "edges": 2339,
+    "duration": 52.7,
+    "repo": "https://github.com/c-ares/c-ares.git"
+  },
+  "c-blosc2": {
+    "status": "success",
+    "functions": 3754,
+    "internal": 2494,
+    "external": 1260,
+    "edges": 4533,
+    "duration": 314.6,
+    "repo": "https://github.com/Blosc/c-blosc2.git"
+  },
+  "c-blosc": {
+    "status": "success",
+    "functions": 1969,
+    "internal": 1528,
+    "external": 441,
+    "edges": 2919,
+    "duration": 114.2,
+    "repo": "https://github.com/Blosc/c-blosc.git"
+  },
+  "capnproto": {
+    "status": "failed",
+    "error": "Source Analysis: capnproto \u2014 FAILED",
+    "duration": 5.5,
+    "repo": "https://github.com/capnproto/capnproto"
+  },
+  "capstone": {
+    "status": "success",
+    "functions": 3550,
+    "internal": 3075,
+    "external": 475,
+    "edges": 4068,
+    "duration": 97.2,
+    "repo": "https://github.com/capstone-engine/capstone.git"
+  },
+  "casync": {
+    "status": "failed",
+    "error": "Source Analysis: casync \u2014 FAILED",
+    "duration": 11.1,
+    "repo": "https://github.com/systemd/casync"
+  },
+  "cctz": {
+    "status": "success",
+    "functions": 1234,
+    "internal": 1166,
+    "external": 68,
+    "edges": 660,
+    "duration": 15.3,
+    "repo": "https://github.com/google/cctz"
+  },
+  "cel-cpp": {
+    "status": "failed",
+    "error": "Source Analysis: cel-cpp \u2014 FAILED",
+    "duration": 242.7,
+    "repo": "https://github.com/google/cel-cpp"
+  },
+  "cfengine": {
+    "status": "success",
+    "functions": 224,
+    "internal": 190,
+    "external": 34,
+    "edges": 96,
+    "duration": 80.7,
+    "repo": "https://github.com/cfengine/core"
+  },
+  "cgif": {
+    "status": "success",
+    "functions": 66,
+    "internal": 51,
+    "external": 15,
+    "edges": 18,
+    "duration": 4.3,
+    "repo": "https://github.com/dloebl/cgif"
+  },
+  "cifuzz-example": {
+    "status": "success",
+    "functions": 111,
+    "internal": 77,
+    "external": 34,
+    "edges": 10,
+    "duration": 6.2,
+    "repo": "https://github.com/jonathanmetzman/cifuzz-example.git"
+  },
+  "circl": {
+    "status": "failed",
+    "error": "Source Analysis: circl \u2014 FAILED",
+    "duration": 3.5,
+    "repo": "https://github.com/cloudflare/circl"
+  },
+  "civetweb": {
+    "status": "success",
+    "functions": 74,
+    "internal": 23,
+    "external": 51,
+    "edges": 5,
+    "duration": 10.9,
+    "repo": "https://github.com/civetweb/civetweb"
+  },
+  "cjson": {
+    "status": "success",
+    "functions": 135,
+    "internal": 116,
+    "external": 19,
+    "edges": 127,
+    "duration": 8.4,
+    "repo": "https://github.com/DaveGamble/cJSON.git"
+  },
+  "clamav": {
+    "status": "success",
+    "functions": 252,
+    "internal": 187,
+    "external": 65,
+    "edges": 59,
+    "duration": 70.2,
+    "repo": "https://github.com/Cisco-Talos/clamav-devel.git"
+  },
+  "clib": {
+    "status": "failed",
+    "error": "Source Analysis: clib \u2014 FAILED",
+    "duration": 4.5,
+    "repo": "https://github.com/clibs/clib"
+  },
+  "clickhouse": {
+    "status": "failed",
+    "error": "Source Analysis: clickhouse \u2014 FAILED",
+    "duration": 125.3,
+    "repo": "https://github.com/ClickHouse/ClickHouse.git"
+  },
+  "cmark": {
+    "status": "success",
+    "functions": 300,
+    "internal": 265,
+    "external": 35,
+    "edges": 236,
+    "duration": 9.3,
+    "repo": "https://github.com/commonmark/cmark.git"
+  },
+  "connectedhomeip": {
+    "status": "failed",
+    "error": "Source Analysis: connectedhomeip \u2014 FAILED",
+    "duration": 124.6,
+    "repo": "https://github.com/project-chip/connectedhomeip.git"
+  },
+  "coturn": {
+    "status": "success",
+    "functions": 419,
+    "internal": 339,
+    "external": 80,
+    "edges": 256,
+    "duration": 12.5,
+    "repo": "https://github.com/coturn/coturn"
+  },
+  "cpp-httplib": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 5.6,
+    "repo": "https://github.com/yhirose/cpp-httplib.git"
+  },
+  "cppcheck": {
+    "status": "success",
+    "functions": 34838,
+    "internal": 34165,
+    "external": 673,
+    "edges": 46909,
+    "duration": 1007.4,
+    "repo": "https://github.com/danmar/cppcheck.git"
+  },
+  "cppitertools": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 4.2,
+    "repo": "https://github.com/ryanhaining/cppitertools"
+  },
+  "cpuinfo": {
+    "status": "success",
+    "functions": 256,
+    "internal": 200,
+    "external": 56,
+    "edges": 105,
+    "duration": 26.2,
+    "repo": "https://github.com/pytorch/cpuinfo"
+  },
+  "cpython3": {
+    "status": "success",
+    "functions": 10710,
+    "internal": 7213,
+    "external": 3497,
+    "edges": 6048,
+    "duration": 940.8,
+    "repo": "https://github.com/python/cpython"
+  },
+  "croaring": {
+    "status": "success",
+    "functions": 1298,
+    "internal": 1076,
+    "external": 222,
+    "edges": 1966,
+    "duration": 64.4,
+    "repo": "https://github.com/RoaringBitmap/CRoaring"
+  },
+  "crow": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 4.6,
+    "repo": "https://github.com/CrowCpp/Crow"
+  },
+  "cryptofuzz": {
+    "status": "failed",
+    "error": "Source Analysis: cryptofuzz \u2014 FAILED",
+    "duration": 1.9,
+    "repo": "https://github.com/guidovranken/cryptofuzz"
+  },
+  "cups-filters": {
+    "status": "failed",
+    "error": "Source Analysis: cups-filters \u2014 FAILED",
+    "duration": 11.7,
+    "repo": "https://github.com/OpenPrinting/cups-filters"
+  },
+  "cups": {
+    "status": "success",
+    "functions": 2140,
+    "internal": 1692,
+    "external": 448,
+    "edges": 4884,
+    "duration": 322.7,
+    "repo": "https://github.com/OpenPrinting/cups"
+  },
+  "cura-engine": {
+    "status": "success",
+    "functions": 132,
+    "internal": 112,
+    "external": 20,
+    "edges": 25,
+    "duration": 59.8,
+    "repo": "https://github.com/Ultimaker/CuraEngine"
+  },
+  "curl": {
+    "status": "success",
+    "functions": 3412,
+    "internal": 2889,
+    "external": 523,
+    "edges": 13524,
+    "duration": 448.9,
+    "repo": "https://github.com/curl/curl.git"
+  },
+  "cxxopts": {
+    "status": "success",
+    "functions": 4703,
+    "internal": 4607,
+    "external": 96,
+    "edges": 3278,
+    "duration": 28.3,
+    "repo": "https://github.com/jarro2783/cxxopts"
+  },
+  "cyclonedds": {
+    "status": "success",
+    "functions": 6480,
+    "internal": 6076,
+    "external": 404,
+    "edges": 17022,
+    "duration": 605.9,
+    "repo": "https://github.com/eclipse-cyclonedds/cyclonedds.git"
+  },
+  "dart": {
+    "status": "success",
+    "functions": 135,
+    "internal": 124,
+    "external": 11,
+    "edges": 22,
+    "duration": 63.5,
+    "repo": "https://github.com/dart-lang/sdk.git"
+  },
+  "date": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 5.5,
+    "repo": "https://github.com/HowardHinnant/date"
+  },
+  "dbus-broker": {
+    "status": "failed",
+    "error": "Source Analysis: dbus-broker \u2014 FAILED",
+    "duration": 7.7,
+    "repo": "https://github.com/bus1/dbus-broker"
+  },
+  "dlplibs": {
+    "status": "success",
+    "functions": 5,
+    "internal": 2,
+    "external": 3,
+    "edges": 1,
+    "duration": 54.7,
+    "repo": "https://github.com/fosnola/libstaroffice"
+  },
+  "double-conversion": {
+    "status": "success",
+    "functions": 234,
+    "internal": 219,
+    "external": 15,
+    "edges": 304,
+    "duration": 7.9,
+    "repo": "https://github.com/google/double-conversion.git"
+  },
+  "dovecot": {
+    "status": "failed",
+    "error": "Source Analysis: dovecot \u2014 FAILED",
+    "duration": 125.0,
+    "repo": "https://github.com/dovecot/core"
+  },
+  "dpp": {
+    "status": "failed",
+    "error": "Source Analysis: dpp \u2014 FAILED",
+    "duration": 958.4,
+    "repo": "https://github.com/brainboxdotcc/DPP.git"
+  },
+  "draco": {
+    "status": "success",
+    "functions": 15582,
+    "internal": 15322,
+    "external": 260,
+    "edges": 17460,
+    "duration": 392.5,
+    "repo": "https://github.com/google/draco"
+  },
+  "dropbear": {
+    "status": "success",
+    "functions": 1397,
+    "internal": 1241,
+    "external": 156,
+    "edges": 2315,
+    "duration": 137.3,
+    "repo": "https://github.com/mkj/dropbear"
+  },
+  "duckdb": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/duckdb/duckdb/"
+  },
+  "e2fsprogs": {
+    "status": "success",
+    "functions": 113,
+    "internal": 5,
+    "external": 108,
+    "edges": 0,
+    "duration": 45.3,
+    "repo": "https://github.com/tytso/e2fsprogs"
+  },
+  "easywsclient": {
+    "status": "success",
+    "functions": 387,
+    "internal": 347,
+    "external": 40,
+    "edges": 219,
+    "duration": 5.8,
+    "repo": "https://github.com/dhbaird/easywsclient"
+  },
+  "ecc-diff-fuzzer": {
+    "status": "success",
+    "functions": 51,
+    "internal": 10,
+    "external": 41,
+    "edges": 4,
+    "duration": 5.0,
+    "repo": "https://github.com/catenacyber/elliptic-curve-differential-fuzzer"
+  },
+  "edk2": {
+    "status": "success",
+    "functions": 1216,
+    "internal": 1126,
+    "external": 90,
+    "edges": 1112,
+    "duration": 102.1,
+    "repo": "https://github.com/tianocore/edk2"
+  },
+  "envoy": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/envoyproxy/envoy.git"
+  },
+  "esp-v2": {
+    "status": "success",
+    "functions": 550,
+    "internal": 520,
+    "external": 30,
+    "edges": 254,
+    "duration": 19.2,
+    "repo": "https://github.com/GoogleCloudPlatform/esp-v2.git"
+  },
+  "espeak-ng": {
+    "status": "success",
+    "functions": 836,
+    "internal": 728,
+    "external": 108,
+    "edges": 531,
+    "duration": 20.6,
+    "repo": "https://github.com/espeak-ng/espeak-ng"
+  },
+  "example": {
+    "status": "failed",
+    "error": "Source Analysis: example \u2014 FAILED",
+    "duration": 1.9,
+    "repo": "https://github.com/example/my-api"
+  },
+  "exiv2": {
+    "status": "success",
+    "functions": 3539,
+    "internal": 3289,
+    "external": 250,
+    "edges": 3146,
+    "duration": 153.0,
+    "repo": "https://github.com/Exiv2/exiv2"
+  },
+  "expat": {
+    "status": "success",
+    "functions": 466,
+    "internal": 427,
+    "external": 39,
+    "edges": 1524,
+    "duration": 21.9,
+    "repo": "https://github.com/libexpat/libexpat"
+  },
+  "exprtk": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/ArashPartow/exprtk.git"
+  },
+  "faad2": {
+    "status": "success",
+    "functions": 382,
+    "internal": 292,
+    "external": 90,
+    "edges": 193,
+    "duration": 20.7,
+    "repo": "https://github.com/knik0/faad2"
+  },
+  "fast-dds": {
+    "status": "success",
+    "functions": 5416,
+    "internal": 5295,
+    "external": 121,
+    "edges": 21426,
+    "duration": 478.5,
+    "repo": "https://github.com/eProsima/Fast-DDS.git"
+  },
+  "fast_float": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 5.4,
+    "repo": "https://github.com/fastfloat/fast_float"
+  },
+  "ffmpeg": {
+    "status": "success",
+    "functions": 250,
+    "internal": 76,
+    "external": 174,
+    "edges": 6,
+    "duration": 233.2,
+    "repo": "https://github.com/FFmpeg/FFmpeg"
+  },
+  "ffms2": {
+    "status": "success",
+    "functions": 1148,
+    "internal": 1007,
+    "external": 141,
+    "edges": 485,
+    "duration": 27.4,
+    "repo": "https://github.com/FFMS/ffms2"
+  },
+  "fftw3": {
+    "status": "success",
+    "functions": 989,
+    "internal": 560,
+    "external": 429,
+    "edges": 8003,
+    "duration": 42.4,
+    "repo": "https://github.com/fftw/fftw3"
+  },
+  "file": {
+    "status": "success",
+    "functions": 465,
+    "internal": 336,
+    "external": 129,
+    "edges": 337,
+    "duration": 25.6,
+    "repo": "https://github.com/file/file.git"
+  },
+  "fio": {
+    "status": "success",
+    "functions": 286,
+    "internal": 212,
+    "external": 74,
+    "edges": 87,
+    "duration": 21.8,
+    "repo": "https://github.com/axboe/fio.git"
+  },
+  "firestore": {
+    "status": "success",
+    "functions": 110,
+    "internal": 83,
+    "external": 27,
+    "edges": 19,
+    "duration": 118.4,
+    "repo": "https://github.com/firebase/firebase-ios-sdk.git"
+  },
+  "flac": {
+    "status": "success",
+    "functions": 1025,
+    "internal": 701,
+    "external": 324,
+    "edges": 573,
+    "duration": 34.0,
+    "repo": "https://github.com/xiph/flac.git"
+  },
+  "flatbuffers": {
+    "status": "success",
+    "functions": 14280,
+    "internal": 14099,
+    "external": 181,
+    "edges": 18725,
+    "duration": 364.0,
+    "repo": "https://github.com/google/flatbuffers"
+  },
+  "flex": {
+    "status": "success",
+    "functions": 237,
+    "internal": 170,
+    "external": 67,
+    "edges": 100,
+    "duration": 6.2,
+    "repo": "https://github.com/westes/flex"
+  },
+  "fluent-bit": {
+    "status": "failed",
+    "error": "Source Analysis: fluent-bit \u2014 FAILED",
+    "duration": 915.2,
+    "repo": "https://github.com/fluent/fluent-bit/"
+  },
+  "fmt": {
+    "status": "success",
+    "functions": 945,
+    "internal": 876,
+    "external": 69,
+    "edges": 1298,
+    "duration": 65.5,
+    "repo": "https://github.com/fmtlib/fmt.git"
+  },
+  "freeradius": {
+    "status": "success",
+    "functions": 19,
+    "internal": 6,
+    "external": 13,
+    "edges": 1,
+    "duration": 37.6,
+    "repo": "https://github.com/FreeRADIUS/freeradius-server.git"
+  },
+  "freerdp": {
+    "status": "success",
+    "functions": 170,
+    "internal": 137,
+    "external": 33,
+    "edges": 29,
+    "duration": 114.8,
+    "repo": "https://github.com/FreeRDP/FreeRDP"
+  },
+  "freetype2": {
+    "status": "failed",
+    "error": "Source Analysis: freetype2 \u2014 FAILED",
+    "duration": 126.1,
+    "repo": "https://github.com/freetype/freetype2-testing.git"
+  },
+  "fribidi": {
+    "status": "success",
+    "functions": 25,
+    "internal": 12,
+    "external": 13,
+    "edges": 1,
+    "duration": 19.0,
+    "repo": "https://github.com/fribidi/fribidi.git"
+  },
+  "frr": {
+    "status": "success",
+    "functions": 938,
+    "internal": 842,
+    "external": 96,
+    "edges": 568,
+    "duration": 133.6,
+    "repo": "https://github.com/FRRouting/frr"
+  },
+  "fuzzing-puzzles": {
+    "status": "success",
+    "functions": 1966,
+    "internal": 1905,
+    "external": 61,
+    "edges": 10812,
+    "duration": 117.4,
+    "repo": "https://github.com/google/fuzzer-test-suite"
+  },
+  "fuzztest-example": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/google/fuzztest"
+  },
+  "fwupd": {
+    "status": "failed",
+    "error": "Source Analysis: fwupd \u2014 FAILED",
+    "duration": 64.3,
+    "repo": "https://github.com/fwupd/fwupd"
+  },
+  "gdal": {
+    "status": "failed",
+    "error": "Source Analysis: gdal \u2014 FAILED",
+    "duration": 1021.9,
+    "repo": "https://github.com/OSGeo/gdal"
+  },
+  "gfwx": {
+    "status": "failed",
+    "error": "Source Analysis: gfwx \u2014 FAILED",
+    "duration": 2.3,
+    "repo": "https://github.com/kalcutter/gfwx"
+  },
+  "git": {
+    "status": "success",
+    "functions": 27,
+    "internal": 20,
+    "external": 7,
+    "edges": 5,
+    "duration": 132.2,
+    "repo": "https://github.com/git/git"
+  },
+  "glaze": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 17.0,
+    "repo": "https://github.com/stephenberry/glaze"
+  },
+  "glog": {
+    "status": "success",
+    "functions": 3060,
+    "internal": 2833,
+    "external": 227,
+    "edges": 2041,
+    "duration": 28.2,
+    "repo": "https://github.com/google/glog"
+  },
+  "glslang": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/khronosgroup/glslang"
+  },
+  "gpac": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/gpac/gpac"
+  },
+  "grok": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/GrokImageCompression/grok.git"
+  },
+  "grpc-httpjson-transcoding": {
+    "status": "success",
+    "functions": 549,
+    "internal": 519,
+    "external": 30,
+    "edges": 255,
+    "duration": 9.7,
+    "repo": "https://github.com/grpc-ecosystem/grpc-httpjson-transcoding"
+  },
+  "gss-ntlmssp": {
+    "status": "success",
+    "functions": 50,
+    "internal": 18,
+    "external": 32,
+    "edges": 6,
+    "duration": 14.6,
+    "repo": "https://github.com/gssapi/gss-ntlmssp"
+  },
+  "guetzli": {
+    "status": "success",
+    "functions": 1445,
+    "internal": 1401,
+    "external": 44,
+    "edges": 725,
+    "duration": 17.2,
+    "repo": "https://github.com/google/guetzli"
+  },
+  "h2o": {
+    "status": "success",
+    "functions": 3252,
+    "internal": 1958,
+    "external": 1294,
+    "edges": 11429,
+    "duration": 347.0,
+    "repo": "https://github.com/h2o/h2o"
+  },
+  "h3": {
+    "status": "success",
+    "functions": 373,
+    "internal": 328,
+    "external": 45,
+    "edges": 336,
+    "duration": 24.0,
+    "repo": "https://github.com/uber/h3"
+  },
+  "halide": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/halide/Halide"
+  },
+  "haproxy": {
+    "status": "success",
+    "functions": 608,
+    "internal": 556,
+    "external": 52,
+    "edges": 1547,
+    "duration": 178.3,
+    "repo": "https://github.com/haproxy/haproxy"
+  },
+  "harfbuzz": {
+    "status": "success",
+    "functions": 22171,
+    "internal": 21083,
+    "external": 1088,
+    "edges": 21127,
+    "duration": 232.0,
+    "repo": "https://github.com/harfbuzz/harfbuzz.git"
+  },
+  "hdf5": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/HDFGroup/hdf5"
+  },
+  "hermes": {
+    "status": "success",
+    "functions": 1679,
+    "internal": 1367,
+    "external": 312,
+    "edges": 475,
+    "duration": 744.3,
+    "repo": "https://github.com/facebook/hermes.git"
+  },
+  "highwayhash": {
+    "status": "success",
+    "functions": 1544,
+    "internal": 1461,
+    "external": 83,
+    "edges": 1128,
+    "duration": 38.0,
+    "repo": "https://github.com/google/highwayhash"
+  },
+  "hiredis": {
+    "status": "success",
+    "functions": 344,
+    "internal": 263,
+    "external": 81,
+    "edges": 630,
+    "duration": 10.9,
+    "repo": "https://github.com/redis/hiredis"
+  },
+  "hoextdown": {
+    "status": "success",
+    "functions": 279,
+    "internal": 228,
+    "external": 51,
+    "edges": 403,
+    "duration": 12.3,
+    "repo": "https://github.com/kjdev/hoextdown.git"
+  },
+  "hpn-ssh": {
+    "status": "success",
+    "functions": 3270,
+    "internal": 2685,
+    "external": 585,
+    "edges": 6223,
+    "duration": 361.5,
+    "repo": "https://github.com/rapier1/hpn-ssh.git"
+  },
+  "htslib": {
+    "status": "success",
+    "functions": 2529,
+    "internal": 1986,
+    "external": 543,
+    "edges": 4117,
+    "duration": 200.2,
+    "repo": "https://github.com/samtools/htslib.git"
+  },
+  "http-parser": {
+    "status": "success",
+    "functions": 31,
+    "internal": 23,
+    "external": 8,
+    "edges": 4,
+    "duration": 19.5,
+    "repo": "https://github.com/nodejs/http-parser"
+  },
+  "http-pattern-matcher": {
+    "status": "success",
+    "functions": 549,
+    "internal": 519,
+    "external": 30,
+    "edges": 254,
+    "duration": 5.8,
+    "repo": "https://github.com/google/http_pattern_matcher"
+  },
+  "hunspell": {
+    "status": "success",
+    "functions": 2382,
+    "internal": 2325,
+    "external": 57,
+    "edges": 2380,
+    "duration": 48.9,
+    "repo": "https://github.com/hunspell/hunspell.git"
+  },
+  "hwloc": {
+    "status": "success",
+    "functions": 778,
+    "internal": 615,
+    "external": 163,
+    "edges": 684,
+    "duration": 41.1,
+    "repo": "https://github.com/open-mpi/hwloc"
+  },
+  "icu": {
+    "status": "success",
+    "functions": 123,
+    "internal": 71,
+    "external": 52,
+    "edges": 10,
+    "duration": 31.3,
+    "repo": "https://github.com/unicode-org/icu.git"
+  },
+  "igraph": {
+    "status": "success",
+    "functions": 261,
+    "internal": 215,
+    "external": 46,
+    "edges": 83,
+    "duration": 61.0,
+    "repo": "https://github.com/igraph/igraph"
+  },
+  "imagemagick": {
+    "status": "success",
+    "functions": 8994,
+    "internal": 6653,
+    "external": 2341,
+    "edges": 14189,
+    "duration": 292.5,
+    "repo": "https://github.com/imagemagick/imagemagick"
+  },
+  "immer": {
+    "status": "success",
+    "functions": 135,
+    "internal": 112,
+    "external": 23,
+    "edges": 61,
+    "duration": 29.6,
+    "repo": "https://github.com/arximboldi/immer.git"
+  },
+  "inchi": {
+    "status": "success",
+    "functions": 5995,
+    "internal": 5770,
+    "external": 225,
+    "edges": 5126,
+    "duration": 242.3,
+    "repo": "https://github.com/IUPAC-InChI/InChI"
+  },
+  "inih": {
+    "status": "success",
+    "functions": 356,
+    "internal": 324,
+    "external": 32,
+    "edges": 132,
+    "duration": 5.3,
+    "repo": "https://github.com/benhoyt/inih"
+  },
+  "iperf": {
+    "status": "success",
+    "functions": 594,
+    "internal": 432,
+    "external": 162,
+    "edges": 699,
+    "duration": 25.9,
+    "repo": "https://github.com/esnet/iperf"
+  },
+  "iroha": {
+    "status": "success",
+    "functions": 37,
+    "internal": 5,
+    "external": 32,
+    "edges": 4,
+    "duration": 4.1,
+    "repo": "https://github.com/hyperledger/iroha.git"
+  },
+  "irssi": {
+    "status": "success",
+    "functions": 3524,
+    "internal": 2800,
+    "external": 724,
+    "edges": 3712,
+    "duration": 67.8,
+    "repo": "https://github.com/irssi/irssi"
+  },
+  "iverilog": {
+    "status": "success",
+    "functions": 6943,
+    "internal": 6604,
+    "external": 339,
+    "edges": 6384,
+    "duration": 255.5,
+    "repo": "https://github.com/steveicarus/iverilog"
+  },
+  "janet": {
+    "status": "success",
+    "functions": 1728,
+    "internal": 1523,
+    "external": 205,
+    "edges": 3576,
+    "duration": 38.0,
+    "repo": "https://github.com/janet-lang/janet"
+  },
+  "jansson": {
+    "status": "success",
+    "functions": 291,
+    "internal": 247,
+    "external": 44,
+    "edges": 333,
+    "duration": 15.4,
+    "repo": "https://github.com/akheron/jansson.git"
+  },
+  "janus-gateway": {
+    "status": "failed",
+    "error": "Source Analysis: janus-gateway \u2014 FAILED",
+    "duration": 18.7,
+    "repo": "https://github.com/meetecho/janus-gateway.git"
+  },
+  "jerryscript": {
+    "status": "success",
+    "functions": 245,
+    "internal": 143,
+    "external": 102,
+    "edges": 82,
+    "duration": 46.8,
+    "repo": "https://github.com/jerryscript-project/jerryscript"
+  },
+  "jpegoptim": {
+    "status": "success",
+    "functions": 71,
+    "internal": 33,
+    "external": 38,
+    "edges": 5,
+    "duration": 14.7,
+    "repo": "https://github.com/tjko/jpegoptim"
+  },
+  "jq": {
+    "status": "success",
+    "functions": 729,
+    "internal": 639,
+    "external": 90,
+    "edges": 1706,
+    "duration": 73.8,
+    "repo": "https://github.com/jqlang/jq"
+  },
+  "jsc": {
+    "status": "failed",
+    "error": "Source Analysis: jsc \u2014 FAILED",
+    "duration": 137.6,
+    "repo": "https://github.com/WebKit/WebKit.git"
+  },
+  "json-c": {
+    "status": "success",
+    "functions": 294,
+    "internal": 227,
+    "external": 67,
+    "edges": 249,
+    "duration": 17.3,
+    "repo": "https://github.com/json-c/json-c.git"
+  },
+  "jsoncons": {
+    "status": "success",
+    "functions": 167,
+    "internal": 130,
+    "external": 37,
+    "edges": 135,
+    "duration": 207.0,
+    "repo": "https://github.com/danielaparker/jsoncons"
+  },
+  "jsoncpp": {
+    "status": "success",
+    "functions": 3383,
+    "internal": 3175,
+    "external": 208,
+    "edges": 4747,
+    "duration": 54.3,
+    "repo": "https://github.com/open-source-parsers/jsoncpp"
+  },
+  "jsonnet": {
+    "status": "success",
+    "functions": 6679,
+    "internal": 6470,
+    "external": 209,
+    "edges": 6728,
+    "duration": 102.1,
+    "repo": "https://github.com/google/jsonnet.git"
+  },
+  "json": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 54.7,
+    "repo": "https://github.com/nlohmann/json.git"
+  },
+  "jwt-verify-lib": {
+    "status": "success",
+    "functions": 37,
+    "internal": 19,
+    "external": 18,
+    "edges": 1,
+    "duration": 7.8,
+    "repo": "https://github.com/google/jwt_verify_lib.git"
+  },
+  "kamailio": {
+    "status": "success",
+    "functions": 3091,
+    "internal": 2825,
+    "external": 266,
+    "edges": 4494,
+    "duration": 419.0,
+    "repo": "https://github.com/kamailio/kamailio"
+  },
+  "keystone": {
+    "status": "success",
+    "functions": 13291,
+    "internal": 12789,
+    "external": 502,
+    "edges": 20327,
+    "duration": 460.1,
+    "repo": "https://github.com/keystone-engine/keystone.git"
+  },
+  "krb5": {
+    "status": "success",
+    "functions": 44,
+    "internal": 25,
+    "external": 19,
+    "edges": 1,
+    "duration": 76.9,
+    "repo": "https://github.com/krb5/krb5"
+  },
+  "lcms": {
+    "status": "success",
+    "functions": 1296,
+    "internal": 1199,
+    "external": 97,
+    "edges": 4536,
+    "duration": 25.5,
+    "repo": "https://github.com/mm2/Little-CMS"
+  },
+  "leptonica": {
+    "status": "success",
+    "functions": 3545,
+    "internal": 3392,
+    "external": 153,
+    "edges": 11015,
+    "duration": 96.3,
+    "repo": "https://github.com/DanBloomberg/leptonica.git"
+  },
+  "leveldb": {
+    "status": "success",
+    "functions": 6244,
+    "internal": 5842,
+    "external": 402,
+    "edges": 9672,
+    "duration": 147.9,
+    "repo": "https://github.com/google/leveldb.git"
+  },
+  "libarchive": {
+    "status": "success",
+    "functions": 2793,
+    "internal": 2303,
+    "external": 490,
+    "edges": 9863,
+    "duration": 309.2,
+    "repo": "https://github.com/libarchive/libarchive.git"
+  },
+  "libass": {
+    "status": "success",
+    "functions": 97,
+    "internal": 28,
+    "external": 69,
+    "edges": 6,
+    "duration": 15.4,
+    "repo": "https://github.com/libass/libass.git"
+  },
+  "libavc": {
+    "status": "success",
+    "functions": 1245,
+    "internal": 1139,
+    "external": 106,
+    "edges": 1791,
+    "duration": 164.7,
+    "repo": "https://github.com/ittiam-systems/libavc.git"
+  },
+  "libavif": {
+    "status": "success",
+    "functions": 886,
+    "internal": 749,
+    "external": 137,
+    "edges": 1070,
+    "duration": 20.9,
+    "repo": "https://github.com/AOMediaCodec/libavif.git"
+  },
+  "libbpf": {
+    "status": "success",
+    "functions": 1466,
+    "internal": 1175,
+    "external": 291,
+    "edges": 2254,
+    "duration": 19.3,
+    "repo": "https://github.com/libbpf/libbpf"
+  },
+  "libcbor": {
+    "status": "success",
+    "functions": 256,
+    "internal": 243,
+    "external": 13,
+    "edges": 322,
+    "duration": 7.9,
+    "repo": "https://github.com/PJK/libcbor"
+  },
+  "libcoap": {
+    "status": "success",
+    "functions": 1208,
+    "internal": 944,
+    "external": 264,
+    "edges": 1739,
+    "duration": 27.7,
+    "repo": "https://github.com/obgm/libcoap.git"
+  },
+  "libconfig": {
+    "status": "success",
+    "functions": 397,
+    "internal": 357,
+    "external": 40,
+    "edges": 300,
+    "duration": 8.3,
+    "repo": "https://github.com/hyperrealm/libconfig"
+  },
+  "libcue": {
+    "status": "success",
+    "functions": 67,
+    "internal": 57,
+    "external": 10,
+    "edges": 9,
+    "duration": 5.4,
+    "repo": "https://github.com/lipnitsk/libcue"
+  },
+  "libcups": {
+    "status": "success",
+    "functions": 505,
+    "internal": 434,
+    "external": 71,
+    "edges": 711,
+    "duration": 27.5,
+    "repo": "https://github.com/OpenPrinting/libcups"
+  },
+  "libdwarf": {
+    "status": "success",
+    "functions": 1637,
+    "internal": 1567,
+    "external": 70,
+    "edges": 1853,
+    "duration": 37.2,
+    "repo": "https://github.com/davea42/libdwarf-code"
+  },
+  "libecc": {
+    "status": "success",
+    "functions": 799,
+    "internal": 717,
+    "external": 82,
+    "edges": 4348,
+    "duration": 23.5,
+    "repo": "https://github.com/ANSSI-FR/libecc"
+  },
+  "libevent": {
+    "status": "success",
+    "functions": 1482,
+    "internal": 1288,
+    "external": 194,
+    "edges": 3673,
+    "duration": 70.5,
+    "repo": "https://github.com/libevent/libevent.git"
+  },
+  "libexif": {
+    "status": "success",
+    "functions": 270,
+    "internal": 233,
+    "external": 37,
+    "edges": 307,
+    "duration": 21.8,
+    "repo": "https://github.com/libexif/libexif"
+  },
+  "libfido2": {
+    "status": "success",
+    "functions": 1100,
+    "internal": 840,
+    "external": 260,
+    "edges": 1397,
+    "duration": 29.3,
+    "repo": "https://github.com/Yubico/libfido2"
+  },
+  "libfuse": {
+    "status": "success",
+    "functions": 899,
+    "internal": 727,
+    "external": 172,
+    "edges": 2117,
+    "duration": 26.4,
+    "repo": "https://github.com/libfuse/libfuse"
+  },
+  "libgd": {
+    "status": "failed",
+    "error": "Source Analysis: libgd \u2014 FAILED",
+    "duration": 5.8,
+    "repo": "https://github.com/libgd/libgd"
+  },
+  "libgit2": {
+    "status": "success",
+    "functions": 5187,
+    "internal": 4136,
+    "external": 1051,
+    "edges": 7006,
+    "duration": 75.2,
+    "repo": "https://github.com/libgit2/libgit2"
+  },
+  "libheif": {
+    "status": "success",
+    "functions": 24018,
+    "internal": 23665,
+    "external": 353,
+    "edges": 24256,
+    "duration": 690.0,
+    "repo": "https://github.com/strukturag/libheif.git"
+  },
+  "libhevc": {
+    "status": "success",
+    "functions": 6122,
+    "internal": 5828,
+    "external": 294,
+    "edges": 7726,
+    "duration": 670.7,
+    "repo": "https://github.com/ittiam-systems/libhevc.git"
+  },
+  "libhtp": {
+    "status": "success",
+    "functions": 504,
+    "internal": 467,
+    "external": 37,
+    "edges": 489,
+    "duration": 23.1,
+    "repo": "https://github.com/OISF/libhtp.git"
+  },
+  "libical": {
+    "status": "success",
+    "functions": 255,
+    "internal": 216,
+    "external": 39,
+    "edges": 176,
+    "duration": 11.4,
+    "repo": "https://github.com/libical/libical.git"
+  },
+  "libiec61850": {
+    "status": "success",
+    "functions": 2570,
+    "internal": 2414,
+    "external": 156,
+    "edges": 2860,
+    "duration": 41.2,
+    "repo": "https://github.com/mz-automation/libiec61850"
+  },
+  "libigl": {
+    "status": "failed",
+    "error": "Source Analysis: libigl \u2014 FAILED",
+    "duration": 1007.1,
+    "repo": "https://github.com/libigl/libigl"
+  },
+  "libjpeg-turbo": {
+    "status": "success",
+    "functions": 1199,
+    "internal": 738,
+    "external": 461,
+    "edges": 8526,
+    "duration": 166.6,
+    "repo": "https://github.com/libjpeg-turbo/libjpeg-turbo"
+  },
+  "libjxl": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/libjxl/libjxl.git"
+  },
+  "liblouis": {
+    "status": "success",
+    "functions": 426,
+    "internal": 357,
+    "external": 69,
+    "edges": 341,
+    "duration": 46.2,
+    "repo": "https://github.com/liblouis/liblouis"
+  },
+  "libmodbus": {
+    "status": "success",
+    "functions": 163,
+    "internal": 119,
+    "external": 44,
+    "edges": 56,
+    "duration": 18.2,
+    "repo": "https://github.com/stephane/libmodbus"
+  },
+  "libmpeg2": {
+    "status": "success",
+    "functions": 275,
+    "internal": 234,
+    "external": 41,
+    "edges": 552,
+    "duration": 18.8,
+    "repo": "https://github.com/ittiam-systems/libmpeg2.git"
+  },
+  "liboqs": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/open-quantum-safe/liboqs"
+  },
+  "libpcap": {
+    "status": "success",
+    "functions": 13,
+    "internal": 4,
+    "external": 9,
+    "edges": 1,
+    "duration": 19.5,
+    "repo": "https://github.com/the-tcpdump-group/libpcap.git"
+  },
+  "libpg_query": {
+    "status": "success",
+    "functions": 3163,
+    "internal": 2730,
+    "external": 433,
+    "edges": 2703,
+    "duration": 35.5,
+    "repo": "https://github.com/pganalyze/pg_query"
+  },
+  "libphonenumber": {
+    "status": "success",
+    "functions": 27,
+    "internal": 23,
+    "external": 4,
+    "edges": 2,
+    "duration": 401.5,
+    "repo": "https://github.com/google/libphonenumber"
+  },
+  "libplist": {
+    "status": "success",
+    "functions": 893,
+    "internal": 788,
+    "external": 105,
+    "edges": 803,
+    "duration": 33.6,
+    "repo": "https://github.com/libimobiledevice/libplist"
+  },
+  "libpng": {
+    "status": "success",
+    "functions": 632,
+    "internal": 587,
+    "external": 45,
+    "edges": 827,
+    "duration": 14.1,
+    "repo": "https://github.com/pnggroup/libpng.git"
+  },
+  "libprotobuf-mutator": {
+    "status": "success",
+    "functions": 9002,
+    "internal": 8540,
+    "external": 462,
+    "edges": 6345,
+    "duration": 81.9,
+    "repo": "https://github.com/google/libprotobuf-mutator.git"
+  },
+  "libproxy": {
+    "status": "failed",
+    "error": "Source Analysis: libproxy \u2014 FAILED",
+    "duration": 7.7,
+    "repo": "https://github.com/libproxy/libproxy"
+  },
+  "libpsl": {
+    "status": "success",
+    "functions": 11,
+    "internal": 10,
+    "external": 1,
+    "edges": 0,
+    "duration": 5.0,
+    "repo": "https://github.com/rockdaboot/libpsl.git"
+  },
+  "librawspeed": {
+    "status": "failed",
+    "error": "Source Analysis: librawspeed \u2014 FAILED",
+    "duration": 48.6,
+    "repo": "https://github.com/darktable-org/rawspeed.git"
+  },
+  "libraw": {
+    "status": "success",
+    "functions": 1601,
+    "internal": 1430,
+    "external": 171,
+    "edges": 896,
+    "duration": 129.5,
+    "repo": "https://github.com/libraw/libraw"
+  },
+  "librdkafka": {
+    "status": "success",
+    "functions": 5735,
+    "internal": 4178,
+    "external": 1557,
+    "edges": 10082,
+    "duration": 666.2,
+    "repo": "https://github.com/edenhill/librdkafka"
+  },
+  "libredwg": {
+    "status": "failed",
+    "error": "Source Analysis: libredwg \u2014 FAILED",
+    "duration": 584.5,
+    "repo": "https://github.com/LibreDWG/libredwg"
+  },
+  "libressl": {
+    "status": "success",
+    "functions": 56,
+    "internal": 20,
+    "external": 36,
+    "edges": 3,
+    "duration": 11.1,
+    "repo": "https://github.com/libressl/portable.git"
+  },
+  "libsass": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/sass/libsass.git"
+  },
+  "libsndfile": {
+    "status": "success",
+    "functions": 1151,
+    "internal": 1007,
+    "external": 144,
+    "edges": 2851,
+    "duration": 74.8,
+    "repo": "https://github.com/libsndfile/libsndfile.git"
+  },
+  "libsodium": {
+    "status": "success",
+    "functions": 1465,
+    "internal": 1233,
+    "external": 232,
+    "edges": 1018,
+    "duration": 55.9,
+    "repo": "https://github.com/jedisct1/libsodium.git"
+  },
+  "libspdm": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/DMTF/libspdm"
+  },
+  "libspng": {
+    "status": "success",
+    "functions": 196,
+    "internal": 163,
+    "external": 33,
+    "edges": 131,
+    "duration": 7.0,
+    "repo": "https://github.com/randy408/libspng.git"
+  },
+  "libsrtp": {
+    "status": "success",
+    "functions": 256,
+    "internal": 207,
+    "external": 49,
+    "edges": 351,
+    "duration": 10.3,
+    "repo": "https://github.com/cisco/libsrtp"
+  },
+  "libssh2": {
+    "status": "success",
+    "functions": 633,
+    "internal": 497,
+    "external": 136,
+    "edges": 718,
+    "duration": 16.5,
+    "repo": "https://github.com/libssh2/libssh2.git"
+  },
+  "libtorrent": {
+    "status": "success",
+    "functions": 60,
+    "internal": 55,
+    "external": 5,
+    "edges": 71,
+    "duration": 148.0,
+    "repo": "https://github.com/arvidn/libtorrent.git"
+  },
+  "libtpms": {
+    "status": "success",
+    "functions": 2806,
+    "internal": 2558,
+    "external": 248,
+    "edges": 5917,
+    "duration": 75.4,
+    "repo": "https://github.com/stefanberger/libtpms"
+  },
+  "libucl": {
+    "status": "success",
+    "functions": 409,
+    "internal": 328,
+    "external": 81,
+    "edges": 346,
+    "duration": 9.5,
+    "repo": "https://github.com/vstakhov/libucl"
+  },
+  "libultrahdr": {
+    "status": "success",
+    "functions": 2479,
+    "internal": 2321,
+    "external": 158,
+    "edges": 1575,
+    "duration": 27.6,
+    "repo": "https://github.com/google/libultrahdr.git"
+  },
+  "libunwind": {
+    "status": "success",
+    "functions": 541,
+    "internal": 319,
+    "external": 222,
+    "edges": 373,
+    "duration": 54.8,
+    "repo": "https://github.com/libunwind/libunwind"
+  },
+  "libusb": {
+    "status": "success",
+    "functions": 425,
+    "internal": 296,
+    "external": 129,
+    "edges": 340,
+    "duration": 24.7,
+    "repo": "https://github.com/libusb/libusb"
+  },
+  "libvips": {
+    "status": "success",
+    "functions": 7281,
+    "internal": 6758,
+    "external": 523,
+    "edges": 10002,
+    "duration": 875.6,
+    "repo": "https://github.com/libvips/libvips"
+  },
+  "libvnc": {
+    "status": "success",
+    "functions": 1029,
+    "internal": 765,
+    "external": 264,
+    "edges": 730,
+    "duration": 27.8,
+    "repo": "https://github.com/LibVNC/libvncserver.git"
+  },
+  "libxaac": {
+    "status": "success",
+    "functions": 2964,
+    "internal": 2415,
+    "external": 549,
+    "edges": 1675,
+    "duration": 610.8,
+    "repo": "https://github.com/ittiam-systems/libxaac.git"
+  },
+  "libxlsxwriter": {
+    "status": "success",
+    "functions": 1284,
+    "internal": 1232,
+    "external": 52,
+    "edges": 1059,
+    "duration": 21.2,
+    "repo": "https://github.com/jmcnamara/libxlsxwriter"
+  },
+  "libxls": {
+    "status": "success",
+    "functions": 47,
+    "internal": 30,
+    "external": 17,
+    "edges": 25,
+    "duration": 12.3,
+    "repo": "https://github.com/libxls/libxls"
+  },
+  "libyal": {
+    "status": "failed",
+    "error": "Source Analysis: libyal \u2014 FAILED",
+    "duration": 25.4,
+    "repo": "https://github.com/libyal/libfplist.git"
+  },
+  "libyaml": {
+    "status": "success",
+    "functions": 164,
+    "internal": 143,
+    "external": 21,
+    "edges": 73,
+    "duration": 14.2,
+    "repo": "https://github.com/yaml/libyaml"
+  },
+  "libyang": {
+    "status": "success",
+    "functions": 2496,
+    "internal": 2286,
+    "external": 210,
+    "edges": 7068,
+    "duration": 498.1,
+    "repo": "https://github.com/CESNET/libyang"
+  },
+  "libzip": {
+    "status": "success",
+    "functions": 524,
+    "internal": 376,
+    "external": 148,
+    "edges": 1044,
+    "duration": 38.4,
+    "repo": "https://github.com/nih-at/libzip.git"
+  },
+  "libzmq": {
+    "status": "success",
+    "functions": 4751,
+    "internal": 4317,
+    "external": 434,
+    "edges": 4923,
+    "duration": 162.7,
+    "repo": "https://github.com/zeromq/libzmq.git"
+  },
+  "lighttpd": {
+    "status": "success",
+    "functions": 2155,
+    "internal": 1608,
+    "external": 547,
+    "edges": 3404,
+    "duration": 112.5,
+    "repo": "https://github.com/lighttpd/lighttpd1.4"
+  },
+  "llamacpp": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/ggerganov/llama.cpp"
+  },
+  "lldb-eval": {
+    "status": "success",
+    "functions": 2292,
+    "internal": 2245,
+    "external": 47,
+    "edges": 518,
+    "duration": 22.9,
+    "repo": "https://github.com/google/lldb-eval"
+  },
+  "lldpd": {
+    "status": "success",
+    "functions": 841,
+    "internal": 679,
+    "external": 162,
+    "edges": 1477,
+    "duration": 70.9,
+    "repo": "https://github.com/lldpd/lldpd"
+  },
+  "llhttp": {
+    "status": "failed",
+    "error": "Source Analysis: llhttp \u2014 FAILED",
+    "duration": 2.5,
+    "repo": "https://github.com/nodejs/llhttp"
+  },
+  "llvm_libcxxabi": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 99.6,
+    "repo": "https://github.com/llvm/llvm-project"
+  },
+  "llvm": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 93.6,
+    "repo": "https://github.com/llvm/llvm-project.git"
+  },
+  "lodepng": {
+    "status": "success",
+    "functions": 1102,
+    "internal": 1021,
+    "external": 81,
+    "edges": 1040,
+    "duration": 12.6,
+    "repo": "https://github.com/lvandeve/lodepng.git"
+  },
+  "lua-example": {
+    "status": "success",
+    "functions": 18,
+    "internal": 12,
+    "external": 6,
+    "edges": 1,
+    "duration": 4.9,
+    "repo": "https://github.com/ligurio/luzer"
+  },
+  "lua": {
+    "status": "success",
+    "functions": 1238,
+    "internal": 1156,
+    "external": 82,
+    "edges": 1813,
+    "duration": 21.1,
+    "repo": "https://github.com/lua/lua"
+  },
+  "lwan": {
+    "status": "failed",
+    "error": "Source Analysis: lwan \u2014 FAILED",
+    "duration": 28.8,
+    "repo": "https://github.com/lpereira/lwan.git"
+  },
+  "lxc": {
+    "status": "success",
+    "functions": 32,
+    "internal": 10,
+    "external": 22,
+    "edges": 0,
+    "duration": 14.3,
+    "repo": "https://github.com/lxc/lxc"
+  },
+  "lz4": {
+    "status": "success",
+    "functions": 488,
+    "internal": 411,
+    "external": 77,
+    "edges": 457,
+    "duration": 17.2,
+    "repo": "https://github.com/lz4/lz4.git"
+  },
+  "lzma": {
+    "status": "success",
+    "functions": 522,
+    "internal": 496,
+    "external": 26,
+    "edges": 622,
+    "duration": 16.8,
+    "repo": "https://github.com/fancycode/lzma-fuzz.git"
+  },
+  "magic-enum": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 23.5,
+    "repo": "https://github.com/Neargye/magic_enum"
+  },
+  "mapserver": {
+    "status": "success",
+    "functions": 80,
+    "internal": 75,
+    "external": 5,
+    "edges": 20,
+    "duration": 50.2,
+    "repo": "https://github.com/MapServer/MapServer"
+  },
+  "mariadb": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/MariaDB/server"
+  },
+  "matio": {
+    "status": "success",
+    "functions": 438,
+    "internal": 385,
+    "external": 53,
+    "edges": 610,
+    "duration": 42.7,
+    "repo": "https://github.com/tbeu/matio"
+  },
+  "mbedtls": {
+    "status": "success",
+    "functions": 13,
+    "internal": 12,
+    "external": 1,
+    "edges": 0,
+    "duration": 18.1,
+    "repo": "https://github.com/Mbed-TLS/mbedtls.git"
+  },
+  "md4c": {
+    "status": "success",
+    "functions": 176,
+    "internal": 150,
+    "external": 26,
+    "edges": 105,
+    "duration": 8.8,
+    "repo": "https://github.com/mity/md4c"
+  },
+  "mdbtools": {
+    "status": "success",
+    "functions": 297,
+    "internal": 218,
+    "external": 79,
+    "edges": 214,
+    "duration": 27.9,
+    "repo": "https://github.com/mdbtools/mdbtools"
+  },
+  "memcached": {
+    "status": "success",
+    "functions": 816,
+    "internal": 580,
+    "external": 236,
+    "edges": 680,
+    "duration": 32.1,
+    "repo": "https://github.com/memcached/memcached"
+  },
+  "meshoptimizer": {
+    "status": "success",
+    "functions": 406,
+    "internal": 371,
+    "external": 35,
+    "edges": 237,
+    "duration": 10.0,
+    "repo": "https://github.com/zeux/meshoptimizer"
+  },
+  "mfcmapi": {
+    "status": "failed",
+    "error": "Source Analysis: mfcmapi \u2014 FAILED",
+    "duration": 111.8,
+    "repo": "https://github.com/microsoft/mfcmapi.git"
+  },
+  "minizip": {
+    "status": "success",
+    "functions": 660,
+    "internal": 528,
+    "external": 132,
+    "edges": 355,
+    "duration": 10.5,
+    "repo": "https://github.com/zlib-ng/minizip-ng"
+  },
+  "miniz": {
+    "status": "success",
+    "functions": 182,
+    "internal": 159,
+    "external": 23,
+    "edges": 177,
+    "duration": 8.0,
+    "repo": "https://github.com/richgel999/miniz.git"
+  },
+  "monero": {
+    "status": "success",
+    "functions": 10923,
+    "internal": 10262,
+    "external": 661,
+    "edges": 7951,
+    "duration": 373.1,
+    "repo": "https://github.com/monero-project/monero.git"
+  },
+  "mongoose": {
+    "status": "success",
+    "functions": 605,
+    "internal": 539,
+    "external": 66,
+    "edges": 865,
+    "duration": 850.1,
+    "repo": "https://github.com/cesanta/mongoose"
+  },
+  "mosh": {
+    "status": "success",
+    "functions": 4166,
+    "internal": 3914,
+    "external": 252,
+    "edges": 3202,
+    "duration": 70.9,
+    "repo": "https://github.com/mobile-shell/mosh"
+  },
+  "mosquitto": {
+    "status": "success",
+    "functions": 35,
+    "internal": 8,
+    "external": 27,
+    "edges": 3,
+    "duration": 17.7,
+    "repo": "https://github.com/eclipse-mosquitto/mosquitto"
+  },
+  "mpg123": {
+    "status": "success",
+    "functions": 630,
+    "internal": 520,
+    "external": 110,
+    "edges": 1425,
+    "duration": 57.4,
+    "repo": "https://github.com/dreamerc/mpg123"
+  },
+  "mpv": {
+    "status": "success",
+    "functions": 86,
+    "internal": 49,
+    "external": 37,
+    "edges": 10,
+    "duration": 32.4,
+    "repo": "https://github.com/mpv-player/mpv"
+  },
+  "mruby": {
+    "status": "failed",
+    "error": "Source Analysis: mruby \u2014 FAILED",
+    "duration": 11.5,
+    "repo": "https://github.com/mruby/mruby"
+  },
+  "ms-tpm-20-ref": {
+    "status": "failed",
+    "error": "Source Analysis: ms-tpm-20-ref \u2014 FAILED",
+    "duration": 29.6,
+    "repo": "https://github.com/microsoft/ms-tpm-20-ref"
+  },
+  "msgpack-c": {
+    "status": "failed",
+    "error": "Source Analysis: msgpack-c \u2014 FAILED",
+    "duration": 2.0,
+    "repo": "https://github.com/msgpack/msgpack-c.git"
+  },
+  "muduo": {
+    "status": "failed",
+    "error": "Source Analysis: muduo \u2014 FAILED",
+    "duration": 21.4,
+    "repo": "https://github.com/chenshuo/muduo"
+  },
+  "muparser": {
+    "status": "success",
+    "functions": 2149,
+    "internal": 2027,
+    "external": 122,
+    "edges": 1808,
+    "duration": 24.7,
+    "repo": "https://github.com/beltoforion/muparser.git"
+  },
+  "myanmar-tools": {
+    "status": "failed",
+    "error": "Source Analysis: myanmar-tools \u2014 FAILED",
+    "duration": 3.9,
+    "repo": "https://github.com/google/myanmar-tools.git"
+  },
+  "mysql-server": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/mysql/mysql-server"
+  },
+  "nanopb": {
+    "status": "success",
+    "functions": 81,
+    "internal": 77,
+    "external": 4,
+    "edges": 80,
+    "duration": 5.1,
+    "repo": "https://github.com/nanopb/nanopb"
+  },
+  "nccl": {
+    "status": "success",
+    "functions": 71,
+    "internal": 50,
+    "external": 21,
+    "edges": 18,
+    "duration": 71.9,
+    "repo": "https://github.com/NVIDIA/nccl"
+  },
+  "ndpi": {
+    "status": "success",
+    "functions": 2050,
+    "internal": 1837,
+    "external": 213,
+    "edges": 1599,
+    "duration": 71.5,
+    "repo": "https://github.com/ntop/nDPI.git"
+  },
+  "neomutt": {
+    "status": "success",
+    "functions": 735,
+    "internal": 643,
+    "external": 92,
+    "edges": 2149,
+    "duration": 58.0,
+    "repo": "https://github.com/neomutt/neomutt"
+  },
+  "nestegg": {
+    "status": "success",
+    "functions": 107,
+    "internal": 99,
+    "external": 8,
+    "edges": 107,
+    "duration": 12.6,
+    "repo": "https://github.com/kinetiknz/nestegg.git"
+  },
+  "netcdf": {
+    "status": "success",
+    "functions": 703,
+    "internal": 669,
+    "external": 34,
+    "edges": 508,
+    "duration": 88.7,
+    "repo": "https://github.com/Unidata/netcdf-c"
+  },
+  "nghttp2": {
+    "status": "success",
+    "functions": 1045,
+    "internal": 964,
+    "external": 81,
+    "edges": 651,
+    "duration": 47.2,
+    "repo": "https://github.com/nghttp2/nghttp2.git"
+  },
+  "nginx": {
+    "status": "success",
+    "functions": 1718,
+    "internal": 1480,
+    "external": 238,
+    "edges": 22295,
+    "duration": 694.7,
+    "repo": "https://github.com/nginx/nginx"
+  },
+  "ninja": {
+    "status": "success",
+    "functions": 4483,
+    "internal": 4363,
+    "external": 120,
+    "edges": 3698,
+    "duration": 44.4,
+    "repo": "https://github.com/ninja-build/ninja"
+  },
+  "njs": {
+    "status": "success",
+    "functions": 15,
+    "internal": 12,
+    "external": 3,
+    "edges": 3,
+    "duration": 11.5,
+    "repo": "https://github.com/nginx/njs.git"
+  },
+  "nodejs": {
+    "status": "success",
+    "functions": 92,
+    "internal": 66,
+    "external": 26,
+    "edges": 13,
+    "duration": 213.4,
+    "repo": "https://github.com/nodejs/node"
+  },
+  "nokogiri": {
+    "status": "success",
+    "functions": 8,
+    "internal": 6,
+    "external": 2,
+    "edges": 2,
+    "duration": 5.0,
+    "repo": "https://github.com/sparklemotion/nokogiri"
+  },
+  "ntopng": {
+    "status": "failed",
+    "error": "Source Analysis: ntopng \u2014 FAILED",
+    "duration": 9.4,
+    "repo": "https://github.com/ntop/ntopng"
+  },
+  "num-bigint": {
+    "status": "failed",
+    "error": "Source Analysis: num-bigint \u2014 FAILED",
+    "duration": 2.3,
+    "repo": "https://github.com/rust-num/num-bigint"
+  },
+  "numactl": {
+    "status": "success",
+    "functions": 145,
+    "internal": 54,
+    "external": 91,
+    "edges": 6,
+    "duration": 5.4,
+    "repo": "https://github.com/numactl/numactl"
+  },
+  "oatpp": {
+    "status": "success",
+    "functions": 15814,
+    "internal": 15366,
+    "external": 448,
+    "edges": 13526,
+    "duration": 269.1,
+    "repo": "https://github.com/oatpp/oatpp"
+  },
+  "ogre": {
+    "status": "success",
+    "functions": 3671,
+    "internal": 3462,
+    "external": 209,
+    "edges": 3814,
+    "duration": 481.5,
+    "repo": "https://github.com/OGRECave/ogre"
+  },
+  "onednn": {
+    "status": "success",
+    "functions": 67,
+    "internal": 52,
+    "external": 15,
+    "edges": 16,
+    "duration": 831.9,
+    "repo": "https://github.com/uxlfoundation/oneDNN"
+  },
+  "open5gs": {
+    "status": "success",
+    "functions": 20,
+    "internal": 14,
+    "external": 6,
+    "edges": 0,
+    "duration": 183.8,
+    "repo": "https://github.com/open5gs/open5gs"
+  },
+  "open62541": {
+    "status": "success",
+    "functions": 5209,
+    "internal": 4196,
+    "external": 1013,
+    "edges": 6641,
+    "duration": 209.9,
+    "repo": "https://github.com/open62541/open62541.git"
+  },
+  "openbabel": {
+    "status": "success",
+    "functions": 948,
+    "internal": 897,
+    "external": 51,
+    "edges": 1211,
+    "duration": 178.4,
+    "repo": "https://github.com/openbabel/openbabel.git"
+  },
+  "opencensus-cpp": {
+    "status": "success",
+    "functions": 15285,
+    "internal": 14994,
+    "external": 291,
+    "edges": 12351,
+    "duration": 219.6,
+    "repo": "https://github.com/census-instrumentation/opencensus-cpp"
+  },
+  "opencv": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/opencv/opencv.git"
+  },
+  "opendds": {
+    "status": "failed",
+    "error": "Source Analysis: opendds \u2014 FAILED",
+    "duration": 1004.4,
+    "repo": "https://github.com/objectcomputing/OpenDDS.git"
+  },
+  "opendnp3": {
+    "status": "success",
+    "functions": 20204,
+    "internal": 18185,
+    "external": 2019,
+    "edges": 20471,
+    "duration": 1065.1,
+    "repo": "https://github.com/dnp3/opendnp3.git"
+  },
+  "openexr": {
+    "status": "success",
+    "functions": 14811,
+    "internal": 13498,
+    "external": 1313,
+    "edges": 20805,
+    "duration": 900.2,
+    "repo": "https://github.com/AcademySoftwareFoundation/openexr"
+  },
+  "openh264": {
+    "status": "failed",
+    "error": "Source Analysis: openh264 \u2014 FAILED",
+    "duration": 12.7,
+    "repo": "https://github.com/cisco/openh264.git"
+  },
+  "openjpeg": {
+    "status": "success",
+    "functions": 878,
+    "internal": 740,
+    "external": 138,
+    "edges": 1027,
+    "duration": 43.9,
+    "repo": "https://github.com/uclouvain/openjpeg"
+  },
+  "openjph": {
+    "status": "success",
+    "functions": 1381,
+    "internal": 1074,
+    "external": 307,
+    "edges": 896,
+    "duration": 44.8,
+    "repo": "https://github.com/aous72/OpenJPH"
+  },
+  "opennavsurf-bag": {
+    "status": "success",
+    "functions": 1518,
+    "internal": 1405,
+    "external": 113,
+    "edges": 724,
+    "duration": 35.3,
+    "repo": "https://github.com/OpenNavigationSurface/BAG"
+  },
+  "opensc": {
+    "status": "success",
+    "functions": 80,
+    "internal": 72,
+    "external": 8,
+    "edges": 9,
+    "duration": 33.3,
+    "repo": "https://github.com/OpenSC/OpenSC"
+  },
+  "opensips": {
+    "status": "success",
+    "functions": 3396,
+    "internal": 2297,
+    "external": 1099,
+    "edges": 7351,
+    "duration": 96.7,
+    "repo": "https://github.com/OpenSIPS/opensips"
+  },
+  "openslide": {
+    "status": "failed",
+    "error": "Source Analysis: openslide \u2014 FAILED",
+    "duration": 9.0,
+    "repo": "https://github.com/openslide/openslide"
+  },
+  "openssh": {
+    "status": "success",
+    "functions": 2863,
+    "internal": 2363,
+    "external": 500,
+    "edges": 5517,
+    "duration": 235.7,
+    "repo": "https://github.com/openssh/openssh-portable"
+  },
+  "openssl": {
+    "status": "success",
+    "functions": 21635,
+    "internal": 19408,
+    "external": 2227,
+    "edges": 30048,
+    "duration": 632.0,
+    "repo": "https://github.com/openssl/openssl.git"
+  },
+  "openthread": {
+    "status": "success",
+    "functions": 2375,
+    "internal": 2222,
+    "external": 153,
+    "edges": 1952,
+    "duration": 100.9,
+    "repo": "https://github.com/openthread/openthread"
+  },
+  "openvpn": {
+    "status": "success",
+    "functions": 250,
+    "internal": 161,
+    "external": 89,
+    "edges": 78,
+    "duration": 33.2,
+    "repo": "https://github.com/OpenVPN/openvpn"
+  },
+  "openvswitch": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/openvswitch/ovs.git"
+  },
+  "openweave": {
+    "status": "success",
+    "functions": 72,
+    "internal": 53,
+    "external": 19,
+    "edges": 10,
+    "duration": 144.1,
+    "repo": "https://github.com/openweave/openweave-core"
+  },
+  "osquery": {
+    "status": "success",
+    "functions": 2483,
+    "internal": 1905,
+    "external": 578,
+    "edges": 4362,
+    "duration": 838.5,
+    "repo": "https://github.com/osquery/osquery"
+  },
+  "oss-fuzz-example": {
+    "status": "success",
+    "functions": 12,
+    "internal": 6,
+    "external": 6,
+    "edges": 4,
+    "duration": 3.7,
+    "repo": "https://github.com/AdaLogics/oss-fuzz-example"
+  },
+  "ostree": {
+    "status": "success",
+    "functions": 25,
+    "internal": 21,
+    "external": 4,
+    "edges": 3,
+    "duration": 35.1,
+    "repo": "https://github.com/ostreedev/ostree"
+  },
+  "ots": {
+    "status": "success",
+    "functions": 10140,
+    "internal": 9948,
+    "external": 192,
+    "edges": 9179,
+    "duration": 317.8,
+    "repo": "https://github.com/khaledhosny/ots.git"
+  },
+  "p11-kit": {
+    "status": "success",
+    "functions": 8223,
+    "internal": 8047,
+    "external": 176,
+    "edges": 8129,
+    "duration": 690.1,
+    "repo": "https://github.com/p11-glue/p11-kit"
+  },
+  "pacemaker": {
+    "status": "failed",
+    "error": "Source Analysis: pacemaker \u2014 FAILED",
+    "duration": 67.0,
+    "repo": "https://github.com/ClusterLabs/pacemaker"
+  },
+  "pcapplusplus": {
+    "status": "failed",
+    "error": "Source Analysis: pcapplusplus \u2014 FAILED",
+    "duration": 1029.5,
+    "repo": "https://github.com/seladb/PcapPlusPlus"
+  },
+  "pcl": {
+    "status": "success",
+    "functions": 264,
+    "internal": 244,
+    "external": 20,
+    "edges": 180,
+    "duration": 189.0,
+    "repo": "https://github.com/pointcloudlibrary/pcl"
+  },
+  "pcre2": {
+    "status": "success",
+    "functions": 342,
+    "internal": 291,
+    "external": 51,
+    "edges": 346,
+    "duration": 32.8,
+    "repo": "https://github.com/PCRE2Project/pcre2"
+  },
+  "phmap": {
+    "status": "success",
+    "functions": 4611,
+    "internal": 4428,
+    "external": 183,
+    "edges": 3634,
+    "duration": 64.6,
+    "repo": "https://github.com/greg7mdp/parallel-hashmap"
+  },
+  "phosphor-host-ipmid": {
+    "status": "success",
+    "functions": 2771,
+    "internal": 2620,
+    "external": 151,
+    "edges": 2728,
+    "duration": 536.1,
+    "repo": "https://github.com/openbmc/phosphor-host-ipmid"
+  },
+  "php": {
+    "status": "success",
+    "functions": 891,
+    "internal": 804,
+    "external": 87,
+    "edges": 665,
+    "duration": 248.4,
+    "repo": "https://github.com/php/php-src.git"
+  },
+  "picotls": {
+    "status": "success",
+    "functions": 914,
+    "internal": 577,
+    "external": 337,
+    "edges": 1999,
+    "duration": 26.9,
+    "repo": "https://github.com/h2o/picotls"
+  },
+  "piex": {
+    "status": "failed",
+    "error": "Source Analysis: piex \u2014 FAILED",
+    "duration": 2.1,
+    "repo": "https://github.com/guidovranken/piex.git"
+  },
+  "pistache": {
+    "status": "success",
+    "functions": 18,
+    "internal": 12,
+    "external": 6,
+    "edges": 2,
+    "duration": 33.3,
+    "repo": "https://github.com/pistacheio/pistache"
+  },
+  "pjsip": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/pjsip/pjproject"
+  },
+  "plan9port": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/9fans/plan9port"
+  },
+  "pngquant": {
+    "status": "success",
+    "functions": 31,
+    "internal": 9,
+    "external": 22,
+    "edges": 0,
+    "duration": 4.3,
+    "repo": "https://github.com/kornelski/pngquant"
+  },
+  "poco": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/pocoproject/poco"
+  },
+  "postfix": {
+    "status": "success",
+    "functions": 20,
+    "internal": 10,
+    "external": 10,
+    "edges": 0,
+    "duration": 47.0,
+    "repo": "https://github.com/vdukhovni/postfix"
+  },
+  "powerdns": {
+    "status": "success",
+    "functions": 1618,
+    "internal": 1531,
+    "external": 87,
+    "edges": 908,
+    "duration": 293.3,
+    "repo": "https://github.com/PowerDNS/pdns.git"
+  },
+  "proftpd": {
+    "status": "success",
+    "functions": 2266,
+    "internal": 2032,
+    "external": 234,
+    "edges": 6741,
+    "duration": 207.4,
+    "repo": "https://github.com/proftpd/proftpd"
+  },
+  "proj4": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/OSGeo/PROJ"
+  },
+  "protobuf-c": {
+    "status": "success",
+    "functions": 113,
+    "internal": 96,
+    "external": 17,
+    "edges": 80,
+    "duration": 24.3,
+    "repo": "https://github.com/protobuf-c/protobuf-c.git"
+  },
+  "proxygen": {
+    "status": "success",
+    "functions": 192,
+    "internal": 148,
+    "external": 44,
+    "edges": 56,
+    "duration": 109.3,
+    "repo": "https://github.com/facebook/proxygen.git"
+  },
+  "pugixml": {
+    "status": "success",
+    "functions": 906,
+    "internal": 841,
+    "external": 65,
+    "edges": 1235,
+    "duration": 9.3,
+    "repo": "https://github.com/zeux/pugixml"
+  },
+  "pupnp": {
+    "status": "success",
+    "functions": 1315,
+    "internal": 1171,
+    "external": 144,
+    "edges": 1800,
+    "duration": 32.6,
+    "repo": "https://github.com/pupnp/pupnp"
+  },
+  "pybind11": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 4.6,
+    "repo": "https://github.com/pybind/pybind11"
+  },
+  "pycryptodome": {
+    "status": "failed",
+    "error": "Source Analysis: pycryptodome \u2014 FAILED",
+    "duration": 4.4,
+    "repo": "https://github.com/Legrandin/pycryptodome"
+  },
+  "qpdf": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/qpdf/qpdf.git"
+  },
+  "qpid-proton": {
+    "status": "success",
+    "functions": 6247,
+    "internal": 5846,
+    "external": 401,
+    "edges": 8363,
+    "duration": 169.7,
+    "repo": "https://github.com/apache/qpid-proton.git"
+  },
+  "qs": {
+    "status": "failed",
+    "error": "Source Analysis: qs \u2014 FAILED",
+    "duration": 2.4,
+    "repo": "https://github.com/ljharb/qs.git"
+  },
+  "quantlib": {
+    "status": "failed",
+    "error": "Source Analysis: quantlib \u2014 FAILED",
+    "duration": 639.8,
+    "repo": "https://github.com/lballabio/QuantLib"
+  },
+  "qubes-os": {
+    "status": "failed",
+    "error": "Source Analysis: qubes-os \u2014 FAILED",
+    "duration": 1.9,
+    "repo": "https://github.com/QubesOS"
+  },
+  "quiche": {
+    "status": "failed",
+    "error": "Source Analysis: quiche \u2014 FAILED",
+    "duration": 513.4,
+    "repo": "https://github.com/google/quiche"
+  },
+  "quickjs": {
+    "status": "success",
+    "functions": 238,
+    "internal": 208,
+    "external": 30,
+    "edges": 219,
+    "duration": 7.4,
+    "repo": "https://github.com/bellard/quickjs"
+  },
+  "rabbitmq-c": {
+    "status": "success",
+    "functions": 357,
+    "internal": 227,
+    "external": 130,
+    "edges": 216,
+    "duration": 8.4,
+    "repo": "https://github.com/alanxz/rabbitmq-c"
+  },
+  "radare2": {
+    "status": "timeout",
+    "duration": 1210.1,
+    "repo": "https://github.com/radareorg/radare2"
+  },
+  "rapidjson": {
+    "status": "success",
+    "functions": 13,
+    "internal": 7,
+    "external": 6,
+    "edges": 1,
+    "duration": 28.1,
+    "repo": "https://github.com/Tencent/rapidjson.git"
+  },
+  "rauc": {
+    "status": "failed",
+    "error": "Source Analysis: rauc \u2014 FAILED",
+    "duration": 10.1,
+    "repo": "https://github.com/rauc/rauc"
+  },
+  "rdkit": {
+    "status": "success",
+    "functions": 267,
+    "internal": 253,
+    "external": 14,
+    "edges": 97,
+    "duration": 220.4,
+    "repo": "https://github.com/rdkit/rdkit.git"
+  },
+  "re2": {
+    "status": "success",
+    "functions": 14,
+    "internal": 8,
+    "external": 6,
+    "edges": 3,
+    "duration": 12.9,
+    "repo": "https://github.com/google/re2"
+  },
+  "readstat": {
+    "status": "success",
+    "functions": 832,
+    "internal": 761,
+    "external": 71,
+    "edges": 668,
+    "duration": 37.3,
+    "repo": "https://github.com/WizardMac/ReadStat"
+  },
+  "relic": {
+    "status": "success",
+    "functions": 2010,
+    "internal": 1982,
+    "external": 28,
+    "edges": 5806,
+    "duration": 228.1,
+    "repo": "https://github.com/relic-toolkit/relic"
+  },
+  "resiprocate": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/resiprocate/resiprocate.git"
+  },
+  "rnp": {
+    "status": "success",
+    "functions": 619,
+    "internal": 549,
+    "external": 70,
+    "edges": 301,
+    "duration": 42.3,
+    "repo": "https://github.com/rnpgp/rnp.git"
+  },
+  "rocksdb": {
+    "status": "failed",
+    "error": "Source Analysis: rocksdb \u2014 FAILED",
+    "duration": 1059.1,
+    "repo": "https://github.com/facebook/rocksdb"
+  },
+  "rtpproxy": {
+    "status": "success",
+    "functions": 1572,
+    "internal": 1349,
+    "external": 223,
+    "edges": 1070,
+    "duration": 107.4,
+    "repo": "https://github.com/sippy/rtpproxy"
+  },
+  "ruby": {
+    "status": "success",
+    "functions": 14,
+    "internal": 6,
+    "external": 8,
+    "edges": 0,
+    "duration": 60.8,
+    "repo": "https://github.com/ruby/ruby"
+  },
+  "s2geometry": {
+    "status": "success",
+    "functions": 17,
+    "internal": 16,
+    "external": 1,
+    "edges": 0,
+    "duration": 134.7,
+    "repo": "https://github.com/google/s2geometry"
+  },
+  "selinux": {
+    "status": "success",
+    "functions": 2087,
+    "internal": 1762,
+    "external": 325,
+    "edges": 2884,
+    "duration": 36.4,
+    "repo": "https://github.com/SELinuxProject/selinux"
+  },
+  "sentencepiece": {
+    "status": "success",
+    "functions": 9761,
+    "internal": 9466,
+    "external": 295,
+    "edges": 8441,
+    "duration": 179.0,
+    "repo": "https://github.com/google/sentencepiece.git"
+  },
+  "serenity": {
+    "status": "success",
+    "functions": 22,
+    "internal": 12,
+    "external": 10,
+    "edges": 0,
+    "duration": 432.8,
+    "repo": "https://github.com/SerenityOS/serenity"
+  },
+  "shaderc": {
+    "status": "success",
+    "functions": 727,
+    "internal": 631,
+    "external": 96,
+    "edges": 265,
+    "duration": 19.5,
+    "repo": "https://github.com/google/shaderc"
+  },
+  "simdjson": {
+    "status": "failed",
+    "error": "Source Analysis: simdjson \u2014 FAILED",
+    "duration": 13.0,
+    "repo": "https://github.com/simdjson/simdjson.git"
+  },
+  "simdutf": {
+    "status": "success",
+    "functions": 1505,
+    "internal": 1368,
+    "external": 137,
+    "edges": 1216,
+    "duration": 116.9,
+    "repo": "https://github.com/simdutf/simdutf"
+  },
+  "simd": {
+    "status": "failed",
+    "error": "Source Analysis: simd \u2014 FAILED",
+    "duration": 966.9,
+    "repo": "https://github.com/ermig1979/Simd"
+  },
+  "sleuthkit": {
+    "status": "success",
+    "functions": 9471,
+    "internal": 9220,
+    "external": 251,
+    "edges": 9775,
+    "duration": 462.5,
+    "repo": "https://github.com/sleuthkit/sleuthkit"
+  },
+  "snappy": {
+    "status": "success",
+    "functions": 1377,
+    "internal": 1239,
+    "external": 138,
+    "edges": 728,
+    "duration": 31.1,
+    "repo": "https://github.com/google/snappy"
+  },
+  "snort3": {
+    "status": "success",
+    "functions": 12800,
+    "internal": 12408,
+    "external": 392,
+    "edges": 8712,
+    "duration": 833.3,
+    "repo": "https://github.com/snort3/snort3"
+  },
+  "solidity": {
+    "status": "success",
+    "functions": 15,
+    "internal": 7,
+    "external": 8,
+    "edges": 0,
+    "duration": 286.1,
+    "repo": "https://github.com/ethereum/solidity.git"
+  },
+  "sound-open-firmware": {
+    "status": "success",
+    "functions": 437,
+    "internal": 354,
+    "external": 83,
+    "edges": 300,
+    "duration": 53.3,
+    "repo": "https://github.com/thesofproject/sof"
+  },
+  "spdk": {
+    "status": "success",
+    "functions": 2722,
+    "internal": 2217,
+    "external": 505,
+    "edges": 1852,
+    "duration": 355.5,
+    "repo": "https://github.com/spdk/spdk"
+  },
+  "spdlog": {
+    "status": "success",
+    "functions": 6662,
+    "internal": 6520,
+    "external": 142,
+    "edges": 5187,
+    "duration": 48.6,
+    "repo": "https://github.com/gabime/spdlog.git"
+  },
+  "spicy": {
+    "status": "success",
+    "functions": 3114,
+    "internal": 2911,
+    "external": 203,
+    "edges": 1797,
+    "duration": 311.6,
+    "repo": "https://github.com/zeek/spicy"
+  },
+  "spirv-cross": {
+    "status": "success",
+    "functions": 19755,
+    "internal": 19636,
+    "external": 119,
+    "edges": 26845,
+    "duration": 648.8,
+    "repo": "https://github.com/KhronosGroup/SPIRV-Cross"
+  },
+  "spirv-tools": {
+    "status": "success",
+    "functions": 2804,
+    "internal": 2684,
+    "external": 120,
+    "edges": 1926,
+    "duration": 191.7,
+    "repo": "https://github.com/KhronosGroup/SPIRV-Tools.git"
+  },
+  "spotify-json": {
+    "status": "success",
+    "functions": 640,
+    "internal": 600,
+    "external": 40,
+    "edges": 221,
+    "duration": 14.7,
+    "repo": "https://github.com/spotify/spotify-json"
+  },
+  "sql-parser": {
+    "status": "success",
+    "functions": 1471,
+    "internal": 1408,
+    "external": 63,
+    "edges": 791,
+    "duration": 17.4,
+    "repo": "https://github.com/hyrise/sql-parser"
+  },
+  "stb": {
+    "status": "success",
+    "functions": 134,
+    "internal": 108,
+    "external": 26,
+    "edges": 93,
+    "duration": 7.1,
+    "repo": "https://github.com/nothings/stb.git"
+  },
+  "strongswan": {
+    "status": "success",
+    "functions": 12,
+    "internal": 8,
+    "external": 4,
+    "edges": 3,
+    "duration": 85.5,
+    "repo": "https://github.com/strongswan/strongswan.git"
+  },
+  "sudoers": {
+    "status": "success",
+    "functions": 2046,
+    "internal": 1641,
+    "external": 405,
+    "edges": 3440,
+    "duration": 209.7,
+    "repo": "https://github.com/sudo-project/sudo"
+  },
+  "systemd": {
+    "status": "success",
+    "functions": 80,
+    "internal": 36,
+    "external": 44,
+    "edges": 1,
+    "duration": 83.5,
+    "repo": "https://github.com/systemd/systemd"
+  },
+  "tarantool": {
+    "status": "success",
+    "functions": 326,
+    "internal": 267,
+    "external": 59,
+    "edges": 279,
+    "duration": 73.2,
+    "repo": "https://github.com/tarantool/tarantool"
+  },
+  "tcmalloc": {
+    "status": "success",
+    "functions": 1,
+    "internal": 1,
+    "external": 0,
+    "edges": 0,
+    "duration": 73.5,
+    "repo": "https://github.com/google/tcmalloc"
+  },
+  "tdengine": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/taosdata/TDengine"
+  },
+  "tensorflow-serving": {
+    "status": "success",
+    "functions": 0,
+    "internal": 0,
+    "external": 0,
+    "edges": 0,
+    "duration": 115.0,
+    "repo": "https://github.com/tensorflow/serving"
+  },
+  "tensorflow": {
+    "status": "timeout",
+    "duration": 1210.2,
+    "repo": "https://github.com/tensorflow/tensorflow"
+  },
+  "tesseract-ocr": {
+    "status": "success",
+    "functions": 859,
+    "internal": 703,
+    "external": 156,
+    "edges": 304,
+    "duration": 203.0,
+    "repo": "https://github.com/tesseract-ocr/tesseract"
+  },
+  "thrift-c_glib": {
+    "status": "success",
+    "functions": 56,
+    "internal": 24,
+    "external": 32,
+    "edges": 18,
+    "duration": 65.1,
+    "repo": "https://github.com/apache/thrift"
+  },
+  "tidy-html5": {
+    "status": "success",
+    "functions": 1068,
+    "internal": 1017,
+    "external": 51,
+    "edges": 1838,
+    "duration": 25.1,
+    "repo": "https://github.com/htacg/tidy-html5.git"
+  },
+  "tink-cc": {
+    "status": "success",
+    "functions": 8,
+    "internal": 5,
+    "external": 3,
+    "edges": 1,
+    "duration": 609.1,
+    "repo": "https://github.com/google/tink"
+  },
+  "tinygltf": {
+    "status": "success",
+    "functions": 4728,
+    "internal": 4599,
+    "external": 129,
+    "edges": 3665,
+    "duration": 37.2,
+    "repo": "https://github.com/syoyo/tinygltf.git"
+  },
+  "tinyobjloader": {
+    "status": "success",
+    "functions": 1859,
+    "internal": 1792,
+    "external": 67,
+    "edges": 758,
+    "duration": 11.0,
+    "repo": "https://github.com/tinyobjloader/tinyobjloader"
+  },
+  "tinyusb": {
+    "status": "failed",
+    "error": "Source Analysis: tinyusb \u2014 FAILED",
+    "duration": 3.1,
+    "repo": "https://github.com/hathach/tinyusb"
+  },
+  "tinyxml2": {
+    "status": "success",
+    "functions": 412,
+    "internal": 396,
+    "external": 16,
+    "edges": 354,
+    "duration": 5.2,
+    "repo": "https://github.com/leethomason/tinyxml2"
+  },
+  "tmux": {
+    "status": "success",
+    "functions": 2713,
+    "internal": 2453,
+    "external": 260,
+    "edges": 5471,
+    "duration": 236.9,
+    "repo": "https://github.com/tmux/tmux.git"
+  },
+  "tomlplusplus": {
+    "status": "success",
+    "functions": 2079,
+    "internal": 1993,
+    "external": 86,
+    "edges": 1900,
+    "duration": 20.8,
+    "repo": "https://github.com/marzer/tomlplusplus"
+  },
+  "tpm2-tss": {
+    "status": "success",
+    "functions": 800,
+    "internal": 793,
+    "external": 7,
+    "edges": 285,
+    "duration": 35.4,
+    "repo": "https://github.com/tstruk/tpm2-tss.git"
+  },
+  "trafficserver": {
+    "status": "failed",
+    "error": "Source Analysis: trafficserver \u2014 FAILED",
+    "duration": 936.1,
+    "repo": "https://github.com/apache/trafficserver"
+  },
+  "u-boot": {
+    "status": "success",
+    "functions": 105,
+    "internal": 86,
+    "external": 19,
+    "edges": 12,
+    "duration": 448.9,
+    "repo": "https://github.com/u-boot/u-boot"
+  },
+  "unbound": {
+    "status": "failed",
+    "error": "Source Analysis: unbound \u2014 FAILED",
+    "duration": 17.0,
+    "repo": "https://github.com/NLnetLabs/unbound"
+  },
+  "unicorn": {
+    "status": "failed",
+    "error": "Source Analysis: unicorn \u2014 FAILED",
+    "duration": 904.1,
+    "repo": "https://github.com/unicorn-engine/unicorn.git"
+  },
+  "unit": {
+    "status": "failed",
+    "error": "Source Analysis: unit \u2014 FAILED",
+    "duration": 17.9,
+    "repo": "https://github.com/nginx/unit"
+  },
+  "upx": {
+    "status": "success",
+    "functions": 6226,
+    "internal": 5722,
+    "external": 504,
+    "edges": 8707,
+    "duration": 300.8,
+    "repo": "https://github.com/upx/upx"
+  },
+  "uriparser": {
+    "status": "success",
+    "functions": 391,
+    "internal": 374,
+    "external": 17,
+    "edges": 469,
+    "duration": 10.8,
+    "repo": "https://github.com/uriparser/uriparser"
+  },
+  "usbguard": {
+    "status": "success",
+    "functions": 19909,
+    "internal": 18614,
+    "external": 1295,
+    "edges": 19718,
+    "duration": 1143.8,
+    "repo": "https://github.com/USBGuard/usbguard"
+  },
+  "userver": {
+    "status": "success",
+    "functions": 8958,
+    "internal": 8802,
+    "external": 156,
+    "edges": 10049,
+    "duration": 872.9,
+    "repo": "https://github.com/userver-framework/userver"
+  },
+  "usrsctp": {
+    "status": "success",
+    "functions": 986,
+    "internal": 902,
+    "external": 84,
+    "edges": 4388,
+    "duration": 76.8,
+    "repo": "https://github.com/sctplab/usrsctp"
+  },
+  "utf8proc": {
+    "status": "success",
+    "functions": 41,
+    "internal": 37,
+    "external": 4,
+    "edges": 29,
+    "duration": 5.5,
+    "repo": "https://github.com/JuliaStrings/utf8proc"
+  },
+  "util-linux": {
+    "status": "success",
+    "functions": 92,
+    "internal": 64,
+    "external": 28,
+    "edges": 17,
+    "duration": 37.4,
+    "repo": "https://github.com/util-linux/util-linux"
+  },
+  "uwebsockets": {
+    "status": "success",
+    "functions": 196,
+    "internal": 144,
+    "external": 52,
+    "edges": 147,
+    "duration": 86.1,
+    "repo": "https://github.com/uNetworking/uWebSockets.git"
+  },
+  "valijson": {
+    "status": "success",
+    "functions": 9014,
+    "internal": 8727,
+    "external": 287,
+    "edges": 6140,
+    "duration": 148.3,
+    "repo": "https://github.com/tristanpenman/valijson"
+  },
+  "varnish": {
+    "status": "success",
+    "functions": 1103,
+    "internal": 871,
+    "external": 232,
+    "edges": 1881,
+    "duration": 69.9,
+    "repo": "https://github.com/varnishcache/varnish-cache"
+  },
+  "vlc": {
+    "status": "success",
+    "functions": 48,
+    "internal": 34,
+    "external": 14,
+    "edges": 13,
+    "duration": 251.8,
+    "repo": "https://github.com/videolan/vlc"
+  },
+  "vulkan-loader": {
+    "status": "failed",
+    "error": "Source Analysis: vulkan-loader \u2014 FAILED",
+    "duration": 5.5,
+    "repo": "https://github.com/khronosgroup/Vulkan-Loader"
+  },
+  "vulnerable-project": {
+    "status": "success",
+    "functions": 2,
+    "internal": 1,
+    "external": 1,
+    "edges": 0,
+    "duration": 376.2,
+    "repo": "https://github.com/google/oss-fuzz"
+  },
+  "w3m": {
+    "status": "success",
+    "functions": 57,
+    "internal": 26,
+    "external": 31,
+    "edges": 10,
+    "duration": 12.7,
+    "repo": "https://github.com/tats/w3m"
+  },
+  "wabt": {
+    "status": "success",
+    "functions": 23142,
+    "internal": 22482,
+    "external": 660,
+    "edges": 21598,
+    "duration": 648.2,
+    "repo": "https://github.com/WebAssembly/wabt"
+  },
+  "wamr": {
+    "status": "success",
+    "functions": 2022,
+    "internal": 1682,
+    "external": 340,
+    "edges": 4799,
+    "duration": 66.5,
+    "repo": "https://github.com/bytecodealliance/wasm-micro-runtime"
+  },
+  "wasm3": {
+    "status": "failed",
+    "error": "Source Analysis: wasm3 \u2014 FAILED",
+    "duration": 22.6,
+    "repo": "https://github.com/wasm3/wasm3"
+  },
+  "wasmedge": {
+    "status": "failed",
+    "error": "Source Analysis: wasmedge \u2014 FAILED",
+    "duration": 1062.0,
+    "repo": "https://github.com/WasmEdge/WasmEdge.git"
+  },
+  "wavpack": {
+    "status": "success",
+    "functions": 419,
+    "internal": 323,
+    "external": 96,
+    "edges": 299,
+    "duration": 21.9,
+    "repo": "https://github.com/dbry/WavPack.git"
+  },
+  "wazuh": {
+    "status": "success",
+    "functions": 1662,
+    "internal": 1570,
+    "external": 92,
+    "edges": 1200,
+    "duration": 143.5,
+    "repo": "https://github.com/wazuh/wazuh"
+  },
+  "woff2": {
+    "status": "success",
+    "functions": 2194,
+    "internal": 2127,
+    "external": 67,
+    "edges": 1412,
+    "duration": 65.3,
+    "repo": "https://github.com/google/woff2"
+  },
+  "wolfmqtt": {
+    "status": "failed",
+    "error": "Source Analysis: wolfmqtt \u2014 FAILED",
+    "duration": 15.3,
+    "repo": "https://github.com/wolfSSL/wolfMQTT"
+  },
+  "wolfssl": {
+    "status": "success",
+    "functions": 1952,
+    "internal": 1787,
+    "external": 165,
+    "edges": 2342,
+    "duration": 31.1,
+    "repo": "https://github.com/wolfssl/wolfssl"
+  },
+  "wpantund": {
+    "status": "failed",
+    "error": "Source Analysis: wpantund \u2014 FAILED",
+    "duration": 31.8,
+    "repo": "https://github.com/openthread/wpantund"
+  },
+  "wt": {
+    "status": "success",
+    "functions": 4627,
+    "internal": 4445,
+    "external": 182,
+    "edges": 17340,
+    "duration": 258.1,
+    "repo": "https://github.com/emweb/wt"
+  },
+  "wuffs": {
+    "status": "failed",
+    "error": "Source Analysis: wuffs \u2014 FAILED",
+    "duration": 17.6,
+    "repo": "https://github.com/google/wuffs.git"
+  },
+  "wxwidgets": {
+    "status": "success",
+    "functions": 1016,
+    "internal": 951,
+    "external": 65,
+    "edges": 1022,
+    "duration": 646.6,
+    "repo": "https://github.com/wxWidgets/wxWidgets.git"
+  },
+  "xbps": {
+    "status": "success",
+    "functions": 1248,
+    "internal": 931,
+    "external": 317,
+    "edges": 2018,
+    "duration": 43.7,
+    "repo": "https://github.com/void-linux/xbps"
+  },
+  "xmlsec": {
+    "status": "success",
+    "functions": 1721,
+    "internal": 1322,
+    "external": 399,
+    "edges": 3062,
+    "duration": 55.4,
+    "repo": "https://github.com/lsh123/xmlsec"
+  },
+  "xnnpack": {
+    "status": "timeout",
+    "duration": 1210.3,
+    "repo": "https://github.com/google/XNNPACK"
+  },
+  "xnu": {
+    "status": "failed",
+    "error": "Source Analysis: xnu \u2014 FAILED",
+    "duration": 4.4,
+    "repo": "https://github.com/googleprojectzero/SockFuzzer"
+  },
+  "xs": {
+    "status": "success",
+    "functions": 571,
+    "internal": 510,
+    "external": 61,
+    "edges": 363,
+    "duration": 98.0,
+    "repo": "https://github.com/Moddable-OpenSource/moddable.git"
+  },
+  "xz": {
+    "status": "success",
+    "functions": 885,
+    "internal": 688,
+    "external": 197,
+    "edges": 1143,
+    "duration": 85.7,
+    "repo": "https://github.com/tukaani-project/xz.git"
+  },
+  "yajl-ruby": {
+    "status": "success",
+    "functions": 86,
+    "internal": 67,
+    "external": 19,
+    "edges": 47,
+    "duration": 8.7,
+    "repo": "https://github.com/brianmario/yajl-ruby"
+  },
+  "yaml-cpp": {
+    "status": "success",
+    "functions": 3419,
+    "internal": 3332,
+    "external": 87,
+    "edges": 2029,
+    "duration": 74.9,
+    "repo": "https://github.com/jbeder/yaml-cpp"
+  },
+  "yara": {
+    "status": "success",
+    "functions": 1097,
+    "internal": 842,
+    "external": 255,
+    "edges": 955,
+    "duration": 91.3,
+    "repo": "https://github.com/VirusTotal/yara.git"
+  },
+  "yoga": {
+    "status": "success",
+    "functions": 5857,
+    "internal": 5675,
+    "external": 182,
+    "edges": 6044,
+    "duration": 305.5,
+    "repo": "https://github.com/facebook/yoga"
+  },
+  "zeek": {
+    "status": "success",
+    "functions": 116,
+    "internal": 67,
+    "external": 49,
+    "edges": 32,
+    "duration": 369.0,
+    "repo": "https://github.com/zeek/zeek"
+  },
+  "zip": {
+    "status": "success",
+    "functions": 258,
+    "internal": 223,
+    "external": 35,
+    "edges": 281,
+    "duration": 13.7,
+    "repo": "https://github.com/kuba--/zip"
+  },
+  "zlib-ng": {
+    "status": "success",
+    "functions": 489,
+    "internal": 306,
+    "external": 183,
+    "edges": 234,
+    "duration": 43.1,
+    "repo": "https://github.com/zlib-ng/zlib-ng.git"
+  },
+  "zlib": {
+    "status": "success",
+    "functions": 180,
+    "internal": 159,
+    "external": 21,
+    "edges": 127,
+    "duration": 14.8,
+    "repo": "https://github.com/madler/zlib.git"
+  },
+  "znc": {
+    "status": "success",
+    "functions": 10381,
+    "internal": 10004,
+    "external": 377,
+    "edges": 14806,
+    "duration": 579.1,
+    "repo": "https://github.com/znc/znc"
+  },
+  "zopfli": {
+    "status": "success",
+    "functions": 1268,
+    "internal": 1213,
+    "external": 55,
+    "edges": 1067,
+    "duration": 24.1,
+    "repo": "https://github.com/google/zopfli"
+  },
+  "zstd": {
+    "status": "success",
+    "functions": 1947,
+    "internal": 1472,
+    "external": 475,
+    "edges": 4313,
+    "duration": 116.6,
+    "repo": "https://github.com/facebook/zstd"
+  },
+  "zydis": {
+    "status": "success",
+    "functions": 449,
+    "internal": 392,
+    "external": 57,
+    "edges": 244,
+    "duration": 65.0,
+    "repo": "https://github.com/zyantific/zydis.git"
+  }
+}
