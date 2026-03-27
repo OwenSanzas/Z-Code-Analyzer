@@ -865,27 +865,114 @@ elif $LLVM_LINK --suppress-warnings $BC_FILES -o "$OUTPUT_DIR/library.bc" 2>/dev
 elif $LLVM_LINK $BC_FILES -o "$OUTPUT_DIR/library.bc" 2>&1; then
     log "  Batch link succeeded (with warnings)"
 else
-    # Incremental link — skip conflicting files
-    log "  Batch link failed, trying incremental..."
-    FIRST=1
-    LINKED=0
+    # Hierarchical link — batch files into groups, link groups, then merge
+    log "  Batch link failed, trying hierarchical merge..."
+    MERGE_DIR="/tmp/bc-merge"
+    mkdir -p "$MERGE_DIR"
+    BATCH_SIZE=50
+    BATCH_NUM=0
+    BATCH_FILES=""
+    BATCH_COUNT=0
+    TOTAL_LINKED=0
+    TOTAL_SKIPPED=0
+
     for bc in $BC_FILES; do
-        if [ "$FIRST" -eq 1 ]; then
-            cp "$bc" "$OUTPUT_DIR/library.bc"
-            FIRST=0
-            LINKED=1
-        else
-            cp "$OUTPUT_DIR/library.bc" "$OUTPUT_DIR/library.bc.prev"
-            if $LLVM_LINK --suppress-warnings "$OUTPUT_DIR/library.bc.prev" "$bc" \
-                    -o "$OUTPUT_DIR/library.bc" 2>/dev/null; then
-                LINKED=$((LINKED + 1))
+        BATCH_FILES="$BATCH_FILES $bc"
+        BATCH_COUNT=$((BATCH_COUNT + 1))
+
+        if [ "$BATCH_COUNT" -ge "$BATCH_SIZE" ]; then
+            BATCH_OUT="$MERGE_DIR/batch_${BATCH_NUM}.bc"
+            if $LLVM_LINK --suppress-warnings $BATCH_FILES -o "$BATCH_OUT" 2>/dev/null; then
+                TOTAL_LINKED=$((TOTAL_LINKED + BATCH_COUNT))
             else
-                cp "$OUTPUT_DIR/library.bc.prev" "$OUTPUT_DIR/library.bc"
+                # Incremental link within the batch (only for conflicting batches)
+                FIRST_IN_BATCH=1
+                for bc_inner in $BATCH_FILES; do
+                    if [ "$FIRST_IN_BATCH" -eq 1 ]; then
+                        cp "$bc_inner" "$BATCH_OUT"
+                        FIRST_IN_BATCH=0
+                        TOTAL_LINKED=$((TOTAL_LINKED + 1))
+                    else
+                        cp "$BATCH_OUT" "$BATCH_OUT.prev"
+                        if $LLVM_LINK --suppress-warnings "$BATCH_OUT.prev" "$bc_inner" \
+                                -o "$BATCH_OUT" 2>/dev/null; then
+                            TOTAL_LINKED=$((TOTAL_LINKED + 1))
+                        else
+                            cp "$BATCH_OUT.prev" "$BATCH_OUT"
+                            TOTAL_SKIPPED=$((TOTAL_SKIPPED + 1))
+                        fi
+                        rm -f "$BATCH_OUT.prev"
+                    fi
+                done
             fi
-            rm -f "$OUTPUT_DIR/library.bc.prev"
+            BATCH_NUM=$((BATCH_NUM + 1))
+            BATCH_FILES=""
+            BATCH_COUNT=0
+            log "  Linked batch $BATCH_NUM ($TOTAL_LINKED files so far)"
         fi
     done
-    log "  Incremental link: $LINKED/$BC_COUNT files linked"
+
+    # Handle remaining files
+    if [ "$BATCH_COUNT" -gt 0 ]; then
+        BATCH_OUT="$MERGE_DIR/batch_${BATCH_NUM}.bc"
+        if [ "$BATCH_COUNT" -eq 1 ]; then
+            cp $BATCH_FILES "$BATCH_OUT"
+            TOTAL_LINKED=$((TOTAL_LINKED + 1))
+        elif $LLVM_LINK --suppress-warnings $BATCH_FILES -o "$BATCH_OUT" 2>/dev/null; then
+            TOTAL_LINKED=$((TOTAL_LINKED + BATCH_COUNT))
+        else
+            FIRST_IN_BATCH=1
+            for bc_inner in $BATCH_FILES; do
+                if [ "$FIRST_IN_BATCH" -eq 1 ]; then
+                    cp "$bc_inner" "$BATCH_OUT"
+                    FIRST_IN_BATCH=0
+                    TOTAL_LINKED=$((TOTAL_LINKED + 1))
+                else
+                    cp "$BATCH_OUT" "$BATCH_OUT.prev"
+                    if $LLVM_LINK --suppress-warnings "$BATCH_OUT.prev" "$bc_inner" \
+                            -o "$BATCH_OUT" 2>/dev/null; then
+                        TOTAL_LINKED=$((TOTAL_LINKED + 1))
+                    else
+                        cp "$BATCH_OUT.prev" "$BATCH_OUT"
+                        TOTAL_SKIPPED=$((TOTAL_SKIPPED + 1))
+                    fi
+                    rm -f "$BATCH_OUT.prev"
+                fi
+            done
+        fi
+        BATCH_NUM=$((BATCH_NUM + 1))
+    fi
+
+    log "  $BATCH_NUM batches created, merging..."
+
+    # Final merge of all batch files
+    ALL_BATCHES=$(find "$MERGE_DIR" -name "batch_*.bc" -size +100c 2>/dev/null | sort | tr '\n' ' ')
+    if [ -n "$ALL_BATCHES" ]; then
+        if $LLVM_LINK --suppress-warnings $ALL_BATCHES -o "$OUTPUT_DIR/library.bc" 2>/dev/null; then
+            log "  Final merge succeeded"
+        else
+            # Incremental merge of batches (much fewer files)
+            FIRST_BATCH=1
+            for batch in $ALL_BATCHES; do
+                if [ "$FIRST_BATCH" -eq 1 ]; then
+                    cp "$batch" "$OUTPUT_DIR/library.bc"
+                    FIRST_BATCH=0
+                else
+                    cp "$OUTPUT_DIR/library.bc" "$OUTPUT_DIR/library.bc.prev"
+                    if $LLVM_LINK --suppress-warnings "$OUTPUT_DIR/library.bc.prev" "$batch" \
+                            -o "$OUTPUT_DIR/library.bc" 2>/dev/null; then
+                        true
+                    else
+                        cp "$OUTPUT_DIR/library.bc.prev" "$OUTPUT_DIR/library.bc"
+                    fi
+                    rm -f "$OUTPUT_DIR/library.bc.prev"
+                fi
+            done
+            log "  Incremental batch merge done"
+        fi
+    fi
+    rm -rf "$MERGE_DIR"
+    log "  Hierarchical link: $TOTAL_LINKED/$BC_COUNT linked, $TOTAL_SKIPPED skipped"
 fi
 
 # Validate

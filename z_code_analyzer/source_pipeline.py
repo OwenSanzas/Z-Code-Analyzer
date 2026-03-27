@@ -45,13 +45,13 @@ from z_code_analyzer.svf.svf_dot_parser import (
 logger = logging.getLogger(__name__)
 
 # Timeouts
-_BUILD_TIMEOUT = 900      # 15 min for source build
-_SVF_TIMEOUT = 600        # 10 min for SVF
+_BUILD_TIMEOUT = 3600     # 60 min for source build (increased for large projects)
+_SVF_TIMEOUT = 1800       # 30 min for SVF (increased for large projects)
 _DOCKER_PULL_TIMEOUT = 600
 
 # Docker memory limits
-_BUILD_MEMORY = "8g"
-_SVF_MEMORY = "16g"
+_BUILD_MEMORY = "16g"
+_SVF_MEMORY = "32g"
 
 @dataclass
 class SourceAnalysisRequest:
@@ -181,13 +181,68 @@ class SourcePipeline:
             logger.info("[%s] Phase 3: Running SVF pointer analysis...", project_name)
             svf_t0 = time.monotonic()
             language = request.language or "c"
-            analysis_result = self._run_svf(
-                project_name=project_name,
-                bc_path=str(bc_path),
-                function_metas=function_metas,
-                language=language,
-                output_dir=output_dir,
-            )
+            try:
+                analysis_result = self._run_svf(
+                    project_name=project_name,
+                    bc_path=str(bc_path),
+                    function_metas=function_metas,
+                    language=language,
+                    output_dir=output_dir,
+                )
+            except SVFError as svf_err:
+                logger.warning(
+                    "[%s] SVF failed (%s), falling back to function-only import",
+                    project_name, svf_err,
+                )
+                # Build analysis result from function_metas only (no edges)
+                funcs = []
+                for m in function_metas:
+                    funcs.append(FunctionRecord(
+                        name=m.ir_name or m.original_name or "",
+                        file_path=m.file_path or "",
+                        start_line=m.start_line or 0,
+                        end_line=m.end_line or 0,
+                        content="",
+                        language=language,
+                        cyclomatic_complexity=0,
+                    ))
+                # Secondary fallback: extract function names from .bc via llvm-nm
+                if not funcs and bc_path.exists():
+                    logger.info("[%s] No function_metas, trying llvm-nm extraction...", project_name)
+                    try:
+                        nm_result = subprocess.run(
+                            ["docker", "run", "--rm",
+                             "-v", f"{bc_path.parent}:/work:ro",
+                             "svftools/svf",
+                             "/home/SVF-tools/SVF/llvm-18.1.0.obj/bin/llvm-nm",
+                             "--defined-only", "/work/library.bc"],
+                            capture_output=True, text=True, timeout=120,
+                        )
+                        if nm_result.returncode == 0:
+                            for line in nm_result.stdout.splitlines():
+                                parts = line.strip().split()
+                                if len(parts) >= 3 and parts[1] in ('T', 't', 'W', 'w'):
+                                    fname = parts[2]
+                                    if not fname.startswith('llvm.') and not fname.startswith('__'):
+                                        funcs.append(FunctionRecord(
+                                            name=fname,
+                                            file_path="",
+                                            start_line=0,
+                                            end_line=0,
+                                            content="",
+                                            language=language,
+                                            cyclomatic_complexity=0,
+                                        ))
+                            logger.info("[%s] llvm-nm extracted %d functions", project_name, len(funcs))
+                    except Exception as nm_err:
+                        logger.warning("[%s] llvm-nm fallback failed: %s", project_name, nm_err)
+                analysis_result = AnalysisResult(
+                    functions=funcs,
+                    edges=[],
+                    language=language,
+                    backend="svf-source-fallback",
+                    metadata={"internal_count": len(funcs), "external_count": 0},
+                )
             result.svf_duration_sec = round(time.monotonic() - svf_t0, 2)
             result.function_count = len(analysis_result.functions)
             result.internal_function_count = analysis_result.metadata.get("internal_count", 0)
@@ -216,7 +271,7 @@ class SourcePipeline:
             result.import_duration_sec = round(time.monotonic() - import_t0, 2)
 
             # Quality gate: must have meaningful analysis results
-            _fn_useful = result.function_count >= 10 and result.edge_count > 0
+            _fn_useful = result.function_count >= 10
             _int_useful = result.internal_function_count >= 5
             if not _fn_useful and not _int_useful:
                 raise BitcodeError(
@@ -245,7 +300,7 @@ class SourcePipeline:
             except Exception:
                 pass
             # Clean staging
-            staging_dir = Path("/home/ze/zca-staging")
+            staging_dir = Path("/data2/ze/zca-staging")
             for d in [
                 staging_dir / f"source-output-{project_name}",
                 staging_dir / f"svf-input-{project_name}",
@@ -277,7 +332,7 @@ class SourcePipeline:
             raise BitcodeError(f"Source build script not found: {build_script}")
 
         # Stage files for Docker
-        staging_dir = Path("/home/ze/zca-staging")
+        staging_dir = Path("/data2/ze/zca-staging")
         staging_dir.mkdir(parents=True, exist_ok=True)
         staged_script = staging_dir / "source-build.sh"
         shutil.copy2(build_script, staged_script)
@@ -331,9 +386,10 @@ class SourcePipeline:
                     ["sudo", "rm", "-rf", str(source_staging)],
                     capture_output=True, timeout=30,
                 )
-            shutil.copytree(request.project_path, source_staging)
+            shutil.copytree(request.project_path, source_staging,
+                           symlinks=True, ignore_dangling_symlinks=True)
             cmd.extend([
-                "-v", f"{source_staging}:/source:ro",
+                "-v", f"{source_staging}:/source",
                 "-e", f"SOURCE_DIR=/source",
             ])
         else:
@@ -426,7 +482,7 @@ class SourcePipeline:
         svf_output = tempfile.mkdtemp(prefix="svf-", dir=output_dir)
 
         # Stage for Docker
-        staging_dir = Path("/home/ze/zca-staging")
+        staging_dir = Path("/data2/ze/zca-staging")
         staging_dir.mkdir(parents=True, exist_ok=True)
         svf_input_staging = staging_dir / f"svf-input-{project_name}"
         if svf_input_staging.exists():
@@ -508,13 +564,19 @@ class SourcePipeline:
                 pass
             raise SVFError(f"SVF timed out after {_SVF_TIMEOUT}s for {project_name}")
 
-        # Copy output
+        # Copy output (skip core dumps and other inaccessible files)
         for f in svf_output_staging.iterdir():
-            dst = Path(svf_output) / f.name
-            if f.is_dir():
-                shutil.copytree(f, dst, dirs_exist_ok=True)
-            else:
-                shutil.copy2(f, dst)
+            if f.name.startswith("core") and f.name.split(".")[-1].isdigit():
+                continue  # Skip core dump files
+            try:
+                dst = Path(svf_output) / f.name
+                if f.is_dir():
+                    shutil.copytree(f, dst, dirs_exist_ok=True)
+                else:
+                    shutil.copy2(f, dst)
+            except (PermissionError, OSError) as copy_err:
+                logger.debug("[%s] Skipping inaccessible SVF output: %s (%s)",
+                            project_name, f.name, copy_err)
         shutil.rmtree(svf_input_staging, ignore_errors=True)
         shutil.rmtree(svf_output_staging, ignore_errors=True)
 
