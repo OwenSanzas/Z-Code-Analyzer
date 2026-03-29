@@ -47,15 +47,15 @@ from z_code_analyzer.svf.svf_dot_parser import (
 
 logger = logging.getLogger(__name__)
 
-# Timeouts
-_DOCKER_BUILD_TIMEOUT = 3600  # 60 min for oss-fuzz build
-_SVF_ANALYSIS_TIMEOUT = 1800  # 30 min for SVF pointer analysis
-_DOCKER_PULL_TIMEOUT = 600    # 10 min for docker pull
+# Timeouts — no limits for batch experiment
+_DOCKER_BUILD_TIMEOUT = 36000  # 10 hours for oss-fuzz build
+_SVF_ANALYSIS_TIMEOUT = 36000  # 10 hours for SVF pointer analysis
+_DOCKER_PULL_TIMEOUT = 3600    # 1 hour for docker pull
 _MAX_REACH_DEPTH = 20  # Reduced from 50 to prevent Neo4j OOM on large graphs
 
 # Memory limits for Docker containers (prevent OOM on host)
-_DOCKER_BUILD_MEMORY = "8g"   # oss-fuzz build container
-_SVF_MEMORY = "16g"           # SVF pointer analysis (Andersen can be hungry)
+_DOCKER_BUILD_MEMORY = "32g"  # oss-fuzz build container (increased for large projects)
+_SVF_MEMORY = "32g"           # SVF pointer analysis (Andersen can be hungry)
 
 # Known fuzzing framework files to exclude from project fuzzer list.
 # These are infrastructure, not project-specific fuzzers.
