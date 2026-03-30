@@ -413,28 +413,33 @@ class AutoPipeline:
                 ws_path = Path(self._workspace_dir).parent / "joern-workspace" / project_name
                 if ws_path.exists():
                     source_dir = str(ws_path)
-                elif config and config.repo_url:
-                    # Clone the repo
-                    clone_dir = Path(self._workspace_dir) / f"joern-{project_name}"
-                    clone_dir.mkdir(parents=True, exist_ok=True)
-                    logger.info("[%s] Cloning %s...", project_name, config.repo_url)
-                    subprocess.run(
-                        ["git", "clone", "--depth=1", config.repo_url, str(clone_dir)],
-                        capture_output=True, timeout=300,
-                    )
-                    # Copy fuzzer sources from oss-fuzz
-                    if self._ossfuzz_path:
-                        ossfuzz_proj = Path(self._ossfuzz_path) / "projects" / project_name
-                        if ossfuzz_proj.exists():
-                            for ext in ["*.c", "*.cc", "*.cpp"]:
-                                for f in ossfuzz_proj.glob(ext):
-                                    try:
-                                        if "LLVMFuzzerTestOneInput" in f.read_text(errors="replace"):
-                                            import shutil
-                                            shutil.copy2(f, clone_dir)
-                                    except Exception:
-                                        pass
-                    source_dir = str(clone_dir)
+                else:
+                    # Determine repo URL: request > config > empty
+                    clone_url = request.repo_url or (config.repo_url if config else "")
+                    if clone_url:
+                        clone_dir = Path(self._workspace_dir) / f"joern-{project_name}"
+                        if clone_dir.exists():
+                            import shutil
+                            shutil.rmtree(clone_dir, ignore_errors=True)
+                        clone_dir.mkdir(parents=True, exist_ok=True)
+                        logger.info("[%s] Cloning %s...", project_name, clone_url)
+                        subprocess.run(
+                            ["git", "clone", "--depth=1", clone_url, str(clone_dir)],
+                            capture_output=True, timeout=300,
+                        )
+                        # Copy fuzzer sources from oss-fuzz (if available)
+                        if self._ossfuzz_path:
+                            ossfuzz_proj = Path(self._ossfuzz_path) / "projects" / project_name
+                            if ossfuzz_proj.exists():
+                                import shutil as _shutil
+                                for ext in ["*.c", "*.cc", "*.cpp"]:
+                                    for f in ossfuzz_proj.glob(ext):
+                                        try:
+                                            if "LLVMFuzzerTestOneInput" in f.read_text(errors="replace"):
+                                                _shutil.copy2(f, clone_dir)
+                                        except Exception:
+                                            pass
+                        source_dir = str(clone_dir)
 
             if not source_dir or not Path(source_dir).exists():
                 raise RuntimeError(f"No source directory found for {project_name}")
