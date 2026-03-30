@@ -111,6 +111,7 @@ class AutoAnalysisRequest:
     branch: str = ""
     language: str = ""  # auto-detect if empty
     fuzzer_names: list[str] = field(default_factory=list)
+    fuzzer_source_paths: list[str] = field(default_factory=list)  # paths to fuzzer .c/.cc files
     backend: str = ""  # "svf", "joern", or "" (auto-select from project_configs)
 
     # OSS-Fuzz configuration
@@ -444,10 +445,19 @@ class AutoPipeline:
             if not source_dir or not Path(source_dir).exists():
                 raise RuntimeError(f"No source directory found for {project_name}")
 
+            # Copy user-specified fuzzer source files into source_dir
+            if request.fuzzer_source_paths:
+                import shutil as _shutil
+                for fpath in request.fuzzer_source_paths:
+                    fp = Path(fpath)
+                    if fp.exists():
+                        _shutil.copy2(fp, Path(source_dir) / fp.name)
+                        logger.info("[%s] Copied fuzzer source: %s", project_name, fp.name)
+
             # Run Joern analysis
-            backend = JoernBackend()
+            joern_backend = JoernBackend()
             joern_t0 = time.monotonic()
-            analysis = backend.analyze(source_dir, request.language or "cpp")
+            analysis = joern_backend.analyze(source_dir, request.language or "cpp")
             result.svf_duration_sec = round(time.monotonic() - joern_t0, 2)
             result.function_count = len(analysis.functions)
             result.edge_count = len(analysis.edges)
@@ -455,6 +465,12 @@ class AutoPipeline:
             logger.info(
                 "[%s] Joern complete: %d functions, %d edges",
                 project_name, result.function_count, result.edge_count,
+            )
+
+            # Parse fuzzer sources for reachability
+            fuzzer_sources, fuzzer_calls = self._parse_joern_fuzzers(
+                project_name, source_dir, request,
+                library_functions={f.name for f in analysis.functions},
             )
 
             # Import to Neo4j
@@ -467,8 +483,8 @@ class AutoPipeline:
                 repo_url=repo_url,
                 version=request.version,
                 analysis_result=analysis,
-                fuzzer_sources={},  # Joern doesn't separate fuzzer sources
-                fuzzer_calls={},
+                fuzzer_sources=fuzzer_sources,
+                fuzzer_calls=fuzzer_calls,
                 language=request.language or "cpp",
                 force=request.force,
             )
@@ -477,6 +493,8 @@ class AutoPipeline:
             result.success = True
             result.snapshot_id = snapshot_id
             result.neo4j_snapshot_id = snapshot_id
+            result.fuzzer_names = list(fuzzer_sources.keys())
+            result.fuzzer_reach_count = self._count_reaches(snapshot_id)
 
         except Exception as e:
             result.error = str(e)
@@ -486,6 +504,102 @@ class AutoPipeline:
             result.total_duration_sec = round(time.monotonic() - t0, 2)
 
         return result
+
+    def _parse_joern_fuzzers(
+        self,
+        project_name: str,
+        source_dir: str,
+        request: AutoAnalysisRequest,
+        library_functions: set[str],
+    ) -> tuple[dict[str, list[str]], dict[str, list[str]]]:
+        """Discover and parse fuzzer sources in the Joern analysis directory.
+
+        Searches for files containing LLVMFuzzerTestOneInput, extracts the
+        function calls from the fuzzer body, and matches them against
+        library functions.
+
+        Returns (fuzzer_sources, fuzzer_calls) in the same format as _parse_fuzzers.
+        """
+        import re
+
+        fuzzer_sources: dict[str, list[str]] = {}
+        fuzzer_calls: dict[str, list[str]] = {}
+
+        # Find all fuzzer source files
+        src_dir = Path(source_dir)
+        fuzzer_files: list[Path] = []
+
+        # User-specified fuzzer source paths take priority
+        if request.fuzzer_source_paths:
+            for fpath in request.fuzzer_source_paths:
+                fp = Path(fpath)
+                # Check in source_dir (may have been copied there)
+                in_src = src_dir / fp.name
+                if in_src.exists():
+                    fuzzer_files.append(in_src)
+                elif fp.exists():
+                    fuzzer_files.append(fp)
+        else:
+            # Auto-discover: search for LLVMFuzzerTestOneInput in source tree
+            for ext in ["*.c", "*.cc", "*.cpp", "*.cxx"]:
+                for f in src_dir.rglob(ext):
+                    try:
+                        content = f.read_text(errors="replace")
+                    except Exception:
+                        continue
+                    if "LLVMFuzzerTestOneInput" in content:
+                        fuzzer_files.append(f)
+
+        if not fuzzer_files:
+            logger.info("[%s] No fuzzer sources found", project_name)
+            return {}, {}
+
+        # Parse each fuzzer file
+        skip_funcs = {
+            "if", "for", "while", "return", "sizeof", "memcpy", "memset",
+            "malloc", "calloc", "realloc", "free", "abort", "strlen",
+            "strndup", "printf", "fprintf", "fopen", "fclose", "fwrite",
+            "getpid", "sprintf", "unlink", "exit", "strtol", "atoi",
+            "memchr", "assert", "NULL", "catch", "try",
+        }
+
+        for fpath in fuzzer_files:
+            try:
+                content = fpath.read_text(errors="replace")
+            except Exception:
+                continue
+
+            # Extract function body of LLVMFuzzerTestOneInput
+            match = re.search(
+                r'LLVMFuzzerTestOneInput[^{]*\{(.*?)(?:^\})',
+                content, re.DOTALL | re.MULTILINE,
+            )
+            if not match:
+                continue
+
+            body = match.group(1)
+            # Extract function calls
+            calls = re.findall(r'([a-zA-Z_]\w+(?:::\w+)*)\s*\(', body)
+            calls = [c for c in calls if c not in skip_funcs]
+            # Deduplicate preserving order
+            seen = set()
+            unique_calls = []
+            for c in calls:
+                if c not in seen:
+                    seen.add(c)
+                    unique_calls.append(c)
+
+            fuzzer_name = fpath.stem
+            fuzzer_sources[fuzzer_name] = [str(fpath)]
+            fuzzer_calls[fuzzer_name] = unique_calls
+
+            logger.info(
+                "[%s] Fuzzer '%s': %d calls -> %s",
+                project_name, fuzzer_name, len(unique_calls),
+                unique_calls[:5],
+            )
+
+        return fuzzer_sources, fuzzer_calls
 
     # ── Phase 1: Resolve project ─────────────────────────────────────────────
 

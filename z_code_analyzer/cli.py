@@ -475,17 +475,19 @@ def _resolve_auth(neo4j_auth: str | None) -> tuple[str, str] | None:
 @click.option("--version", default="HEAD", help="Version/tag/commit to analyze")
 @click.option("--branch", default="", help="Git branch")
 @click.option("--language", default="", help="Override language detection")
-@click.option("--fuzzer", "fuzzer_names", multiple=True, help="Fuzzer name(s)")
+@click.option("--fuzzer", "fuzzer_names", multiple=True, help="Fuzzer binary name(s)")
+@click.option("--fuzzer-source", "fuzzer_source_paths", multiple=True,
+              help="Path(s) to fuzzer source files (.c/.cc/.cpp)")
 @click.option(
     "--ossfuzz-repo",
-    default="/data2/ze/poc-workspace/oss-fuzz",
-    help="Path to oss-fuzz repo",
+    default=None,
+    help="Path to oss-fuzz repo (auto-detect if not set)",
 )
 @click.option("--neo4j-uri", default=_DEFAULT_NEO4J_URI, help="Neo4j URI")
 @click.option("--neo4j-auth", default=None, help="Neo4j auth")
 @click.option(
     "--pg-url",
-    default="postgresql://zca:zca_pass@127.0.0.1:5433/z_code_analyzer",
+    default=_DEFAULT_PG_URL,
     help="PostgreSQL URL",
 )
 @click.option("--docker-image", default="", help="Explicit Docker image")
@@ -499,7 +501,8 @@ def auto_analyze(
     branch: str,
     language: str,
     fuzzer_names: tuple[str, ...],
-    ossfuzz_repo: str,
+    fuzzer_source_paths: tuple[str, ...],
+    ossfuzz_repo: str | None,
     neo4j_uri: str,
     neo4j_auth: str | None,
     pg_url: str,
@@ -509,12 +512,20 @@ def auto_analyze(
 ) -> None:
     """Fully automated analysis of a repo or oss-fuzz project.
 
-    Accepts target as positional arg or via --project / --repo-url:
-
     \b
-      z-analyze auto libpng
-      z-analyze auto --project libpng
-      z-analyze auto --repo-url https://github.com/pnggroup/libpng
+    Examples:
+      # Pure call graph (no fuzzer):
+      z-analyze auto --repo-url https://github.com/antirez/sds
+
+      # With fuzzer source file:
+      z-analyze auto --repo-url https://github.com/madler/zlib \\
+          --fuzzer-source /path/to/my_fuzzer.c
+
+      # OSS-Fuzz project:
+      z-analyze auto libpng --ossfuzz-repo /path/to/oss-fuzz
+
+      # Force Joern backend:
+      z-analyze auto --repo-url https://github.com/nlohmann/json --backend joern
     """
     # Resolve target from positional arg, --project, or --repo-url
     if target is None and project is None and repo_url is None:
@@ -522,6 +533,16 @@ def auto_analyze(
         raise SystemExit(1)
     if target is None:
         target = repo_url if repo_url else project
+
+    # Auto-detect oss-fuzz repo
+    if ossfuzz_repo is None:
+        for candidate in ["/home/ze/oss-fuzz", os.path.expanduser("~/oss-fuzz"), "/tmp/oss-fuzz"]:
+            if os.path.isdir(os.path.join(candidate, "projects")):
+                ossfuzz_repo = candidate
+                break
+        if ossfuzz_repo is None:
+            ossfuzz_repo = ""
+
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
 
@@ -545,6 +566,16 @@ def auto_analyze(
 
     # Determine if target is a URL or oss-fuzz project name
     is_url = target.startswith("http://") or target.startswith("https://")
+
+    # For non-URL targets without oss-fuzz, default to joern
+    resolved_backend = backend
+    if not resolved_backend and not is_url:
+        # Check if it's an OSS-Fuzz project
+        if ossfuzz_repo and os.path.isdir(os.path.join(ossfuzz_repo, "projects", target)):
+            pass  # let auto-select decide
+        else:
+            resolved_backend = "joern"  # non-OSS-Fuzz, default to joern
+
     request = AutoAnalysisRequest(
         repo_url=target if is_url else "",
         ossfuzz_project="" if is_url else target,
@@ -552,7 +583,8 @@ def auto_analyze(
         branch=branch,
         language=language,
         fuzzer_names=list(fuzzer_names),
-        backend=backend,
+        fuzzer_source_paths=list(fuzzer_source_paths),
+        backend=resolved_backend,
         ossfuzz_repo_path=ossfuzz_repo,
         docker_image=docker_image,
         force=force,
@@ -561,6 +593,13 @@ def auto_analyze(
     try:
         result = pipeline.run(request)
         click.echo(result.summary())
+
+        # Show fuzzer details if any
+        if result.fuzzer_names:
+            click.echo(f"\nFuzzer reachability:")
+            for fn in result.fuzzer_names:
+                click.echo(f"  {fn}")
+
         if not result.success:
             raise SystemExit(1)
     finally:
@@ -580,7 +619,7 @@ def auto_analyze(
 @click.option("--neo4j-auth", default=None, help="Neo4j auth")
 @click.option(
     "--pg-url",
-    default="postgresql://zca:zca_pass@127.0.0.1:5433/z_code_analyzer",
+    default=_DEFAULT_PG_URL,
     help="PostgreSQL URL",
 )
 @click.option("--force", is_flag=True, help="Force re-analysis even if snapshot exists")
@@ -670,14 +709,14 @@ def source_analyze(
 @click.option("--retry", default=1, help="Retry count per project")
 @click.option(
     "--ossfuzz-repo",
-    default="/data2/ze/poc-workspace/oss-fuzz",
+    default=None,
     help="Path to oss-fuzz repo",
 )
 @click.option("--neo4j-uri", default=_DEFAULT_NEO4J_URI, help="Neo4j URI")
 @click.option("--neo4j-auth", default=None, help="Neo4j auth")
 @click.option(
     "--pg-url",
-    default="postgresql://zca:zca_pass@127.0.0.1:5433/z_code_analyzer",
+    default=_DEFAULT_PG_URL,
     help="PostgreSQL URL",
 )
 @click.option(
@@ -747,7 +786,7 @@ def batch_analyze(
 @main.command("ossfuzz-list")
 @click.option(
     "--ossfuzz-repo",
-    default="/data2/ze/poc-workspace/oss-fuzz",
+    default=None,
     help="Path to oss-fuzz repo",
 )
 @click.option("--limit", default=200, help="Max number of projects to list")
