@@ -489,6 +489,7 @@ def _resolve_auth(neo4j_auth: str | None) -> tuple[str, str] | None:
     help="PostgreSQL URL",
 )
 @click.option("--docker-image", default="", help="Explicit Docker image")
+@click.option("--backend", default="", help="Analysis backend: 'svf', 'joern', or '' (auto-select)")
 @click.option("--force", is_flag=True, help="Force re-analysis even if snapshot exists")
 def auto_analyze(
     target: str | None,
@@ -503,6 +504,7 @@ def auto_analyze(
     neo4j_auth: str | None,
     pg_url: str,
     docker_image: str,
+    backend: str,
     force: bool,
 ) -> None:
     """Fully automated analysis of a repo or oss-fuzz project.
@@ -550,6 +552,7 @@ def auto_analyze(
         branch=branch,
         language=language,
         fuzzer_names=list(fuzzer_names),
+        backend=backend,
         ossfuzz_repo_path=ossfuzz_repo,
         docker_image=docker_image,
         force=force,

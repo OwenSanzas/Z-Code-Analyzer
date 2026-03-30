@@ -111,6 +111,7 @@ class AutoAnalysisRequest:
     branch: str = ""
     language: str = ""  # auto-detect if empty
     fuzzer_names: list[str] = field(default_factory=list)
+    backend: str = ""  # "svf", "joern", or "" (auto-select from project_configs)
 
     # OSS-Fuzz configuration
     ossfuzz_repo_path: str = ""  # path to local oss-fuzz repo
@@ -208,6 +209,23 @@ class AutoPipeline:
         self._workspace_dir = workspace_dir or str(Path.cwd() / "workspace")
         Path(self._workspace_dir).mkdir(parents=True, exist_ok=True)
 
+    def _resolve_backend(self, request: AutoAnalysisRequest, project_name: str) -> str:
+        """Determine which backend to use: 'svf' or 'joern'."""
+        if request.backend:
+            return request.backend
+
+        # Check project_configs for preferred backend
+        try:
+            from z_code_analyzer.project_configs import get_config
+            config = get_config(project_name)
+            if config:
+                return config.preferred_backend
+        except ImportError:
+            pass
+
+        # Default to SVF
+        return "svf"
+
     def run(self, request: AutoAnalysisRequest) -> AutoAnalysisResult:
         """Execute the full automated pipeline synchronously."""
         t0 = time.monotonic()
@@ -221,6 +239,13 @@ class AutoPipeline:
             version=request.version,
             neo4j_uri=self._neo4j_uri,
         )
+
+        # Determine backend
+        backend = self._resolve_backend(request, project_name)
+        result.backend = backend
+
+        if backend == "joern":
+            return self._run_joern_pipeline(request, project_name, result, t0)
 
         output_dir = tempfile.mkdtemp(
             prefix=f"auto-{project_name}-",
@@ -360,6 +385,100 @@ class AutoPipeline:
                             ["sudo", "rm", "-rf", str(d)],
                             capture_output=True, timeout=10,
                         )
+
+        return result
+
+    # ── Joern pipeline ──────────────────────────────────────────────────────
+
+    def _run_joern_pipeline(
+        self,
+        request: AutoAnalysisRequest,
+        project_name: str,
+        result: AutoAnalysisResult,
+        t0: float,
+    ) -> AutoAnalysisResult:
+        """Run analysis using Joern backend (no compilation needed)."""
+        logger.info("[%s] Using Joern backend (source-level analysis)", project_name)
+
+        try:
+            from z_code_analyzer.backends.joern_backend import JoernBackend
+            from z_code_analyzer.project_configs import get_config
+
+            config = get_config(project_name)
+
+            # Resolve source directory
+            source_dir = request.project_path
+            if not source_dir:
+                # Try to find in joern-workspace
+                ws_path = Path(self._workspace_dir).parent / "joern-workspace" / project_name
+                if ws_path.exists():
+                    source_dir = str(ws_path)
+                elif config and config.repo_url:
+                    # Clone the repo
+                    clone_dir = Path(self._workspace_dir) / f"joern-{project_name}"
+                    clone_dir.mkdir(parents=True, exist_ok=True)
+                    logger.info("[%s] Cloning %s...", project_name, config.repo_url)
+                    subprocess.run(
+                        ["git", "clone", "--depth=1", config.repo_url, str(clone_dir)],
+                        capture_output=True, timeout=300,
+                    )
+                    # Copy fuzzer sources from oss-fuzz
+                    if self._ossfuzz_path:
+                        ossfuzz_proj = Path(self._ossfuzz_path) / "projects" / project_name
+                        if ossfuzz_proj.exists():
+                            for ext in ["*.c", "*.cc", "*.cpp"]:
+                                for f in ossfuzz_proj.glob(ext):
+                                    try:
+                                        if "LLVMFuzzerTestOneInput" in f.read_text(errors="replace"):
+                                            import shutil
+                                            shutil.copy2(f, clone_dir)
+                                    except Exception:
+                                        pass
+                    source_dir = str(clone_dir)
+
+            if not source_dir or not Path(source_dir).exists():
+                raise RuntimeError(f"No source directory found for {project_name}")
+
+            # Run Joern analysis
+            backend = JoernBackend()
+            joern_t0 = time.monotonic()
+            analysis = backend.analyze(source_dir, request.language or "cpp")
+            result.svf_duration_sec = round(time.monotonic() - joern_t0, 2)
+            result.function_count = len(analysis.functions)
+            result.edge_count = len(analysis.edges)
+
+            logger.info(
+                "[%s] Joern complete: %d functions, %d edges",
+                project_name, result.function_count, result.edge_count,
+            )
+
+            # Import to Neo4j
+            repo_url = request.repo_url or (config.repo_url if config else "")
+            result.repo_url = repo_url
+
+            import_t0 = time.monotonic()
+            snapshot_id = self._import_to_neo4j(
+                project_name=project_name,
+                repo_url=repo_url,
+                version=request.version,
+                analysis_result=analysis,
+                fuzzer_sources={},  # Joern doesn't separate fuzzer sources
+                fuzzer_calls={},
+                language=request.language or "cpp",
+                force=request.force,
+            )
+            result.import_duration_sec = round(time.monotonic() - import_t0, 2)
+
+            result.success = True
+            result.snapshot_id = snapshot_id
+            result.neo4j_snapshot_id = snapshot_id
+
+        except Exception as e:
+            result.error = str(e)
+            result.error_phase = "joern"
+            logger.error("[%s] Joern pipeline failed: %s", project_name, e, exc_info=True)
+        finally:
+            result.total_duration_sec = round(time.monotonic() - t0, 2)
 
         return result
 
