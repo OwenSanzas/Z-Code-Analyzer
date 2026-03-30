@@ -670,22 +670,21 @@ for f in $FUZZER_BINARIES; do
 done
 log "  Fuzzer binaries in \$OUT: $FUZZER_COUNT"
 
-# Find fuzzer source files — search $SRC subdirectories but SKIP known
-# fuzzing framework directories (centipede, aflplusplus, fuzztest, honggfuzz,
-# libfuzzer, fuzzing-headers, etc.) that also define LLVMFuzzerTestOneInput.
+# Find fuzzer source files — search project source dir FIRST, then $SRC top-level.
+# IMPORTANT: Only search the project's own source tree ($PROJECT_SRC), NOT
+# dependency library directories. This prevents picking up fuzzers from
+# bundled dependencies (e.g. zstd, lz4, snappy fuzzers in Arrow's build).
 FUZZER_SOURCES=""
 _framework_re="^(aflplusplus|honggfuzz|fuzztest|centipede|libfuzzer|fuzzing-headers|libprotobuf-mutator|FuzzedDataProvider)$"
 
-# 1. Search each $SRC subdirectory, skipping framework dirs
-for _d in "$SRC"/*/; do
-    [ -d "$_d" ] || continue
-    _dirname=$(basename "$_d")
-    echo "$_dirname" | grep -qiE "$_framework_re" && continue
-    _found=$(grep -rl "LLVMFuzzerTestOneInput" "$_d" \
+# 1. Search the project's own source directory (primary, most reliable)
+if [ -n "$PROJECT_SRC" ] && [ -d "$PROJECT_SRC" ]; then
+    _found=$(grep -rl "LLVMFuzzerTestOneInput" "$PROJECT_SRC" \
         --include="*.c" --include="*.cc" --include="*.cpp" --include="*.cxx" \
-        2>/dev/null | head -50 || true)
+        2>/dev/null | head -100 || true)
     [ -n "$_found" ] && FUZZER_SOURCES=$(printf '%s\n%s' "$FUZZER_SOURCES" "$_found")
-done
+    log "  Fuzzer sources from PROJECT_SRC ($PROJECT_SRC): $(echo "$_found" | grep -c . || echo 0)"
+fi
 
 # 2. Check top-level $SRC files (many build.sh scripts put fuzzers directly in $SRC/)
 for _ext in c cc cpp cxx; do
@@ -695,6 +694,22 @@ for _ext in c cc cpp cxx; do
             FUZZER_SOURCES=$(printf '%s\n%s' "$FUZZER_SOURCES" "$_f")
     done
 done
+
+# 3. Fallback: if no fuzzers found in project source, search all $SRC subdirs
+#    (but skip framework dirs) — this handles projects that keep fuzzers outside
+#    the main source tree
+if [ -z "$(echo "$FUZZER_SOURCES" | tr -d '[:space:]')" ]; then
+    log "  No fuzzers in PROJECT_SRC, falling back to full $SRC scan..."
+    for _d in "$SRC"/*/; do
+        [ -d "$_d" ] || continue
+        _dirname=$(basename "$_d")
+        echo "$_dirname" | grep -qiE "$_framework_re" && continue
+        _found=$(grep -rl "LLVMFuzzerTestOneInput" "$_d" \
+            --include="*.c" --include="*.cc" --include="*.cpp" --include="*.cxx" \
+            2>/dev/null | head -50 || true)
+        [ -n "$_found" ] && FUZZER_SOURCES=$(printf '%s\n%s' "$FUZZER_SOURCES" "$_found")
+    done
+fi
 
 for src in $FUZZER_SOURCES; do
     [ -f "$src" ] && cp "$src" "$FUZZER_OUT/" 2>/dev/null || true

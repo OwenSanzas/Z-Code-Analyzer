@@ -101,8 +101,9 @@ class BackendRegistry:
 
 
 def create_default_registry() -> BackendRegistry:
-    """Create registry with SVF registered (v1 default)."""
+    """Create registry with SVF and Joern registered."""
     from z_code_analyzer.backends.svf_backend import SVFBackend
+    from z_code_analyzer.backends.joern_backend import JoernBackend
 
     registry = BackendRegistry()
     registry.register(
@@ -119,6 +120,21 @@ def create_default_registry() -> BackendRegistry:
             speed_score=0.60,
             prerequisites=["Docker", "svftools/svf image"],
             factory=SVFBackend,
+        )
+    )
+    registry.register(
+        BackendDescriptor(
+            name="joern",
+            supported_languages={"c", "cpp"},
+            capabilities={
+                BackendCapability.FUNCTION_EXTRACTION,
+                BackendCapability.DIRECT_CALLS,
+                BackendCapability.COMPLEXITY_METRICS,
+            },
+            precision_score=0.75,
+            speed_score=0.90,
+            prerequisites=["joern-parse", "joern"],
+            factory=JoernBackend,
         )
     )
     return registry
