@@ -243,7 +243,15 @@
     "attempt": 1,
     "case_reachability": {
       "bad_example_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 2,
+    "joern_edges": 1,
+    "joern_duration_sec": 47.8,
+    "joern_reachability": {
+      "bad_example_fuzzer": 1
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "binutils",
@@ -263,7 +271,16 @@
       "fuzz_addr2line",
       "fuzz_nm"
     ],
-    "attempt": 3
+    "attempt": 3,
+    "joern_success": true,
+    "joern_functions": 40,
+    "joern_edges": 112,
+    "joern_duration_sec": 49.1,
+    "joern_reachability": {
+      "fuzz_addr2line": 1,
+      "fuzz_nm": 1
+    },
+    "joern_error": ""
   },
   {
     "project": "boost",
@@ -405,7 +422,19 @@
       "http_response": 0,
       "fuzz_escape_string": 0,
       "narrow": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 19,
+    "joern_edges": 103,
+    "joern_duration_sec": 15.9,
+    "joern_reachability": {
+      "boost_graph_graphviz_fuzzer": 1,
+      "boost_ptree_inforead_fuzzer": 1,
+      "boost_ptree_iniread_fuzzer": 1,
+      "boost_ptree_jsonread_fuzzer": 1,
+      "boost_ptree_xmlread_fuzzer": 1
+    },
+    "joern_error": ""
   },
   {
     "project": "brotli",
@@ -459,7 +488,15 @@
       "clamav_scanfile_fuzzer": 0,
       "clamav_dbload_fuzzer": 0,
       "standalone_fuzz_target_runner": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 4827,
+    "joern_edges": 22082,
+    "joern_duration_sec": 44.0,
+    "joern_reachability": {
+      "clamav_scanmap_fuzzer": 162
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "curl",
@@ -493,7 +530,15 @@
       "fuzz_fnmatch": 0,
       "standalone_fuzz_target_runner": 0,
       "curl_fuzzer_ftp": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 4346,
+    "joern_edges": 13687,
+    "joern_duration_sec": 20.1,
+    "joern_reachability": {
+      "fuzz_url": 71
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "draco",
@@ -525,7 +570,17 @@
       "draco_mesh_decoder_without_dequantization_fuzzer": 0,
       "draco_mesh_decoder_fuzzer": 0,
       "draco_pc_decoder_without_dequantization_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 2313,
+    "joern_edges": 4571,
+    "joern_duration_sec": 13.7,
+    "joern_reachability": {
+      "draco_mesh_decoder_fuzzer": 161,
+      "draco_mesh_decoder_without_dequantization_fuzzer": 166,
+      "draco_pc_decoder_fuzzer": 169
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "easywsclient",
@@ -549,7 +604,15 @@
     "attempt": 1,
     "case_reachability": {
       "easyws_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 44,
+    "joern_edges": 102,
+    "joern_duration_sec": 9.1,
+    "joern_reachability": {
+      "easyws_fuzzer": 6
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "fftw3",
@@ -616,7 +679,16 @@
       "scalar_debug": 0,
       "flatbuffers_scalar_fuzzer": 0,
       "flexbuffers_verifier_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 233,
+    "joern_edges": 451,
+    "joern_duration_sec": 12.5,
+    "joern_reachability": {
+      "flatbuffers_annotator_fuzzer": 1,
+      "flatbuffers_verifier_fuzzer": 1
+    },
+    "joern_error": ""
   },
   {
     "project": "flex",
@@ -638,7 +710,15 @@
     "benchmark_fuzzers": [
       "fuzz-main"
     ],
-    "attempt": 3
+    "attempt": 3,
+    "joern_success": true,
+    "joern_functions": 208,
+    "joern_edges": 932,
+    "joern_duration_sec": 10.3,
+    "joern_reachability": {
+      "fuzz-main": 127
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "freerdp",
@@ -699,7 +779,18 @@
       "osr_set_from_user_input_fuzzer",
       "spatialite_geom_import_fuzzer"
     ],
-    "attempt": 3
+    "attempt": 3,
+    "joern_success": true,
+    "joern_functions": 48218,
+    "joern_edges": 185449,
+    "joern_duration_sec": 101.6,
+    "joern_reachability": {
+      "get_jpeg2000_structure_fuzzer": 3918,
+      "gml_geom_import_fuzzer": 436,
+      "osr_set_from_user_input_fuzzer": 2462,
+      "spatialite_geom_import_fuzzer": 98
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "glslang",
@@ -723,7 +814,15 @@
     "attempt": 1,
     "case_reachability": {
       "compile_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 4223,
+    "joern_edges": 14745,
+    "joern_duration_sec": 30.8,
+    "joern_reachability": {
+      "compile_fuzzer": 236
+    },
+    "joern_error": ""
   },
   {
     "project": "haproxy",
@@ -742,7 +841,15 @@
     "benchmark_fuzzers": [
       "fuzz_cfg_parser"
     ],
-    "attempt": 3
+    "attempt": 3,
+    "joern_success": true,
+    "joern_functions": 8731,
+    "joern_edges": 38869,
+    "joern_duration_sec": 23.8,
+    "joern_reachability": {
+      "fuzz_cfg_parser": 90
+    },
+    "joern_error": ""
   },
   {
     "project": "hwloc",
@@ -856,7 +963,15 @@
       "date_format_fuzzer": 0,
       "decimal_format_symbols_fuzzer": 0,
       "message_formatter_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 21068,
+    "joern_edges": 51619,
+    "joern_duration_sec": 39.1,
+    "joern_reachability": {
+      "unicode_string_codepage_create_fuzzer": 1
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "imagemagick",
@@ -988,7 +1103,14 @@
       "cjpeg": 0,
       "encoder_plasma_fuzzer": 0,
       "encoder_gradient_fuzzer": 0
-    }
+    },
+    "joern_functions": 6938,
+    "joern_edges": 36212,
+    "joern_reachability": {
+      "ping_fuzzer": 598
+    },
+    "joern_success": true,
+    "joern_duration_sec": 224.3
   },
   {
     "project": "iperf",
@@ -1173,7 +1295,16 @@
       "libical_fuzzer": 19,
       "libicalvcard_fuzzer": 0,
       "libical_extended_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 2913,
+    "joern_edges": 8174,
+    "joern_duration_sec": 13.4,
+    "joern_reachability": {
+      "libicalvcard_fuzzer": 63,
+      "libical_fuzzer": 133
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "libjxl",
@@ -1244,7 +1375,16 @@
       "djxl_fuzzer_test": 0,
       "decompress": 0,
       "cjpeg": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 4480,
+    "joern_edges": 17907,
+    "joern_duration_sec": 23.0,
+    "joern_reachability": {
+      "color_encoding_fuzzer": 685,
+      "set_from_bytes_fuzzer": 685
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "libpcap",
@@ -1305,7 +1445,18 @@
       "oplist_fuzzer": 0,
       "bplist_fuzzer": 0,
       "xplist_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 511,
+    "joern_edges": 1432,
+    "joern_duration_sec": 11.1,
+    "joern_reachability": {
+      "bplist_fuzzer": 36,
+      "jplist_fuzzer": 58,
+      "oplist_fuzzer": 49,
+      "xplist_fuzzer": 60
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "libxslt",
@@ -1354,7 +1505,16 @@
       "xslt": 0,
       "xinclude": 4,
       "xml": 10
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 820,
+    "joern_edges": 3252,
+    "joern_duration_sec": 12.5,
+    "joern_reachability": {
+      "xpath": 1,
+      "xslt": 1
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "libyaml",
@@ -1433,7 +1593,15 @@
       "fuzz_structurally_created": 0,
       "fuzz_grammar": 0,
       "fuzz_tokenizer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 18093,
+    "joern_edges": 0,
+    "joern_duration_sec": 98.9,
+    "joern_reachability": {
+      "fuzz_json_to_grammar": 149
+    },
+    "joern_error": ""
   },
   {
     "project": "mbedtls",
@@ -1649,7 +1817,20 @@
       "fuzz_rsa_keypair_from_sexp": 0,
       "fuzz_dsa_openssl_private_key_from_der": 2,
       "fuzz_dsa_signature_from_sexp": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 2030,
+    "joern_edges": 8055,
+    "joern_duration_sec": 51.6,
+    "joern_reachability": {
+      "fuzz_dsa_openssl_private_key_from_der": 3,
+      "fuzz_dsa_sha1_keypair_from_sexp": 3,
+      "fuzz_dsa_sha256_keypair_from_sexp": 3,
+      "fuzz_rsa_keypair_from_der": 1,
+      "fuzz_rsa_keypair_from_sexp": 1,
+      "fuzz_rsa_public_key_from_der": 1
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "opencv",
@@ -1689,7 +1870,15 @@
       "imread_fuzzer": 0,
       "filestorage_read_string_fuzzer": 0,
       "imencode_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 78522,
+    "joern_edges": 0,
+    "joern_duration_sec": 666.4,
+    "joern_reachability": {
+      "imread_fuzzer": 1
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "openexr",
@@ -1715,7 +1904,15 @@
     "case_reachability": {
       "openexr_exrcorecheck_fuzzer": 0,
       "openexr_exrcheck_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 6719,
+    "joern_edges": 10050,
+    "joern_duration_sec": 19.7,
+    "joern_reachability": {
+      "openexr_exrcheck_fuzzer": 283
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "openssh",
@@ -1762,7 +1959,18 @@
       "sntrup761_dec_fuzz": 0,
       "pubkey_fuzz": 21,
       "agent_fuzz": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 5028,
+    "joern_edges": 21487,
+    "joern_duration_sec": 20.3,
+    "joern_reachability": {
+      "sntrup761_dec_fuzz": 4,
+      "sntrup761_enc_fuzz": 1,
+      "sshsig_fuzz": 92,
+      "sshsigopt_fuzz": 12
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "openssl",
@@ -1790,7 +1998,19 @@
     "attempt": 1,
     "case_reachability": {
       "driver": 19
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 18066,
+    "joern_edges": 63342,
+    "joern_duration_sec": 41.1,
+    "joern_reachability": {
+      "acert": 1465,
+      "asn1parse": 54,
+      "cms": 50,
+      "punycode": 15,
+      "v3name": 1465
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "php",
@@ -1931,7 +2151,15 @@
     "case_reachability": {
       "fuzz_xpath": 0,
       "fuzz_parse": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 792,
+    "joern_edges": 1498,
+    "joern_duration_sec": 11.6,
+    "joern_reachability": {
+      "fuzz_parse": 64
+    },
+    "joern_error": ""
   },
   {
     "project": "simdjson",
@@ -1984,7 +2212,16 @@
       "fuzz_ndjson": 0,
       "fuzz_padded": 0,
       "fuzz_utf8": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 5326,
+    "joern_edges": 4448,
+    "joern_duration_sec": 24.6,
+    "joern_reachability": {
+      "fuzz_dump": 357,
+      "fuzz_parser": 326
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "strongswan",
@@ -2059,7 +2296,15 @@
       "wasm2wat_fuzzer": 0,
       "wat2wasm_fuzzer": 0,
       "wasm_objdump_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 5501,
+    "joern_edges": 13030,
+    "joern_duration_sec": 19.3,
+    "joern_reachability": {
+      "wasm2wat_fuzzer": 70
+    },
+    "joern_error": ""
   },
   {
     "project": "yajl-ruby",
@@ -2083,7 +2328,15 @@
     "attempt": 1,
     "case_reachability": {
       "json_fuzzer": 0
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 206,
+    "joern_edges": 141,
+    "joern_duration_sec": 18.6,
+    "joern_reachability": {
+      "json_fuzzer": 1
+    },
+    "joern_error": "no repo URL"
   },
   {
     "project": "zlib",
@@ -2127,6 +2380,14 @@
       "gzio_fuzzer": 68,
       "example_small_fuzzer": 22,
       "minigzip_fuzzer": 8
-    }
+    },
+    "joern_success": true,
+    "joern_functions": 631,
+    "joern_edges": 2480,
+    "joern_duration_sec": 14.1,
+    "joern_reachability": {
+      "zlib_uncompress2_fuzzer": 17
+    },
+    "joern_error": "no repo URL"
   }
 ]
