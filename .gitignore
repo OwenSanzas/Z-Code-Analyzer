@@ -16,3 +16,9 @@ workspace/
 .claude/
 .coverage
 work.json
+joern-workspace/
+*.cpg
+.venv/
+workspace/
+archive/
+__pycache__/
