@@ -277,7 +277,7 @@
     "joern_edges": 112,
     "joern_duration_sec": 49.1,
     "joern_reachability": {
-      "fuzz_addr2line": 1,
+      "fuzz_addr2line": 3,
       "fuzz_nm": 1
     },
     "joern_error": ""
@@ -685,7 +685,7 @@
     "joern_edges": 451,
     "joern_duration_sec": 12.5,
     "joern_reachability": {
-      "flatbuffers_annotator_fuzzer": 1,
+      "flatbuffers_annotator_fuzzer": 2,
       "flatbuffers_verifier_fuzzer": 1
     },
     "joern_error": ""
@@ -969,7 +969,7 @@
     "joern_edges": 51619,
     "joern_duration_sec": 39.1,
     "joern_reachability": {
-      "unicode_string_codepage_create_fuzzer": 1
+      "unicode_string_codepage_create_fuzzer": 2
     },
     "joern_error": "no repo URL"
   },
@@ -1511,8 +1511,8 @@
     "joern_edges": 3252,
     "joern_duration_sec": 12.5,
     "joern_reachability": {
-      "xpath": 1,
-      "xslt": 1
+      "xpath": 3,
+      "xslt": 2
     },
     "joern_error": "no repo URL"
   },
@@ -1826,9 +1826,9 @@
       "fuzz_dsa_openssl_private_key_from_der": 3,
       "fuzz_dsa_sha1_keypair_from_sexp": 3,
       "fuzz_dsa_sha256_keypair_from_sexp": 3,
-      "fuzz_rsa_keypair_from_der": 1,
-      "fuzz_rsa_keypair_from_sexp": 1,
-      "fuzz_rsa_public_key_from_der": 1
+      "fuzz_rsa_keypair_from_der": 3,
+      "fuzz_rsa_keypair_from_sexp": 3,
+      "fuzz_rsa_public_key_from_der": 3
     },
     "joern_error": "no repo URL"
   },
@@ -1876,7 +1876,7 @@
     "joern_edges": 0,
     "joern_duration_sec": 666.4,
     "joern_reachability": {
-      "imread_fuzzer": 1
+      "imread_fuzzer": 125
     },
     "joern_error": "no repo URL"
   },
@@ -2334,7 +2334,7 @@
     "joern_edges": 141,
     "joern_duration_sec": 18.6,
     "joern_reachability": {
-      "json_fuzzer": 1
+      "json_fuzzer": 3
     },
     "joern_error": "no repo URL"
   },
